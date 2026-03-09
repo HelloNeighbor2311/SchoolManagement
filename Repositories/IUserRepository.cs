@@ -7,5 +7,6 @@ namespace SchoolManagement.Repositories
     {
         Task<User?> CreateUserAsync(User request);
         public Task<User?> GetWithRoleAsync(int userId);
+        Task<List<User>> GetAllUserAsync();
     }
 }

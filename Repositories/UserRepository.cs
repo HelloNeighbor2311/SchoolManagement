@@ -15,6 +15,9 @@ namespace SchoolManagement.Repositories
             await context.AddAsync(user);
             return user;
         }
+
+        public async Task<List<User>> GetAllUserAsync() => await context.Users.Include(u => u.Role).ToListAsync();
+
         public async Task<User?> GetWithRoleAsync(int userId)
            => await context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.UserId == userId);
     }

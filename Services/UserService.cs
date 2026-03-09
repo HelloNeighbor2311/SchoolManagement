@@ -30,5 +30,12 @@ namespace SchoolManagement.Services
             var savedUser = await userRepository.GetWithRoleAsync(user.UserId);
             return mapper.Map<UserResponse>(savedUser);
         }
+
+        public async Task<List<UserResponse>> GetAllUsers()
+        {
+            var user = await userRepository.GetAllUserAsync();
+            var userResponse = user.Select(u => mapper.Map<UserResponse>(u)).ToList();
+            return userResponse;
+        }
     }
 }

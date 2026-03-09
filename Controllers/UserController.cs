@@ -18,5 +18,13 @@ namespace SchoolManagement.Controllers
 
             return Ok(user);
         }
+        [HttpGet]
+        public async Task<ActionResult<List<UserResponse>>> GetAllUsers()
+        {
+            var user = await service.GetAllUsers();
+            if (user is null) return BadRequest("An error occured");
+
+            return Ok(user);
+        }
     }
 }

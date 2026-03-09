@@ -160,3 +160,4 @@ D:\Viet Dat\Visual Studio\C#\SchoolManagement\SchoolManagement\obj\Debug\net10.0
 D:\Viet Dat\Visual Studio\C#\SchoolManagement\SchoolManagement\obj\Debug\net10.0\ref\SchoolManagement.dll
 D:\Viet Dat\Visual Studio\C#\SchoolManagement\SchoolManagement\bin\Debug\net10.0\AutoMapper.dll
 D:\Viet Dat\Visual Studio\C#\SchoolManagement\SchoolManagement\bin\Debug\net10.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Viet Dat\Visual Studio\C#\SchoolManagement\SchoolManagement\obj\Debug\net10.0\SchoolManagement.sourcelink.json
