@@ -58,6 +58,37 @@
   },
   {
     "ContainingType": "SchoolManagement.Controllers.UserController",
+    "Method": "GetUserByPage",
+    "RelativePath": "api/User/pagination",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "PageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "PageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SchoolManagement.DTOs.UserResponse, SchoolManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SchoolManagement.Controllers.UserController",
     "Method": "CreateUser",
     "RelativePath": "api/User/register",
     "HttpMethod": "POST",

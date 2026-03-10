@@ -34,6 +34,14 @@ namespace SchoolManagement.Controllers
 
             return Ok(user);
         }
+        [HttpGet("pagination")]
+        public async Task<ActionResult<List<UserResponse>>> GetUserByPage([FromQuery]PaginationParam param)
+        {
+            var user = await service.GetPageResultUsers(param);
+            if (user is null) return BadRequest("There was an unexpected error occured. Please try again later");
+
+            return Ok(user);
+        }
         [HttpPut]
         public async Task<ActionResult> UpdateUser(int id, [FromBody] UpdateUserResponse request)
         {

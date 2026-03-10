@@ -49,6 +49,14 @@ namespace SchoolManagement.Services
             return userResponse;
         }
 
+        public async Task<PageResult<UserResponse>> GetPageResultUsers(PaginationParam param)
+        {
+            var listUser = await userRepository.GetPageResultAsync(param.PageSize, param.PageNumber) ?? new List<User>();
+            var userCount = await userRepository.GetTotalUser();
+            var listUserResponse = listUser.Select(u => mapper.Map<UserResponse>(u)).ToList();
+            return new PageResult<UserResponse>(listUserResponse, userCount, param.PageNumber, param.PageSize);
+        }
+
         public async Task<UserResponse?> GetUserByUsername(string username)
         {
             var user = await userRepository.GetUserByUsernameAsync(username);

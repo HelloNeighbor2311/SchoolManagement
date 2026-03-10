@@ -12,5 +12,7 @@ namespace SchoolManagement.Repositories
         Task<User?> GetUserByIdAsync(int id);
         Task UpdateUserAsync(User user);
         Task DeleteUserAsync(User user);
+        Task<IEnumerable<User>> GetPageResultAsync(int pageSize, int pageNum);
+        Task<int> GetTotalUser();
     }
 }
