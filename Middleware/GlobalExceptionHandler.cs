@@ -1,0 +1,63 @@
+﻿using Microsoft.AspNetCore.Diagnostics;
+using SchoolManagement.Exceptions;
+using SchoolManagement.Models;
+using System.Net;
+using System.Text.Json;
+
+namespace SchoolManagement.Middleware
+{
+    public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IExceptionHandler
+    {
+        public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
+        {
+            logger.LogError(exception, "An error occured {Message}", exception.Message);
+            var errorResponse = CreateErrorResponse(httpContext, exception);
+            httpContext.Response.ContentType = "application/json";
+            httpContext.Response.StatusCode = errorResponse.StatusCode;
+
+            var json = JsonSerializer.Serialize(errorResponse, new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                WriteIndented = true
+            });
+            await httpContext.Response.WriteAsync(json, cancellationToken);
+            return true;
+        }
+        private ErrorResponse CreateErrorResponse(HttpContext context, Exception exception)
+        {
+            var response = new ErrorResponse { TraceId = context.TraceIdentifier };
+            switch (exception)
+            {
+                case NotFoundException notFoundException:
+                    response.StatusCode = (int)HttpStatusCode.NotFound;
+                    response.Message = "Resource was not found";
+                    response.Detail = notFoundException.Message;
+                    break;
+                case BadRequestException badRequestException:
+                    response.StatusCode = (int)HttpStatusCode.NotFound;
+                    response.Message = "Bad request";
+                    response.Detail = badRequestException.Message;
+                    break;
+                case ValidationException validationException:
+                    response.StatusCode = (int)HttpStatusCode.NotFound;
+                    response.Message = "Validation was failed";
+                    response.Detail = validationException.Message;
+                    break;
+                case ConflictException conflictException:
+                    response.StatusCode = (int)HttpStatusCode.NotFound;
+                    response.Message = "There was a conflict";
+                    response.Detail = conflictException.Message;
+                    break;
+                default:
+                    response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    response.Message = "Internal server error";
+                    response.Detail = "An unexpected errors occured. Please try again later";
+                    if (context.RequestServices.GetRequiredService<IWebHostEnvironment>().IsDevelopment()) {
+                        response.Detail = exception.Message;
+                    }
+                    break;
+            }
+            return response;
+        }
+    }
+}
