@@ -11,7 +11,7 @@ namespace SchoolManagement.Controllers
     public class UserController(IUserService service): ControllerBase
     {
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Register(CreateUserResponse request)
+        public async Task<ActionResult<User>> CreateUser(CreateUserResponse request)
         {
             var user = await service.CreateUser(request);
             if (user is null) return BadRequest("Username is already existed !");
@@ -25,6 +25,26 @@ namespace SchoolManagement.Controllers
             if (user is null) return BadRequest("An error occured");
 
             return Ok(user);
+        }
+        [HttpGet("username")]
+        public async Task<ActionResult<List<UserResponse>>> GetUserById(string username)
+        {
+            var user = await service.GetUserByUsername(username);
+            if (user is null) return NotFound("The user with the entered username is not existed");
+
+            return Ok(user);
+        }
+        [HttpPut]
+        public async Task<ActionResult> UpdateUser(int id, [FromBody] UpdateUserResponse request)
+        {
+            await service.UpdateUser(id, request);
+            return NoContent();
+        }
+        [HttpDelete]
+        public async Task<ActionResult> DeleteUser([FromQuery] int id)
+        {
+            await service.DeleteUser(id);
+            return NoContent();
         }
     }
 }
