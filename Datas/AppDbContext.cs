@@ -11,6 +11,8 @@ namespace SchoolManagement.Datas
         public DbSet<Teacher> Teachers => Set<Teacher>();
         public DbSet<Admin> Admins => Set<Admin>();
 
+        public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

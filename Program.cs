@@ -19,8 +19,11 @@ builder.Services.AddAutoMapper(cfg =>
     cfg.AddMaps(typeof(Program).Assembly);
 });
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IJWTService, JWTService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

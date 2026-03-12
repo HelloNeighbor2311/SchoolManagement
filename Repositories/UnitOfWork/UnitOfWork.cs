@@ -9,10 +9,10 @@ namespace SchoolManagement.Repositories.UnitOfWork
     {
         public AppDbContext context;
         public IUserRepository Users { get; }
-        public UnitOfWork(AppDbContext context)
+        public UnitOfWork(AppDbContext context, IUserRepository userRepository)
         {
             this.context = context;
-            Users = new UserRepository(context);
+            Users = userRepository;
         }
         public async Task<int> SaveChangeAsync()
         {

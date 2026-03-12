@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SchoolManagement.DTOs;
+using SchoolManagement.DTOs.Authentication;
 using SchoolManagement.Models;
 
 namespace SchoolManagement.Mappings
@@ -19,15 +20,23 @@ namespace SchoolManagement.Mappings
             CreateMap<CreateUserResponse, Student>().
                 ForMember(destination => destination.PasswordHashed, opt => opt.Ignore()).
                 ForMember(destination => destination.CreatedDate, opt => opt.MapFrom(_ => DateTime.UtcNow));
-            CreateMap<UpdateUserResponse, Admin>().
+            CreateMap<UpdateUserRequest, Admin>().
                 ForMember(destination => destination.PasswordHashed, opt => opt.Ignore());
-            CreateMap<UpdateUserResponse, Teacher>().
+            CreateMap<UpdateUserRequest, Teacher>().
                 ForMember(destination => destination.PasswordHashed, opt => opt.Ignore());
-            CreateMap<UpdateUserResponse, Student>().
+            CreateMap<UpdateUserRequest, Student>().
                 ForMember(destination => destination.PasswordHashed, opt => opt.Ignore());
             CreateMap<Admin, UserResponse>().ForMember(destination => destination.RoleName, opt => opt.MapFrom(src => src.Role.RoleName));
             CreateMap<Student, UserResponse>().ForMember(destination => destination.RoleName, opt => opt.MapFrom(src => src.Role.RoleName));
             CreateMap<Teacher, UserResponse>().ForMember(destination => destination.RoleName, opt => opt.MapFrom(src => src.Role.RoleName));
+            CreateMap<RegisterStudentRequest, Student>().
+                 ForMember(destination => destination.CreatedDate, opt => opt.MapFrom(_ => DateTime.UtcNow)).
+                 ForMember(destination => destination.PasswordHashed, opt => opt.Ignore()).
+                 ForMember(destination => destination.RoleId, opt => opt.MapFrom(_ => 2));
+            CreateMap<RegisterTeacherRequest, Teacher>().
+                ForMember(destination => destination.CreatedDate, opt => opt.MapFrom(_ => DateTime.UtcNow)).
+                ForMember(destination => destination.PasswordHashed, opt => opt.Ignore()).
+                ForMember(destination => destination.RoleId, opt => opt.MapFrom(_ => 3));
         }
     }
 }

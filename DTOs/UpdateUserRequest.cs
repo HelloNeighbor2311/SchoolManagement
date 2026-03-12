@@ -1,6 +1,6 @@
 ﻿namespace SchoolManagement.DTOs
 {
-    public class UpdateUserResponse
+    public class UpdateUserRequest
     {
         public string? Password { get; set; }
         public string? Name { get; set; }

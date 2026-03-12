@@ -43,7 +43,7 @@ namespace SchoolManagement.Controllers
             return Ok(user);
         }
         [HttpPut]
-        public async Task<ActionResult> UpdateUser(int id, [FromBody] UpdateUserResponse request)
+        public async Task<ActionResult> UpdateUser(int id, [FromBody] UpdateUserRequest request)
         {
             await service.UpdateUser(id, request);
             return NoContent();
