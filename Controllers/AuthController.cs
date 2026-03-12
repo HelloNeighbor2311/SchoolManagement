@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using SchoolManagement.DTOs.Authentication;
 using SchoolManagement.Services;
+using System.Security.Claims;
 
 namespace SchoolManagement.Controllers
 {
@@ -25,12 +26,36 @@ namespace SchoolManagement.Controllers
             var response = await service.RegisterStudentAsync(request);
             return Ok(response);
         }
-        [HttpPost("{teacher}")]
+        [HttpPost("{register teacher}")]
         [AllowAnonymous]
         public async Task<IActionResult> RegisterTeacher([FromBody] RegisterTeacherRequest request)
         {
             var response = await service.RegisterTeacherAsync(request);
             return Ok(response);
+        }
+        [HttpPost("refresh")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Refresh([FromBody] RefreshTokenRequest request)
+        {
+            var response = await service.RefreshTokenAsync(request);
+            return Ok(response);
+        }
+        [HttpPost("revoke")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Revoke([FromBody] string refreshToken)
+        {
+            await service.RevokeTokenAsync(refreshToken);
+            return NoContent();
+        }
+        [HttpPost("revoke-all")]
+        [AllowAnonymous]
+        public async Task<IActionResult> RevokeAll()
+        {
+            var userClaimId = User.FindFirst(ClaimTypes.NameIdentifier) ?? User.FindFirst("sub");
+
+            if (userClaimId is null || !int.TryParse(userClaimId.Value, out int userId)) return Unauthorized("Invalid token claims");
+            await service.RevokeAllTokenAsync(userId);
+            return NoContent();
         }
     }
 }
