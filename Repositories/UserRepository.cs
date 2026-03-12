@@ -38,8 +38,6 @@ namespace SchoolManagement.Repositories
 
         public async Task<User?> GetUserByUsernameAsync(string username) => await context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Username == username);
 
-        public async Task<User?> GetWithRoleAsync(int userId)
-           => await context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.UserId == userId);
         public async Task<User?> GetWithRoleAsync(string username)
             => await context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Username == username);
 

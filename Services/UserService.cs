@@ -30,7 +30,7 @@ namespace SchoolManagement.Services
             if (checkedUser is null) throw new BadRequestException("The current username has already existed");
             await uow.SaveChangeAsync();
 
-            var savedUser = await uow.Users.GetWithRoleAsync(user.UserId);
+            var savedUser = await uow.Users.GetUserByIdAsync(user.UserId);
             return mapper.Map<UserResponse>(savedUser);
         }
 

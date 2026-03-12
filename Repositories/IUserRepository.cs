@@ -6,7 +6,6 @@ namespace SchoolManagement.Repositories
     public interface IUserRepository: IGenericRepository<User>
     {
         Task<User?> CreateUserAsync(User request);
-        Task<User?> GetWithRoleAsync(int userId);
         Task<User?> GetWithRoleAsync(string username);
 
         Task<List<User>> GetAllUserAsync();
