@@ -64,6 +64,12 @@ namespace SchoolManagement.Services
             if(user is null) { throw new NotFoundException("User with the given username was not found!"); }
             return mapper.Map<UserResponse>(user);
         }
+        public async Task<UserResponse?> GetUserById(int id)
+        {
+            var user = await uow.Users.GetUserByIdAsync(id);
+            if(user is null) { throw new NotFoundException("User with the given id was not found!"); }
+            return mapper.Map<UserResponse>(user);
+        }
 
         public async Task UpdateUser(int id,UpdateUserRequest request)
         {

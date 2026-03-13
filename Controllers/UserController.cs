@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SchoolManagement.DTOs;
+using SchoolManagement.Middleware.Authorizations;
 using SchoolManagement.Models;
 using SchoolManagement.Services;
 
@@ -8,9 +10,11 @@ namespace SchoolManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserController(IUserService service): ControllerBase
     {
         [HttpPost("register")]
+        [Authorize(Policy = PolicyConstants.CanManagerUsers)]
         public async Task<ActionResult<User>> CreateUser(CreateUserResponse request)
         {
             var user = await service.CreateUser(request);
@@ -19,6 +23,7 @@ namespace SchoolManagement.Controllers
             return Ok(user);
         }
         [HttpGet]
+        [Authorize(Policy = PolicyConstants.CanManagerUsers)]
         public async Task<ActionResult<List<UserResponse>>> GetAllUsers()
         {
             var user = await service.GetAllUsers();
@@ -27,14 +32,25 @@ namespace SchoolManagement.Controllers
             return Ok(user);
         }
         [HttpGet("username")]
-        public async Task<ActionResult<List<UserResponse>>> GetUserById(string username)
+        [Authorize(Policy = PolicyConstants.CanManagerUsers)]
+        public async Task<ActionResult<UserResponse>> GetUserByUsername(string username)
         {
             var user = await service.GetUserByUsername(username);
             if (user is null) return NotFound("The user with the entered username is not existed");
 
             return Ok(user);
         }
+        [HttpGet("{id:int}")]
+        [Authorize(Policy = PolicyConstants.CanViewUserDetail)]
+        public async Task<ActionResult<UserResponse>> GetUserById([FromRoute]int id)
+        {
+            var user = await service.GetUserById(id);
+            if (user is null) return NotFound("The user with the entered username is not existed");
+
+            return Ok(user);
+        }
         [HttpGet("pagination")]
+        [Authorize(Policy = PolicyConstants.CanManagerUsers)]
         public async Task<ActionResult<List<UserResponse>>> GetUserByPage([FromQuery]PaginationParam param)
         {
             var user = await service.GetPageResultUsers(param);
@@ -43,12 +59,14 @@ namespace SchoolManagement.Controllers
             return Ok(user);
         }
         [HttpPut]
+        [Authorize(Policy = PolicyConstants.CanManagerUsers)]
         public async Task<ActionResult> UpdateUser(int id, [FromBody] UpdateUserRequest request)
         {
             await service.UpdateUser(id, request);
             return NoContent();
         }
         [HttpDelete]
+        [Authorize(Policy = PolicyConstants.CanManagerUsers)]
         public async Task<ActionResult> DeleteUser([FromQuery] int id)
         {
             await service.DeleteUser(id);
