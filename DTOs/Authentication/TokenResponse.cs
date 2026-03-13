@@ -1,4 +1,6 @@
-﻿namespace SchoolManagement.DTOs.Authentication
+﻿using SchoolManagement.DTOs.User;
+
+namespace SchoolManagement.DTOs.Authentication
 {
     public class TokenResponse
     {

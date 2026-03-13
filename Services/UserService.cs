@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Identity.Client;
-using SchoolManagement.DTOs;
+using SchoolManagement.DTOs.User;
 using SchoolManagement.Exceptions;
 using SchoolManagement.Models;
 using SchoolManagement.Repositories;
@@ -12,7 +12,7 @@ namespace SchoolManagement.Services
 {
     public class UserService( IMapper mapper, IUnitOfWork uow) : IUserService
     {
-        public async Task<object> CreateUser(CreateUserResponse request)
+        public async Task<UserResponse> CreateUser(CreateUserResponse request)
         {
             if (request.RoleId == 2 && request.EnrollYear == null) throw new BadRequestException("Student is missing EnrollYear");
             if (request.RoleId == 3 && request.Speciality == null) throw new BadRequestException("Teacher is missing Speciality");

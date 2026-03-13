@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
-using SchoolManagement.DTOs;
 using SchoolManagement.DTOs.Authentication;
+using SchoolManagement.DTOs.Course;
+using SchoolManagement.DTOs.User;
 using SchoolManagement.Models;
 
 namespace SchoolManagement.Mappings
@@ -37,6 +38,8 @@ namespace SchoolManagement.Mappings
                 ForMember(destination => destination.CreatedDate, opt => opt.MapFrom(_ => DateTime.UtcNow)).
                 ForMember(destination => destination.PasswordHashed, opt => opt.Ignore()).
                 ForMember(destination => destination.RoleId, opt => opt.MapFrom(_ => 3));
+            CreateMap<Course, CourseResponse>();
+            CreateMap<CreateCourseRequest,Course>();
         }
     }
 }

@@ -82,10 +82,12 @@ builder.Services.AddScoped<IAuthorizationHandler, SameUserOrAdminHandler>();
 builder.Services.AddScoped<IAuthorizationHandler, StudentDataOwnerHandler>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IJWTService, JWTService>();
+builder.Services.AddScoped<ICourseService, CourseService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

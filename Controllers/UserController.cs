@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SchoolManagement.DTOs;
+using SchoolManagement.DTOs.User;
 using SchoolManagement.Middleware.Authorizations;
 using SchoolManagement.Models;
 using SchoolManagement.Services;
@@ -58,9 +58,9 @@ namespace SchoolManagement.Controllers
 
             return Ok(user);
         }
-        [HttpPut]
-        [Authorize(Policy = PolicyConstants.CanManagerUsers)]
-        public async Task<ActionResult> UpdateUser(int id, [FromBody] UpdateUserRequest request)
+        [HttpPut("{id:int}")]
+        [Authorize(Policy = PolicyConstants.CanViewUserDetail)]
+        public async Task<ActionResult> UpdateUser([FromRoute]int id, [FromBody] UpdateUserRequest request)
         {
             await service.UpdateUser(id, request);
             return NoContent();

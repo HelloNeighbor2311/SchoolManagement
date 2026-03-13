@@ -1,7 +1,7 @@
 ﻿using SchoolManagement.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace SchoolManagement.DTOs
+namespace SchoolManagement.DTOs.User
 {
     public class CreateUserResponse
     {

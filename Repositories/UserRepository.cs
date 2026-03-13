@@ -7,13 +7,12 @@ using System;
 
 namespace SchoolManagement.Repositories
 {
-    public class UserRepository: GenericRepository<User>,IUserRepository
+    public class UserRepository(AppDbContext context): IUserRepository
     {
-        public UserRepository(AppDbContext context): base(context){}
         public async Task<User?> CreateUserAsync(User user)
         {
             if (await context.Users.AnyAsync(p => p.Username == user.Username)) return null;
-            await context.AddAsync(user);
+            await context.Users.AddAsync(user);
             return user;
         }
 

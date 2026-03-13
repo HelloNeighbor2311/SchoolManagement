@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using SchoolManagement.DTOs;
 using SchoolManagement.DTOs.Authentication;
+using SchoolManagement.DTOs.User;
 using SchoolManagement.Exceptions;
 using SchoolManagement.Models;
 using SchoolManagement.Repositories;

@@ -1,11 +1,11 @@
-﻿using SchoolManagement.DTOs;
+﻿using SchoolManagement.DTOs.User;
 using SchoolManagement.Models;
 
 namespace SchoolManagement.Services
 {
     public interface IUserService
     {
-        Task<object> CreateUser(CreateUserResponse request);
+        Task<UserResponse> CreateUser(CreateUserResponse request);
         Task<List<UserResponse>> GetAllUsers();
         Task<UserResponse?> GetUserByUsername(string username);
         Task<UserResponse?> GetUserById(int id);

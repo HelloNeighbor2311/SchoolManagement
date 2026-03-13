@@ -10,7 +10,8 @@ namespace SchoolManagement.Datas
         public DbSet<Student> Students => Set<Student>();
         public DbSet<Teacher> Teachers => Set<Teacher>();
         public DbSet<Admin> Admins => Set<Admin>();
-
+        public DbSet<Course> Courses => Set<Course>();
+ 
         public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
 
         protected override void OnModelCreating(ModelBuilder builder)

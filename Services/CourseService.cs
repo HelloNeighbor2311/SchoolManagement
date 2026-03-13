@@ -1,0 +1,51 @@
+﻿using AutoMapper;
+using SchoolManagement.DTOs.Course;
+using SchoolManagement.Exceptions;
+using SchoolManagement.Models;
+using SchoolManagement.Repositories.UnitOfWork;
+
+namespace SchoolManagement.Services
+{
+    public class CourseService(IMapper mapper, IUnitOfWork uow) : ICourseService
+    {
+        public async Task<CourseResponse> CreateCourse(CreateCourseRequest request)
+        {
+            var course = mapper.Map<Course>(request);
+            var newCourse = await uow.Courses.CreateCourseAsync(course);
+            if (newCourse is null) throw new BadRequestException("The current course name is already existed !");
+            await uow.SaveChangeAsync();
+            return mapper.Map<CourseResponse>(newCourse);
+        }
+
+        public async Task DeleteCourse(int id)
+        {
+            var course = await uow.Courses.GetCourseByIdAsync(id);
+            if (course is null) throw new NotFoundException($"The given id {id} is not existed!");
+            await uow.Courses.DeleteCourseAsync(course);
+            await uow.SaveChangeAsync();
+        }
+
+        public async Task<List<CourseResponse>> FilterCourseInformationByName(string name)
+        {
+            var listCourse = await uow.Courses.FilterCourseInformationByNameAsync(name);
+            if (listCourse is null) throw new NotFoundException($"There is no course meets the '{name}'");
+            var listCourseResponse = listCourse.Select(u => mapper.Map<CourseResponse>(u)).ToList();
+            return listCourseResponse;
+        }
+
+        public async Task<List<CourseResponse>> GetAllCourse()
+        {
+            var course = await uow.Courses.GetAllCourseAsync();
+            var courseResponse = course.Select(u => mapper.Map<CourseResponse>(u)).ToList();
+            return courseResponse;
+        }
+
+        public async Task<CourseResponse> GetCourseById(int id)
+        {
+            var course = await uow.Courses.GetCourseByIdAsync(id);
+            if (course is null) throw new NotFoundException($"The given id {id} is not existed!");
+            var courseResponse = mapper.Map<CourseResponse>(course);
+            return courseResponse;
+        }
+    }
+}

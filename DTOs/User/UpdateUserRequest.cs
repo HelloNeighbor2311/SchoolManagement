@@ -1,4 +1,4 @@
-﻿namespace SchoolManagement.DTOs
+﻿namespace SchoolManagement.DTOs.User
 {
     public class UpdateUserRequest
     {
