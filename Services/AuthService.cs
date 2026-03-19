@@ -4,8 +4,9 @@ using SchoolManagement.DTOs.Authentication;
 using SchoolManagement.DTOs.User;
 using SchoolManagement.Exceptions;
 using SchoolManagement.Models;
-using SchoolManagement.Repositories;
+using SchoolManagement.Repositories.Interfaces;
 using SchoolManagement.Repositories.UnitOfWork;
+using SchoolManagement.Services.Interfaces;
 using System.Security.Claims;
 
 namespace SchoolManagement.Services

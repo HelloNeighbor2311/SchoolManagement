@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.Identity.Client;
 using SchoolManagement.DTOs.Course;
+using SchoolManagement.DTOs.CourseSemester;
 using SchoolManagement.Exceptions;
 using SchoolManagement.Models;
 using SchoolManagement.Repositories.UnitOfWork;
+using SchoolManagement.Services.Interfaces;
 
 namespace SchoolManagement.Services
 {
@@ -46,6 +49,15 @@ namespace SchoolManagement.Services
             if (course is null) throw new NotFoundException($"The given id {id} is not existed!");
             var courseResponse = mapper.Map<CourseResponse>(course);
             return courseResponse;
+        }
+
+        public async Task<CourseDetailResponse?> GetCourseDetail(int id)
+        {
+            var course = await uow.Courses.GetCourseDetailAsync(id);
+            if (course is null) throw new NotFoundException($"The course with the given id {id} was not found");
+            var CourseDetailResponse = mapper.Map<CourseDetailResponse>(course);
+            return CourseDetailResponse;
+
         }
     }
 }

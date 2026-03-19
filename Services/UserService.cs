@@ -7,6 +7,7 @@ using SchoolManagement.Exceptions;
 using SchoolManagement.Models;
 using SchoolManagement.Repositories;
 using SchoolManagement.Repositories.UnitOfWork;
+using SchoolManagement.Services.Interfaces;
 
 namespace SchoolManagement.Services
 {

@@ -1,7 +1,7 @@
 ﻿using SchoolManagement.DTOs;
 using SchoolManagement.Models;
 
-namespace SchoolManagement.Repositories
+namespace SchoolManagement.Repositories.Interfaces
 {
     public interface IUserRepository
     {

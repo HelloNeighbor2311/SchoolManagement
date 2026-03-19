@@ -4,7 +4,8 @@
     {
 
         //User policy
-        public const string CanManagerUsers = "CanManageUsers";
+        public const string AllMighty = "AllMighty";
         public const string CanViewUserDetail = "CanViewUserDetail";
+        public const string CanViewCourses = "CanViewCourses";
     }
 }

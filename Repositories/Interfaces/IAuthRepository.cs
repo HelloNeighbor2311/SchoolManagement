@@ -1,6 +1,6 @@
 ﻿using SchoolManagement.Models;
 
-namespace SchoolManagement.Repositories
+namespace SchoolManagement.Repositories.Interfaces
 {
     public interface IAuthRepository
     {

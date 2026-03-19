@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using SchoolManagement.DTOs.Authentication;
-using SchoolManagement.Services;
+using SchoolManagement.Services.Interfaces;
 using System.Security.Claims;
 
 namespace SchoolManagement.Controllers
@@ -48,7 +48,7 @@ namespace SchoolManagement.Controllers
             return NoContent();
         }
         [HttpPost("revoke-all")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> RevokeAll()
         {
             var userClaimId = User.FindFirst(ClaimTypes.NameIdentifier) ?? User.FindFirst("sub");

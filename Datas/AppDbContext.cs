@@ -11,6 +11,8 @@ namespace SchoolManagement.Datas
         public DbSet<Teacher> Teachers => Set<Teacher>();
         public DbSet<Admin> Admins => Set<Admin>();
         public DbSet<Course> Courses => Set<Course>();
+        public DbSet<Semester> Semester => Set<Semester>();
+        public DbSet<TeacherCourseSemester> TeacherCourseSemester => Set<TeacherCourseSemester>();
  
         public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
 

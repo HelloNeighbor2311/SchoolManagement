@@ -2,7 +2,7 @@
 using SchoolManagement.Models;
 using System.Security.Claims;
 
-namespace SchoolManagement.Services
+namespace SchoolManagement.Services.Interfaces
 {
     public interface IJWTService
     {

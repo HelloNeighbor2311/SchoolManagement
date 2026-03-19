@@ -1,6 +1,6 @@
 ﻿using SchoolManagement.Datas;
 using SchoolManagement.Models;
-using SchoolManagement.Repositories;
+using SchoolManagement.Repositories.Interfaces;
 
 namespace SchoolManagement.Repositories.UnitOfWork
 {
@@ -8,6 +8,9 @@ namespace SchoolManagement.Repositories.UnitOfWork
     {
         IUserRepository Users { get; }
         ICourseRepository Courses { get; }
+        ISemesterRepository Semesters { get; }
+        ITeacherCourseSemesterRepository TeacherCourseSemester { get; }
+        
         Task<int> SaveChangeAsync();
     }
 }

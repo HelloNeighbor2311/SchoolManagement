@@ -1,6 +1,6 @@
 ﻿using SchoolManagement.DTOs.Authentication;
 
-namespace SchoolManagement.Services
+namespace SchoolManagement.Services.Interfaces
 {
     public interface IAuthService
     {

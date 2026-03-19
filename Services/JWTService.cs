@@ -1,6 +1,7 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using SchoolManagement.DTOs.Authentication;
 using SchoolManagement.Models;
+using SchoolManagement.Services.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;

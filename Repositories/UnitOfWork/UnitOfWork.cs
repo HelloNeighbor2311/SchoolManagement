@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SchoolManagement.Datas;
 using SchoolManagement.Models;
-using SchoolManagement.Repositories;
+using SchoolManagement.Repositories.Interfaces;
 
 namespace SchoolManagement.Repositories.UnitOfWork
 {
@@ -10,11 +10,16 @@ namespace SchoolManagement.Repositories.UnitOfWork
         public AppDbContext context;
         public IUserRepository Users { get; }
         public ICourseRepository Courses { get; }
-        public UnitOfWork(AppDbContext context, IUserRepository userRepository, ICourseRepository courseRepository)
+        public ISemesterRepository Semesters { get; }
+        public ITeacherCourseSemesterRepository TeacherCourseSemester { get; }
+        public UnitOfWork(AppDbContext context, IUserRepository userRepository, 
+            ICourseRepository courseRepository, ISemesterRepository semesterRepository, ITeacherCourseSemesterRepository teacherCourseSemesterRepository)
         {
             this.context = context;
             Users = userRepository;
             Courses = courseRepository;
+            Semesters = semesterRepository;
+            TeacherCourseSemester = teacherCourseSemesterRepository;
         }
         public async Task<int> SaveChangeAsync()
         {

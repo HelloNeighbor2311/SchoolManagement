@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using SchoolManagement.Datas;
 using SchoolManagement.DTOs;
 using SchoolManagement.Models;
+using SchoolManagement.Repositories.Interfaces;
 using System;
 
 namespace SchoolManagement.Repositories

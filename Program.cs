@@ -10,8 +10,10 @@ using SchoolManagement.Middleware.Authorizations;
 using SchoolManagement.Middleware.Authorizations.Handlers;
 using SchoolManagement.Middleware.Authorizations.Requirements;
 using SchoolManagement.Repositories;
+using SchoolManagement.Repositories.Interfaces;
 using SchoolManagement.Repositories.UnitOfWork;
 using SchoolManagement.Services;
+using SchoolManagement.Services.Interfaces;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -69,7 +71,8 @@ builder.Services.AddAuthentication(opt =>
 builder.Services.AddAuthorization(opt =>
 {
     //Role-based policies
-    opt.AddPolicy(PolicyConstants.CanManagerUsers, policy => policy.RequireRole(RoleConstants.Admin));
+    opt.AddPolicy(PolicyConstants.AllMighty, policy => policy.RequireRole(RoleConstants.Admin));
+    opt.AddPolicy(PolicyConstants.CanViewCourses, policy => policy.RequireRole(RoleConstants.Admin, RoleConstants.Student, RoleConstants.Teacher));
     //Custom requirement policies
     opt.AddPolicy(PolicyConstants.CanViewUserDetail, policy =>
     {
@@ -80,14 +83,21 @@ builder.Services.AddAuthorization(opt =>
 
 builder.Services.AddScoped<IAuthorizationHandler, SameUserOrAdminHandler>();
 builder.Services.AddScoped<IAuthorizationHandler, StudentDataOwnerHandler>();
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddScoped<ISemesterRepository, SemesterRepository>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+builder.Services.AddScoped<ITeacherCourseSemesterRepository, TeacherCourseSemesterRepository>();
+
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IJWTService, JWTService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
+builder.Services.AddScoped<ISemesterService, SemesterService>();
+builder.Services.AddScoped<ITeacherCourseSemesterService, TeacherCourseSemesterService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

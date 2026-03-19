@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SchoolManagement.Datas;
 using SchoolManagement.Models;
+using SchoolManagement.Repositories.Interfaces;
 
 namespace SchoolManagement.Repositories
 {
