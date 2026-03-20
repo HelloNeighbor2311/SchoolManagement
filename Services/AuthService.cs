@@ -11,11 +11,11 @@ using System.Security.Claims;
 
 namespace SchoolManagement.Services
 {
-    public class AuthService(IUnitOfWork uow, IAuthRepository authRepository, IJWTService jwtService, IMapper mapper) : IAuthService
+    public class AuthService(IUnitOfWork uow, IJWTService jwtService, IMapper mapper) : IAuthService
     {
         public async Task<TokenResponse> LoginAsync(UserLoginRequest request)
         {
-            var user = await uow.Users.GetWithRoleAsync(request.Username) ?? throw new UnauthorizedException("Invalid username or password");
+            var user = await uow.User.GetWithRoleAsync(request.Username) ?? throw new UnauthorizedException("Invalid username or password");
             var verifiedPassword = new PasswordHasher<User>().VerifyHashedPassword(user, user.PasswordHashed, request.Password);
             if (verifiedPassword == PasswordVerificationResult.Failed) throw new UnauthorizedException("Invalid username or password");
             return await BuildAuthResponseAsync(user);
@@ -31,11 +31,11 @@ namespace SchoolManagement.Services
             {
                 throw new UnauthorizedException("Invalid claim tokens");
             }
-            var storedToken = await authRepository.GetRefreshTokenAsync(request.RefreshToken) ?? throw new UnauthorizedException("Invalid refresh token");
+            var storedToken = await uow.Auth.GetRefreshTokenAsync(request.RefreshToken) ?? throw new UnauthorizedException("Invalid refresh token");
             if (storedToken.UserId != userId) throw new UnauthorizedException("Token is mismatched");
             if (storedToken.IsRevoked) throw new UnauthorizedException("Token is revoked");
             if (storedToken.ExpiredDate < DateTime.UtcNow) throw new UnauthorizedException("Token is expired");
-            await authRepository.RevokeTokenAsync(storedToken);
+            await uow.Auth.RevokeTokenAsync(storedToken);
 
             var storedTokenUser = storedToken.User;
             if (storedTokenUser is null) throw new BadRequestException("This token doesn't include user");
@@ -48,11 +48,11 @@ namespace SchoolManagement.Services
             if (student is null) throw new BadRequestException("An unexpected error occured ! Please try again later");
             var hashedPassword = new PasswordHasher<User>().HashPassword(student, request.Password);
             student.PasswordHashed = hashedPassword;
-            var savedStudent = await uow.Users.CreateUserAsync(student);
+            var savedStudent = await uow.User.CreateUserAsync(student);
             if (savedStudent is null) throw new UnauthorizedException("The current username is already existed!");
             await uow.SaveChangeAsync();
 
-            var newStudent = await uow.Users.GetUserByIdAsync(savedStudent.UserId) ?? throw new NotFoundException("User was not found after registered");
+            var newStudent = await uow.User.GetUserByIdAsync(savedStudent.UserId) ?? throw new NotFoundException("User was not found after registered");
             return await BuildAuthResponseAsync(newStudent);
 
         }
@@ -63,27 +63,27 @@ namespace SchoolManagement.Services
             if (teacher is null) throw new BadRequestException("An unexpected error occured ! Please try again later");
             var hashedPassword = new PasswordHasher<User>().HashPassword(teacher, request.Password);
             teacher.PasswordHashed = hashedPassword;
-            var savedTeacher = await uow.Users.CreateUserAsync(teacher);
+            var savedTeacher = await uow.User.CreateUserAsync(teacher);
             if (savedTeacher is null) throw new BadRequestException("The current username is already existed!");
             await uow.SaveChangeAsync();
 
-            var newTeacher = await uow.Users.GetUserByIdAsync(savedTeacher.UserId) ?? throw new NotFoundException("User was not found after registered");
+            var newTeacher = await uow.User.GetUserByIdAsync(savedTeacher.UserId) ?? throw new NotFoundException("User was not found after registered");
             return await BuildAuthResponseAsync(newTeacher);
         }
 
         public async Task RevokeAllTokenAsync(int userId)
         {
-            var user = uow.Users.GetUserByIdAsync(userId);
+            var user = uow.User.GetUserByIdAsync(userId);
             if (user is null) throw new BadRequestException($"The user with the given user ID {userId} is not existed");
-            await authRepository.RevokeAllTokenByUserIdAsync(userId);
+            await uow.Auth.RevokeAllTokenByUserIdAsync(userId);
             await uow.SaveChangeAsync();
         }
 
         public async Task RevokeTokenAsync(string refreshToken)
         {
-            var storedToken = await authRepository.GetRefreshTokenAsync(refreshToken) ?? throw new UnauthorizedException("Invalid refresh token");
+            var storedToken = await uow.Auth.GetRefreshTokenAsync(refreshToken) ?? throw new UnauthorizedException("Invalid refresh token");
             if (storedToken.IsRevoked) throw new UnauthorizedException("This token is already revoked");
-            await authRepository.RevokeTokenAsync(storedToken);
+            await uow.Auth.RevokeTokenAsync(storedToken);
             await uow.SaveChangeAsync();
         }
 
@@ -102,7 +102,7 @@ namespace SchoolManagement.Services
                 IsRevoked = false
             };
 
-            await authRepository.AddRefreshTokenAsync(refreshToken);
+            await uow.Auth.AddRefreshTokenAsync(refreshToken);
             await uow.SaveChangeAsync();
 
             return new TokenResponse

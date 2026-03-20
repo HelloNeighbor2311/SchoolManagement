@@ -8,19 +8,21 @@ namespace SchoolManagement.Repositories.UnitOfWork
     public class UnitOfWork : IUnitOfWork
     {
         public AppDbContext context;
-        public IUserRepository Users { get; }
-        public ICourseRepository Courses { get; }
-        public ISemesterRepository Semesters { get; }
+        public IAuthRepository Auth { get; set; }
+        public IUserRepository User { get; }
+        public ICourseRepository Course { get; }
+        public ISemesterRepository Semester { get; }
         public ITeacherCourseSemesterRepository TeacherCourseSemester { get; }
         public ICourseSemesterRepository CourseSemester { get; }
-        public UnitOfWork(AppDbContext context, IUserRepository userRepository, 
+        public UnitOfWork(AppDbContext context, IAuthRepository authRepository,IUserRepository userRepository, 
             ICourseRepository courseRepository, ISemesterRepository semesterRepository, ITeacherCourseSemesterRepository teacherCourseSemesterRepository,
             ICourseSemesterRepository courseSemester)
         {
             this.context = context;
-            Users = userRepository;
-            Courses = courseRepository;
-            Semesters = semesterRepository;
+            Auth = authRepository;
+            User = userRepository;
+            Course = courseRepository;
+            Semester = semesterRepository;
             CourseSemester = courseSemester;
             TeacherCourseSemester = teacherCourseSemesterRepository;
         }

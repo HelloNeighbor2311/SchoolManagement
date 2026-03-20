@@ -11,6 +11,7 @@ namespace SchoolManagement.Models
         public int AwardId { get; set; }
         public int GpaId { get; set; }
         public int StudentId { get; set; }
+        public string Description { get; set; } = string.Empty;
         public Status status { get; set; }
         public int RequireApproval { get; set; }
 

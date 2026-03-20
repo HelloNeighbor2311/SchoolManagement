@@ -1,7 +1,8 @@
-﻿namespace SchoolManagement.Repositories.Interfaces
+﻿using SchoolManagement.Models;
+
+namespace SchoolManagement.Repositories.Interfaces
 {
-    public interface ICourseSemesterRepository
+    public interface ICourseSemesterRepository: IGenericRepository<CourseSemester>
     {
-        public Task<bool> CheckValidCurrentId(int id);
     }
 }

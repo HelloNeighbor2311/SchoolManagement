@@ -2,7 +2,7 @@
 
 namespace SchoolManagement.Repositories.Interfaces
 {
-    public interface ISemesterRepository
+    public interface ISemesterRepository 
     {
         Task<List<Semester>> GetAllSemesterAsync();
         Task<Semester?> GetSemesterByIdAsync(int id);

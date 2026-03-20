@@ -15,6 +15,7 @@ namespace SchoolManagement.Configurations
 
             builder.HasOne(p => p.Teacher).WithMany(p => p.AwardApprovals).HasForeignKey(p => p.TeacherId);
             builder.HasOne(p => p.Award).WithMany(p => p.AwardApprovals).HasForeignKey(p => p.AwardId);
+            builder.HasIndex(p => new { p.AwardId, p.TeacherId }).IsUnique();
         }
     }
 }

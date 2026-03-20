@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 using SchoolManagement.Exceptions;
 using SchoolManagement.Models;
 using System.Net;
@@ -39,14 +40,19 @@ namespace SchoolManagement.Middleware
                     response.Detail = badRequestException.Message;
                     break;
                 case ValidationException validationException:
-                    response.StatusCode = (int)HttpStatusCode.NotFound;
+                    response.StatusCode = (int)HttpStatusCode.UnprocessableEntity;
                     response.Message = "Validation was failed";
                     response.Detail = validationException.Message;
                     break;
                 case ConflictException conflictException:
-                    response.StatusCode = (int)HttpStatusCode.NotFound;
+                    response.StatusCode = (int)HttpStatusCode.Conflict;
                     response.Message = "There was a conflict";
                     response.Detail = conflictException.Message;
+                    break;
+                case DbUpdateConcurrencyException:
+                    response.StatusCode = (int)HttpStatusCode.Conflict;
+                    response.Message = "Concurrency conflict";
+                    response.Detail = "Data has been changed. Please try again";
                     break;
                 default:
                     response.StatusCode = (int)HttpStatusCode.InternalServerError;

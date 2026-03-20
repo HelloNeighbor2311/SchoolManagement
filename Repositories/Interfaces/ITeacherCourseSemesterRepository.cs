@@ -3,7 +3,7 @@ using SchoolManagement.Models;
 
 namespace SchoolManagement.Repositories.Interfaces
 {
-    public interface ITeacherCourseSemesterRepository
+    public interface ITeacherCourseSemesterRepository: IGenericRepository<TeacherCourseSemester>
     {
         Task<List<TeacherCourseSemester>?> GetAllTeacherCourseSemesterAsync();
         Task AllocateTeacherToCourseAsync(TeacherCourseSemester teacherCourseSemester);

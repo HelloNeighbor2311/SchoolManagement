@@ -15,6 +15,7 @@ namespace SchoolManagement.Configurations
 
             builder.HasOne(p => p.Gpa).WithOne(p => p.Award).HasForeignKey<Award>(p => p.GpaId);
             builder.HasOne(p => p.Student).WithMany(p => p.Award).HasForeignKey(p => p.StudentId).OnDelete(DeleteBehavior.Restrict);
+            
         }
     }
 }

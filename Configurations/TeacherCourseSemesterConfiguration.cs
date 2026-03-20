@@ -11,7 +11,7 @@ namespace SchoolManagement.Configurations
             builder.HasKey(p => p.TeacherCourseSemesterId);
             builder.HasOne(p => p.CourseSemester).WithMany(p => p.TeacherCourseSemester).HasForeignKey(p => p.CourseSemesterId);
             builder.HasOne(p => p.Teacher).WithMany(p => p.TeacherCourses).HasForeignKey(p => p.TeacherId);
-
+            builder.HasIndex(p => new { p.TeacherId, p.CourseSemesterId }).IsUnique();
         }
     }
 }

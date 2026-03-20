@@ -12,7 +12,7 @@ namespace SchoolManagement.Services
         public async Task<SemesterResponse> CreateSemester(CreateSemesterRequest request)
         {
             var semester = mapper.Map<Semester>(request);
-            var addedSemester = await uow.Semesters.CreateSemesterAsync(semester);
+            var addedSemester = await uow.Semester.CreateSemesterAsync(semester);
             await uow.SaveChangeAsync();
             var savedSemester = mapper.Map<SemesterResponse>(addedSemester);
             return savedSemester;
@@ -20,15 +20,15 @@ namespace SchoolManagement.Services
 
         public async Task DeleteSemester(int id)
         {
-            var semester = await uow.Semesters.GetSemesterByIdAsync(id);
+            var semester = await uow.Semester.GetSemesterByIdAsync(id);
             if (semester is null) throw new NotFoundException($"The semester with the given id {id} was not found !");
-            await uow.Semesters.DeleteSemesterAsync(semester);
+            await uow.Semester.DeleteSemesterAsync(semester);
             await uow.SaveChangeAsync();
         }
 
         public async Task<List<SemesterResponse>> GetAllSemester()
         {
-            var semester = await uow.Semesters.GetAllSemesterAsync();
+            var semester = await uow.Semester.GetAllSemesterAsync();
             await uow.SaveChangeAsync();
             var semesterResponse = semester.Select(u => mapper.Map<SemesterResponse>(u)).ToList();
             return semesterResponse;
@@ -36,7 +36,7 @@ namespace SchoolManagement.Services
 
         public async Task<SemesterResponse> GetSemesterById(int id)
         {
-            var semester = await uow.Semesters.GetSemesterByIdAsync(id);
+            var semester = await uow.Semester.GetSemesterByIdAsync(id);
             if (semester is null) throw new NotFoundException($"The semester with the given id {id} was not found !");
             var semesterResponse = mapper.Map<SemesterResponse>(semester);
             return semesterResponse;
@@ -44,7 +44,7 @@ namespace SchoolManagement.Services
 
         public async Task<SemesterDetailResponse> GetSemesterDetail(int id)
         {
-            var semester = await uow.Semesters.GetSemesterDetailAsync(id);
+            var semester = await uow.Semester.GetSemesterDetailAsync(id);
             if (semester is null) throw new NotFoundException($"The semester with the given id {id} was not found");
             var semesterDetailResponse = mapper.Map<SemesterDetailResponse>(semester);
             return semesterDetailResponse;
