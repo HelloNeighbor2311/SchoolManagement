@@ -7,5 +7,7 @@ namespace SchoolManagement.Repositories.Interfaces
     {
         Task<List<TeacherCourseSemester>?> GetAllTeacherCourseSemesterAsync();
         Task AllocateTeacherToCourseAsync(TeacherCourseSemester teacherCourseSemester);
+        Task DeleteTeacherFromCourse(TeacherCourseSemester teacherCourseSemester);
+        Task<TeacherCourseSemester?> GetTeacherCourseSemesterByIdAsync(int id);
     }
 }

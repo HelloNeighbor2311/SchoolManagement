@@ -14,12 +14,21 @@ namespace SchoolManagement.Repositories
             await context.TeacherCourseSemester.AddAsync(teacherCourseSemester);
         }
 
+        public async Task DeleteTeacherFromCourse(TeacherCourseSemester teacherCourseSemester)
+        {
+            context.TeacherCourseSemester.Remove(teacherCourseSemester);
+        }
+
         public async Task<List<TeacherCourseSemester>?> GetAllTeacherCourseSemesterAsync()
         {
             var teacherCourseSemester =  await context.TeacherCourseSemester.Include(u => u.CourseSemester).ThenInclude(u => u!.Semester).Include(u => u.CourseSemester).ThenInclude(u => u!.Course).Include(u=>u.Teacher).ToListAsync();
             if (!teacherCourseSemester.Any()) return null;
             return teacherCourseSemester;
         }
-        
+
+        public async Task<TeacherCourseSemester?> GetTeacherCourseSemesterByIdAsync(int id)
+        {
+            return await context.TeacherCourseSemester.Include(u => u.CourseSemester).ThenInclude(u => u!.Semester).Include(u => u.CourseSemester).ThenInclude(u => u!.Course).Include(u => u.Teacher).FirstOrDefaultAsync(u => u.TeacherCourseSemesterId == id);
+        }
     }
 }

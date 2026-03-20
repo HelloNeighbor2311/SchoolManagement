@@ -15,5 +15,6 @@ namespace SchoolManagement.Repositories.Interfaces
         Task DeleteUserAsync(User user);
         Task<IEnumerable<User>> GetPageResultAsync(int pageSize, int pageNum);
         Task<int> GetTotalUser();
+        Task<bool> IsTeacherAsync(int id);
     }
 }

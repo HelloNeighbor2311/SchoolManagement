@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 using SchoolManagement.Datas;
+using SchoolManagement.Middleware;
 using SchoolManagement.Middleware.Authorizations;
 using SchoolManagement.Middleware.Authorizations.Handlers;
 using SchoolManagement.Middleware.Authorizations.Requirements;
@@ -30,6 +31,10 @@ builder.Services.AddAutoMapper(cfg =>
 {
     cfg.AddMaps(typeof(Program).Assembly);
 });
+//Middleware
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
+
 //JWT Authentication
 var jwtSetting = builder.Configuration.GetSection("JwtSettings");
 var secretKey = jwtSetting["SecretKey"]!;
@@ -89,6 +94,7 @@ builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<ISemesterRepository, SemesterRepository>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<ITeacherCourseSemesterRepository, TeacherCourseSemesterRepository>();
+builder.Services.AddScoped<ICourseSemesterRepository, CourseSemesterRepository>();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -108,7 +114,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseExceptionHandler();
 app.UseAuthentication();
 app.UseAuthorization();
 

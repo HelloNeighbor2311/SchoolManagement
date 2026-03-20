@@ -41,6 +41,13 @@ namespace SchoolManagement.Repositories
         public async Task<User?> GetWithRoleAsync(string username)
             => await context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Username == username);
 
+        public async Task<bool> IsTeacherAsync(int id)
+        {
+            var teacher = await GetUserByIdAsync(id);
+            if (teacher is null) return false;
+            return teacher.RoleId == 3;
+        }
+
         public async Task UpdateUserAsync(User user)
         {
             context.Users.Update(user);

@@ -13,6 +13,7 @@ namespace SchoolManagement.Datas
         public DbSet<Course> Courses => Set<Course>();
         public DbSet<Semester> Semester => Set<Semester>();
         public DbSet<TeacherCourseSemester> TeacherCourseSemester => Set<TeacherCourseSemester>();
+        public DbSet<CourseSemester> CourseSemester => Set<CourseSemester>();
  
         public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
 

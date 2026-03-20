@@ -52,7 +52,7 @@ namespace SchoolManagement.Mappings
             CreateMap<CourseSemester, CourseSemesterResponse>().
                 ForMember(destination => destination.CourseName, opt => opt.MapFrom(u => u.Course != null ? u.Course.CourseName : string.Empty)).
                 ForMember(destination => destination.SemesterDescription, opt => opt.MapFrom(u => u.Semester != null ? u.Semester.Description: string.Empty));
-            CreateMap<TeacherCourseSemester, TeacherCouseSemesterResponse>().
+            CreateMap<TeacherCourseSemester, TeacherCourseSemesterResponse>().
                 ForMember(destination => destination.CourseName, src => src.MapFrom(u => u.CourseSemester != null ? u.CourseSemester.Course!.CourseName : string.Empty)).
                 ForMember(destination => destination.SemesterDescription, src => src.MapFrom(u => u.CourseSemester != null ? u.CourseSemester.Semester!.Description : string.Empty)).
                 ForMember(destination => destination.TeacherName, src => src.MapFrom(u => u.Teacher != null ? u.Teacher.Name : string.Empty));

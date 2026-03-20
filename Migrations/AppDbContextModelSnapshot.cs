@@ -51,7 +51,7 @@ namespace SchoolManagement.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("Award", t =>
+                    b.ToTable("Award", null, t =>
                         {
                             t.HasCheckConstraint("CK_Award_Status", "Status IN ('Approved','Rejected','Pending')");
                         });
@@ -88,7 +88,7 @@ namespace SchoolManagement.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("AwardApproval", t =>
+                    b.ToTable("AwardApproval", null, t =>
                         {
                             t.HasCheckConstraint("CK_AwardApproval_decision", "decision IN ('Approve','Reject')");
                         });
@@ -116,7 +116,7 @@ namespace SchoolManagement.Migrations
                     b.HasIndex("CourseName")
                         .IsUnique();
 
-                    b.ToTable("Courses");
+                    b.ToTable("Courses", (string)null);
                 });
 
             modelBuilder.Entity("SchoolManagement.Models.CourseSemester", b =>
@@ -139,7 +139,7 @@ namespace SchoolManagement.Migrations
 
                     b.HasIndex("SemesterId");
 
-                    b.ToTable("CourseSemester");
+                    b.ToTable("CourseSemester", (string)null);
                 });
 
             modelBuilder.Entity("SchoolManagement.Models.Enrollment", b =>
@@ -162,7 +162,7 @@ namespace SchoolManagement.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("Enrollment");
+                    b.ToTable("Enrollment", (string)null);
                 });
 
             modelBuilder.Entity("SchoolManagement.Models.Gpa", b =>
@@ -194,7 +194,7 @@ namespace SchoolManagement.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("Gpa", t =>
+                    b.ToTable("Gpa", null, t =>
                         {
                             t.HasCheckConstraint("CK_Gpa_rank", "rank In ('Excellent','Good','Average','Bad')");
                         });
@@ -230,7 +230,7 @@ namespace SchoolManagement.Migrations
 
                     b.HasIndex("EnrollmentId");
 
-                    b.ToTable("Grade");
+                    b.ToTable("Grade", (string)null);
                 });
 
             modelBuilder.Entity("SchoolManagement.Models.RefreshToken", b =>
@@ -264,7 +264,7 @@ namespace SchoolManagement.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("RefreshTokens");
+                    b.ToTable("RefreshTokens", (string)null);
                 });
 
             modelBuilder.Entity("SchoolManagement.Models.Role", b =>
@@ -285,7 +285,7 @@ namespace SchoolManagement.Migrations
                     b.HasIndex("RoleName")
                         .IsUnique();
 
-                    b.ToTable("Role");
+                    b.ToTable("Role", (string)null);
                 });
 
             modelBuilder.Entity("SchoolManagement.Models.Semester", b =>
@@ -302,7 +302,7 @@ namespace SchoolManagement.Migrations
 
                     b.HasKey("SemesterId");
 
-                    b.ToTable("Semester");
+                    b.ToTable("Semester", (string)null);
                 });
 
             modelBuilder.Entity("SchoolManagement.Models.TeacherCourseSemester", b =>
@@ -325,7 +325,7 @@ namespace SchoolManagement.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("TeacherCourseSemester");
+                    b.ToTable("TeacherCourseSemester", (string)null);
                 });
 
             modelBuilder.Entity("SchoolManagement.Models.User", b =>

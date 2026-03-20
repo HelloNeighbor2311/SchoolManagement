@@ -10,6 +10,7 @@ namespace SchoolManagement.Repositories.UnitOfWork
         ICourseRepository Courses { get; }
         ISemesterRepository Semesters { get; }
         ITeacherCourseSemesterRepository TeacherCourseSemester { get; }
+        ICourseSemesterRepository CourseSemester { get; }
         
         Task<int> SaveChangeAsync();
     }

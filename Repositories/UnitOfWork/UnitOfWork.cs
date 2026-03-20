@@ -12,13 +12,16 @@ namespace SchoolManagement.Repositories.UnitOfWork
         public ICourseRepository Courses { get; }
         public ISemesterRepository Semesters { get; }
         public ITeacherCourseSemesterRepository TeacherCourseSemester { get; }
+        public ICourseSemesterRepository CourseSemester { get; }
         public UnitOfWork(AppDbContext context, IUserRepository userRepository, 
-            ICourseRepository courseRepository, ISemesterRepository semesterRepository, ITeacherCourseSemesterRepository teacherCourseSemesterRepository)
+            ICourseRepository courseRepository, ISemesterRepository semesterRepository, ITeacherCourseSemesterRepository teacherCourseSemesterRepository,
+            ICourseSemesterRepository courseSemester)
         {
             this.context = context;
             Users = userRepository;
             Courses = courseRepository;
             Semesters = semesterRepository;
+            CourseSemester = courseSemester;
             TeacherCourseSemester = teacherCourseSemesterRepository;
         }
         public async Task<int> SaveChangeAsync()

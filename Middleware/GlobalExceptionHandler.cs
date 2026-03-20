@@ -34,7 +34,7 @@ namespace SchoolManagement.Middleware
                     response.Detail = notFoundException.Message;
                     break;
                 case BadRequestException badRequestException:
-                    response.StatusCode = (int)HttpStatusCode.NotFound;
+                    response.StatusCode = (int)HttpStatusCode.BadRequest;
                     response.Message = "Bad request";
                     response.Detail = badRequestException.Message;
                     break;
