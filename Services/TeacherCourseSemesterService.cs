@@ -17,7 +17,7 @@ namespace SchoolManagement.Services
             if (!await uow.User.IsTeacherAsync(request.TeacherId)) throw new BadRequestException($"The given Teacher ID {request.TeacherId} is not valid");
             bool isDuplicated = await uow.TeacherCourseSemester.ExistsAsync(p => p.CourseSemesterId == request.CourseSemesterId && p.TeacherId == request.TeacherId);
             if (isDuplicated) throw new ConflictException($"The teacher with the given Id {request.TeacherId} is already assgined to Course with the Id {request.CourseSemesterId}");
-            var teacherCourseSemester = new TeacherCourseSemester { CourseSemesterId = request.CourseSemesterId, TeacherId = request.TeacherId };
+            var teacherCourseSemester = mapper.Map<TeacherCourseSemester>(request);
             await uow.TeacherCourseSemester.AllocateTeacherToCourseAsync(teacherCourseSemester);
             await uow.SaveChangeAsync();
             var newTeacherCourseSemester = await uow.TeacherCourseSemester.GetTeacherCourseSemesterByIdAsync(teacherCourseSemester.TeacherCourseSemesterId);

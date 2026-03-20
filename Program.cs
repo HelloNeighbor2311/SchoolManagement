@@ -103,6 +103,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IJWTService, JWTService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<ISemesterService, SemesterService>();
+builder.Services.AddScoped<ICourseSemesterService, CourseSemesterService>();
 builder.Services.AddScoped<ITeacherCourseSemesterService, TeacherCourseSemesterService>();
 var app = builder.Build();
 

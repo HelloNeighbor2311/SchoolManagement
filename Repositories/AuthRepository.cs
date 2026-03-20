@@ -20,7 +20,7 @@ namespace SchoolManagement.Repositories
 
         public async Task<RefreshToken?> GetRefreshTokenAsync(string token)
         {
-            return await context.RefreshTokens.Include(u => u.User).ThenInclude(u => u.Role).FirstOrDefaultAsync(rt => rt.Token == token);
+            return await context.RefreshTokens.Include(u => u.User).ThenInclude(u => u!.Role).FirstOrDefaultAsync(rt => rt.Token == token);
         }
 
         public async Task RevokeAllTokenByUserIdAsync(int id)

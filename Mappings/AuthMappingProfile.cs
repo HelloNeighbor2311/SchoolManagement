@@ -46,6 +46,8 @@ namespace SchoolManagement.Mappings
             CreateMap<Course, CourseResponse>();
             CreateMap<CreateCourseRequest,Course>();
             CreateMap<CreateSemesterRequest,Semester>();
+            CreateMap<CreateCourseSemesterRequest,CourseSemester>();
+            CreateMap<AllocateTeacherCourseSemesterRequest,TeacherCourseSemester>();
             CreateMap<Semester,SemesterResponse>();
             CreateMap<Course, CourseDetailResponse>().ForMember(destination => destination.Detail, src => src.MapFrom(u => u.CourseSemester));
             CreateMap<Semester, SemesterDetailResponse>().ForMember(destination => destination.Detail, src => src.MapFrom(u => u.CourseSemester));

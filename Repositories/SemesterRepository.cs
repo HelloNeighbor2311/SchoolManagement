@@ -26,7 +26,6 @@ namespace SchoolManagement.Repositories
         public async Task<Semester?> GetSemesterByIdAsync(int id)
         {
             var semester = await context.Semester.FirstOrDefaultAsync(p => p.SemesterId == id);
-            if (semester is null) return null;
             return semester;
         }
 
