@@ -4,7 +4,8 @@ namespace SchoolManagement.Repositories.Interfaces
 {
     public interface ICourseSemesterRepository: IGenericRepository<CourseSemester>
     {
-        Task<CourseSemester?> GetCourseSemesterById(int id);
-        Task CreateCourseSemester(CourseSemester courseSemester);
+        Task<CourseSemester?> GetCourseSemesterByIdAsync(int id);
+        Task CreateCourseSemesterAsync(CourseSemester courseSemester);
+        Task DeletetCourseSemesterAsync(CourseSemester courseSemester);
     }
 }

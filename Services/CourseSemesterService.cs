@@ -16,11 +16,19 @@ namespace SchoolManagement.Services
             var isDuplicated = await uow.CourseSemester.ExistsAsync(p => p.CourseId == request.CourseId && p.SemesterId == request.SemesterId);
             if (isDuplicated) throw new ConflictException($"The Course with the Id {request.CourseId} is already existed in Semester with the Id {request.SemesterId}");
             var courseSemester = mapper.Map<CourseSemester>(request);
-            await uow.CourseSemester.CreateCourseSemester(courseSemester);
+            await uow.CourseSemester.CreateCourseSemesterAsync(courseSemester);
             await uow.SaveChangeAsync();
-            var newCourseSemester = await uow.CourseSemester.GetCourseSemesterById(courseSemester.CourseSemesterId);
+            var newCourseSemester = await uow.CourseSemester.GetCourseSemesterByIdAsync(courseSemester.CourseSemesterId);
             var courseSemesterResponse = mapper.Map<CourseSemesterResponse>(newCourseSemester);
             return courseSemesterResponse;
+        }
+
+        public async Task DeleteCourseSemester(int id)
+        {
+            if (!await uow.CourseSemester.ExistsAsync(p => p.CourseSemesterId == id)) throw new NotFoundException($"The Course Semester with the Id {id} was not found");
+            var courseSemester = await uow.CourseSemester.GetCourseSemesterByIdAsync(id);
+            await uow.CourseSemester.DeletetCourseSemesterAsync(courseSemester!);
+            await uow.SaveChangeAsync();
         }
     }
 }

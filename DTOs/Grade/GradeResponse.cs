@@ -1,14 +1,11 @@
-﻿namespace SchoolManagement.Models
+﻿namespace SchoolManagement.DTOs.Grade
 {
-    public class Grade
+    public class GradeResponse
     {
         public int GradeId { get; set; }
         public int EnrollmentId { get; set; }
         public int? FirstGrade { get; set; }
         public int? SecondGrade { get; set; }
         public int? FinalGrade { get; set; }
-
-
-        public Enrollment? Enrollment { get; set; }
     }
 }

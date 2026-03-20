@@ -47,6 +47,12 @@ namespace SchoolManagement.Repositories
             if (teacher is null) return false;
             return teacher.RoleId == 3;
         }
+        public async Task<bool> IsStudentAsync(int id)
+        {
+            var student = await GetUserByIdAsync(id);
+            if (student is null) return false;
+            return student.RoleId == 2;
+        }
 
         public async Task UpdateUserAsync(User user)
         {

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolManagement.Datas;
 
@@ -11,9 +12,11 @@ using SchoolManagement.Datas;
 namespace SchoolManagement.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260320061125_FixGradeConstraint")]
+    partial class FixGradeConstraint
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -218,21 +221,27 @@ namespace SchoolManagement.Migrations
                     b.Property<int>("EnrollmentId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("FinalGrade")
-                        .HasColumnType("int");
+                    b.Property<int>("FinalGrade")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
-                    b.Property<int?>("FirstGrade")
-                        .HasColumnType("int");
+                    b.Property<int>("FirstGrade")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
-                    b.Property<int?>("SecondGrade")
-                        .HasColumnType("int");
+                    b.Property<int>("SecondGrade")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.HasKey("GradeId");
 
                     b.HasIndex("EnrollmentId")
                         .IsUnique();
 
-                    b.ToTable("Grades");
+                    b.ToTable("Grade");
                 });
 
             modelBuilder.Entity("SchoolManagement.Models.RefreshToken", b =>

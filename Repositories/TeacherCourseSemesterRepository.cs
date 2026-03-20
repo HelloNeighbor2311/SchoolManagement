@@ -12,24 +12,24 @@ namespace SchoolManagement.Repositories
     {
         public async Task AllocateTeacherToCourseAsync(TeacherCourseSemester teacherCourseSemester)
         {
-            await Context.TeacherCourseSemester.AddAsync(teacherCourseSemester);
+            await Context.TeacherCourseSemesters.AddAsync(teacherCourseSemester);
         }
 
         public async Task DeleteTeacherFromCourse(TeacherCourseSemester teacherCourseSemester)
         {
-            Context.TeacherCourseSemester.Remove(teacherCourseSemester);
+            Context.TeacherCourseSemesters.Remove(teacherCourseSemester);
         }
 
         public async Task<List<TeacherCourseSemester>?> GetAllTeacherCourseSemesterAsync()
         {
-            var teacherCourseSemester =  await Context.TeacherCourseSemester.Include(u => u.CourseSemester).ThenInclude(u => u!.Semester).Include(u => u.CourseSemester).ThenInclude(u => u!.Course).Include(u=>u.Teacher).ToListAsync();
+            var teacherCourseSemester =  await Context.TeacherCourseSemesters.Include(u => u.CourseSemester).ThenInclude(u => u!.Semester).Include(u => u.CourseSemester).ThenInclude(u => u!.Course).Include(u=>u.Teacher).ToListAsync();
             if (!teacherCourseSemester.Any()) return null;
             return teacherCourseSemester;
         }
 
         public async Task<TeacherCourseSemester?> GetTeacherCourseSemesterByIdAsync(int id)
         {
-            return await Context.TeacherCourseSemester.Include(u => u.CourseSemester).ThenInclude(u => u!.Semester).Include(u => u.CourseSemester).ThenInclude(u => u!.Course).Include(u => u.Teacher).FirstOrDefaultAsync(u => u.TeacherCourseSemesterId == id);
+            return await Context.TeacherCourseSemesters.Include(u => u.CourseSemester).ThenInclude(u => u!.Semester).Include(u => u.CourseSemester).ThenInclude(u => u!.Course).Include(u => u.Teacher).FirstOrDefaultAsync(u => u.TeacherCourseSemesterId == id);
         }
     }
 }

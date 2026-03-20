@@ -8,14 +8,19 @@ namespace SchoolManagement.Repositories
 {
     public class CourseSemesterRepository(AppDbContext context) : GenericRepository<CourseSemester>(context), ICourseSemesterRepository
     {
-        public async Task CreateCourseSemester(CourseSemester courseSemester)
+        public async Task CreateCourseSemesterAsync(CourseSemester courseSemester)
         {
             await Context.AddAsync(courseSemester);
         }
 
-        public async Task<CourseSemester?> GetCourseSemesterById(int id)
+        public async Task DeletetCourseSemesterAsync(CourseSemester courseSemester)
         {
-            return await Context.CourseSemester.Include(u => u.Course).Include(u => u.Semester).FirstOrDefaultAsync(u => u.CourseSemesterId == id);
+            Context.CourseSemesters.Remove(courseSemester);
+        }
+
+        public async Task<CourseSemester?> GetCourseSemesterByIdAsync(int id)
+        {
+            return await Context.CourseSemesters.Include(u => u.Course).Include(u => u.Semester).FirstOrDefaultAsync(u => u.CourseSemesterId == id);
         }
     }
 }

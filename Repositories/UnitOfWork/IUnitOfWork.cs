@@ -12,6 +12,8 @@ namespace SchoolManagement.Repositories.UnitOfWork
         ISemesterRepository Semester { get; }
         ITeacherCourseSemesterRepository TeacherCourseSemester { get; }
         ICourseSemesterRepository CourseSemester { get; }
+        IGradeRepository Grade { get; }
+        IEnrollmentRepository Enrollment { get; }
         
         Task<int> SaveChangeAsync();
     }

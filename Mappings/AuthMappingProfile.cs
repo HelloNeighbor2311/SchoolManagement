@@ -2,6 +2,8 @@
 using SchoolManagement.DTOs.Authentication;
 using SchoolManagement.DTOs.Course;
 using SchoolManagement.DTOs.CourseSemester;
+using SchoolManagement.DTOs.Enrollment;
+using SchoolManagement.DTOs.Grade;
 using SchoolManagement.DTOs.Semester;
 using SchoolManagement.DTOs.TeacherCourseSemester;
 using SchoolManagement.DTOs.User;
@@ -58,6 +60,12 @@ namespace SchoolManagement.Mappings
                 ForMember(destination => destination.CourseName, src => src.MapFrom(u => u.CourseSemester != null ? u.CourseSemester.Course!.CourseName : string.Empty)).
                 ForMember(destination => destination.SemesterDescription, src => src.MapFrom(u => u.CourseSemester != null ? u.CourseSemester.Semester!.Description : string.Empty)).
                 ForMember(destination => destination.TeacherName, src => src.MapFrom(u => u.Teacher != null ? u.Teacher.Name : string.Empty));
+            CreateMap<Enrollment, EnrollmentResponse>().
+                ForMember(destination => destination.StudentName, opt => opt.MapFrom(u => u.Student != null ? u.Student.Name : string.Empty)).
+                ForMember(destination => destination.CourseName, opt => opt.MapFrom(u => u.CourseSemester != null ? u.CourseSemester.Course!.CourseName : string.Empty)).
+                ForMember(destination => destination.SemesterDescription, opt => opt.MapFrom(u => u.CourseSemester != null ? u.CourseSemester.Semester!.Description : string.Empty));
+            CreateMap<RegisterEnrollmentRequest, Enrollment>();
+            CreateMap<Grade, GradeResponse>();
         }
     }
 }

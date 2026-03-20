@@ -16,5 +16,6 @@ namespace SchoolManagement.Repositories.Interfaces
         Task<IEnumerable<User>> GetPageResultAsync(int pageSize, int pageNum);
         Task<int> GetTotalUser();
         Task<bool> IsTeacherAsync(int id);
+        Task<bool> IsStudentAsync(int id);
     }
 }

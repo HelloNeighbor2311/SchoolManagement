@@ -9,29 +9,29 @@ namespace SchoolManagement.Repositories
     {
         public async Task<Semester> CreateSemesterAsync(Semester semester)
         {
-            await context.Semester.AddAsync(semester);
+            await context.Semesters.AddAsync(semester);
             return semester;
         }
 
         public async Task DeleteSemesterAsync(Semester semester)
         {
-             context.Semester.Remove(semester);
+             context.Semesters.Remove(semester);
         }
 
         public async Task<List<Semester>> GetAllSemesterAsync()
         {
-            return await context.Semester.ToListAsync();
+            return await context.Semesters.ToListAsync();
         }
 
         public async Task<Semester?> GetSemesterByIdAsync(int id)
         {
-            var semester = await context.Semester.FirstOrDefaultAsync(p => p.SemesterId == id);
+            var semester = await context.Semesters.FirstOrDefaultAsync(p => p.SemesterId == id);
             return semester;
         }
 
         public async Task<Semester?> GetSemesterDetailAsync(int id)
         {
-            var semesterDetail = await context.Semester.Include(u => u.CourseSemester).ThenInclude(u => u.Course).FirstOrDefaultAsync(s => s.SemesterId == id);
+            var semesterDetail = await context.Semesters.Include(u => u.CourseSemester).ThenInclude(u => u.Course).FirstOrDefaultAsync(s => s.SemesterId == id);
             return semesterDetail;
         }
     }

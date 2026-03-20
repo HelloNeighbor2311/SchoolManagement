@@ -12,10 +12,16 @@ namespace SchoolManagement.Controllers
     public class CourseSemesterController (ICourseSemesterService service): ControllerBase
     {
         [HttpPost]
-        public async Task<ActionResult<CourseSemesterResponse>> AllocateTeacherToCourse([FromBody] CreateCourseSemesterRequest request)
+        public async Task<ActionResult<CourseSemesterResponse>> CreateCourseSemester([FromBody] CreateCourseSemesterRequest request)
         {
             var result = await service.CreateCourseSemester(request);
             return Ok(result);
+        }
+        [HttpDelete]
+        public async Task<ActionResult<CourseSemesterResponse>> DeleteCourseSemester([FromQuery] int id)
+        {
+            await service.DeleteCourseSemester(id);
+            return NoContent();
         }
     }
 }

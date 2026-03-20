@@ -95,6 +95,8 @@ builder.Services.AddScoped<ISemesterRepository, SemesterRepository>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<ITeacherCourseSemesterRepository, TeacherCourseSemesterRepository>();
 builder.Services.AddScoped<ICourseSemesterRepository, CourseSemesterRepository>();
+builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
+builder.Services.AddScoped<IGradeRepository, GradeRepository>();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -105,6 +107,8 @@ builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<ISemesterService, SemesterService>();
 builder.Services.AddScoped<ICourseSemesterService, CourseSemesterService>();
 builder.Services.AddScoped<ITeacherCourseSemesterService, TeacherCourseSemesterService>();
+builder.Services.AddScoped<IEnrollmentService, EnrollmentService>();
+builder.Services.AddScoped<IGradeService, GradeService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
