@@ -8,6 +8,7 @@ namespace SchoolManagement.Services.Interfaces
         Task<List<AwardApprovalResponse>> GetAllAwardApprovals();
         Task<List<AwardApprovalResponse>> GetAwardApprovalsViaTeacherId(int teacherId);
         Task UpdateAwardApproval(int id, UpdateAwardApprovalRequest request);
+        Task UpdateAwardApprovalForTeacher(int id, int teacherId, UpdateAwardApprovalRequest request);
         Task DeleteAwardApproval(int id);
     }
 }

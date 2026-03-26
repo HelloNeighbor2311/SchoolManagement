@@ -9,6 +9,7 @@ namespace SchoolManagement.Repositories.Interfaces
         Task<List<AwardApprovalResponse>> GetListApprovalsViaTeacherIdAsync(int teacherId);
         Task<AwardApproval> CreateApprovalAsync(AwardApproval approval);
         Task<AwardApprovalResponse?> GetAwardApprovalResponseViaIdAsync(int id);
+        Task<int> CountApprovedAwardApprovalsByAwardId(int id);
         Task<AwardApproval?> GetAwardApprovalViaIdAsync(int id);
         Task UpdateAwardApprovalAsync(AwardApproval approval);
         Task DeleteAwardApprovalAsync(AwardApproval approval);

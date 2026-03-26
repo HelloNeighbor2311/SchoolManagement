@@ -34,6 +34,12 @@ namespace SchoolManagement.Controllers
             await service.UpdateAwardApproval(id, request);
             return NoContent();
         }
+        [HttpPut("Teacher")]
+        public async Task<ActionResult> UpdateAwardApprovalViaTeacherId([FromQuery]int id, [FromQuery] int teacherId, [FromBody] UpdateAwardApprovalRequest request)
+        {
+            await service.UpdateAwardApprovalForTeacher(id, teacherId, request);
+            return NoContent();
+        }
         [HttpDelete]
         public async Task<ActionResult> DeleteAwardApproval([FromQuery]int id)
         {

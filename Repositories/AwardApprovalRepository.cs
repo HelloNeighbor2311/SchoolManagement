@@ -26,6 +26,12 @@ namespace SchoolManagement.Repositories
             return Context.AwardApprovals.ProjectTo<AwardApprovalResponse>(mapper.ConfigurationProvider).ToListAsync();
         }
 
+        public async Task<int> CountApprovedAwardApprovalsByAwardId(int id)
+        {
+            if (await Context.AwardApprovals.AnyAsync(u => u.decision == Decision.Reject)) return -1;
+            return await Context.AwardApprovals.CountAsync(u => u.AwardId == id && u.decision == Decision.Approve);
+        }
+
         public async Task<AwardApprovalResponse?> GetAwardApprovalResponseViaIdAsync(int id)
         {
             return await Context.AwardApprovals.ProjectTo<AwardApprovalResponse>(mapper.ConfigurationProvider).FirstOrDefaultAsync(u => u.ApprovalId == id);

@@ -4,7 +4,6 @@
     {
         public int AwardId { get; set; }
         public int TeacherId { get; set; }
-        public DateTime DecisionDate { get; set; }
         public string Comment { get; set; } = string.Empty;
     }
 }

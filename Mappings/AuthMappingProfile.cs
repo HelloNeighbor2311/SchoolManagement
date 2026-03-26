@@ -46,16 +46,16 @@ namespace SchoolManagement.Mappings
                 ForMember(destination => destination.CreatedDate, opt => opt.MapFrom(_ => DateTime.UtcNow)).
                 ForMember(destination => destination.PasswordHashed, opt => opt.Ignore()).
                 ForMember(destination => destination.RoleId, opt => opt.MapFrom(_ => 3));
-            CreateMap<CreateAwardApprovalRequest, AwardApproval>();
-
-            //Entities
-            CreateMap<Course, CourseResponse>();
+            CreateMap<CreateAwardApprovalRequest, AwardApproval>().ForMember(destination => destination.DecisionDate, opt => opt.Ignore());
             CreateMap<CreateCourseRequest,Course>();
             CreateMap<CreateSemesterRequest,Semester>();
             CreateMap<CreateCourseSemesterRequest,CourseSemester>();
             CreateMap<CreateAwardRequest, Award>().
                 ForMember(destination => destination.StudentId, opt => opt.Ignore());
             CreateMap<AllocateTeacherCourseSemesterRequest,TeacherCourseSemester>();
+
+            //Entities
+            CreateMap<Course, CourseResponse>();
             CreateMap<Semester,SemesterResponse>();
             CreateMap<Course, CourseDetailResponse>().ForMember(destination => destination.Detail, src => src.MapFrom(u => u.CourseSemester));
             CreateMap<Semester, SemesterDetailResponse>().ForMember(destination => destination.Detail, src => src.MapFrom(u => u.CourseSemester));

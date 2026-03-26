@@ -46,37 +46,47 @@ namespace SchoolManagement.Services
         {
             var approval = await uow.AwardApproval.GetAwardApprovalViaIdAsync(id);
             if (approval is null) throw new NotFoundException($"The given AwardApprovalId {id} was not found");
+            var award = await uow.Award.GetAwardViaId(approval.AwardId);
             if (request.decision != null)
             {
                 switch (request.decision.ToLower())
                 {
-                    case "Approve":
+                    case "approve":
                         approval.decision = Decision.Approve;
                         break;
-                    case "Reject":
+                    case "reject":
                         approval.decision = Decision.Reject;
                         break;
                     default:
                         throw new BadRequestException("Invalid input");
                 }
             }
+            approval.DecisionDate = DateTime.UtcNow;
+            if (approval.DecisionDate > award!.ExpiredDate) throw new BadRequestException("The period allocated for decision-making has ended");
+            if (request.Comment != "") approval.Comment = request.Comment;
+            await uow.AwardApproval.UpdateAwardApprovalAsync(approval);
+            await uow.SaveChangeAsync();
+
+            int approvalsNum = await uow.AwardApproval.CountApprovedAwardApprovalsByAwardId(approval.AwardId);
+            await uow.Award.CheckRequireApprovalsAsync(award, approvalsNum);
+            await uow.SaveChangeAsync();
         }
         public async Task UpdateAwardApprovalForTeacher(int id,int teacherId, UpdateAwardApprovalRequest request)
         {
             var approval = await uow.AwardApproval.GetAwardApprovalViaIdAsync(id);
             if (approval is null) throw new NotFoundException($"The given AwardApprovalId {id} was not found");
             var award = await uow.Award.GetAwardViaId(approval.AwardId);
+            if (approval.decision != null) throw new BadRequestException("You cannot change your decision");
             if (approval.TeacherId != teacherId) throw new ForbiddenException("You can only update approvals assigned to you");
-            if (approval.decision != null) throw new BadRequestException("Cannot change decision has already been designed");
 
             if (request.decision != null)
             {
                 switch (request.decision.ToLower())
                 {
-                    case "Approve":
+                    case "approve":
                         approval.decision = Decision.Approve;
                         break;
-                    case "Reject":
+                    case "reject":
                         approval.decision = Decision.Reject;
                         break;
                     default:
@@ -87,6 +97,10 @@ namespace SchoolManagement.Services
             if (approval.DecisionDate > award!.ExpiredDate) throw new BadRequestException("The period allocated for decision-making has ended");
             if (request.Comment != "") approval.Comment = request.Comment;
             await uow.AwardApproval.UpdateAwardApprovalAsync(approval);
+            await uow.SaveChangeAsync();
+
+            int approvalsNum = await uow.AwardApproval.CountApprovedAwardApprovalsByAwardId(approval.AwardId);
+            await uow.Award.CheckRequireApprovalsAsync(award, approvalsNum);
             await uow.SaveChangeAsync();
         }
     }
