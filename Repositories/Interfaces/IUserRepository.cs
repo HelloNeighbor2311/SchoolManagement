@@ -3,7 +3,7 @@ using SchoolManagement.Models;
 
 namespace SchoolManagement.Repositories.Interfaces
 {
-    public interface IUserRepository
+    public interface IUserRepository: IGenericRepository<User>
     {
         Task<User?> CreateUserAsync(User request);
         Task<User?> GetWithRoleAsync(string username);

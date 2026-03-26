@@ -5,7 +5,7 @@ namespace SchoolManagement.Repositories.Interfaces
 {
     public interface IEnrollmentRepository: IGenericRepository<Enrollment>
     {
-        Task<List<Enrollment>> GetAllEnrollmentInformationAsync();
+        Task<List<EnrollmentResponse>> GetAllEnrollmentInformationAsync();
         Task RegisterEnrollmentAsync(Enrollment request);
         Task<Enrollment?> GetEnrollmentByIdAsync(int id);
         Task DeleteEnrollmentAsync(Enrollment enrollment);

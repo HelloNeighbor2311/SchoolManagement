@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SchoolManagement.Controllers.BaseApi;
 using SchoolManagement.DTOs.Course;
 using SchoolManagement.Middleware.Authorizations;
 using SchoolManagement.Services.Interfaces;
@@ -10,7 +11,7 @@ namespace SchoolManagement.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class CourseController(ICourseService service) : ControllerBase
+    public class CourseController(ICourseService service) : BaseApiController
     {
         [HttpGet("Course")]
         [Authorize(Policy = PolicyConstants.CanViewCourses)]

@@ -16,9 +16,13 @@ namespace SchoolManagement.Repositories.UnitOfWork
         public ICourseSemesterRepository CourseSemester { get; }
         public IEnrollmentRepository Enrollment { get; }
         public IGradeRepository Grade { get; }
+        public IGpaRepository Gpa { get; }
+        public IAwardRepository Award { get; }
+        public IAwardApprovalRepository AwardApproval { get; }
         public UnitOfWork(AppDbContext context, IAuthRepository authRepository,IUserRepository userRepository, 
             ICourseRepository courseRepository, ISemesterRepository semesterRepository, ITeacherCourseSemesterRepository teacherCourseSemesterRepository,
-            ICourseSemesterRepository courseSemester, IEnrollmentRepository enrollmentRepository, IGradeRepository gradeRepository)
+            ICourseSemesterRepository courseSemester, IEnrollmentRepository enrollmentRepository, IGradeRepository gradeRepository,
+            IGpaRepository gpaRepository, IAwardRepository awardRepository, IAwardApprovalRepository awardApprovalRepository)
         {
             this.context = context;
             Auth = authRepository;
@@ -29,6 +33,9 @@ namespace SchoolManagement.Repositories.UnitOfWork
             TeacherCourseSemester = teacherCourseSemesterRepository;
             Enrollment = enrollmentRepository;
             Grade = gradeRepository;
+            Gpa = gpaRepository;
+            Award = awardRepository;
+            AwardApproval = awardApprovalRepository;
         }
         public async Task<int> SaveChangeAsync()
         {

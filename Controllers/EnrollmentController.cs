@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SchoolManagement.Controllers.BaseApi;
 using SchoolManagement.DTOs.Enrollment;
 using SchoolManagement.Services.Interfaces;
 
@@ -7,7 +8,7 @@ namespace SchoolManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EnrollmentController(IEnrollmentService service) : ControllerBase
+    public class EnrollmentController(IEnrollmentService service) : BaseApiController
     {
         [HttpGet]
         public async Task<ActionResult<List<EnrollmentResponse>>> GetAllEnrollments()

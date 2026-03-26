@@ -11,7 +11,7 @@ namespace SchoolManagement.Configurations
             builder.HasKey(p => p.CourseId);
             builder.Property(p => p.CourseName).IsRequired().HasMaxLength(100);
             builder.Property(p => p.Description).IsRequired();
-
+            builder.Property(p => p.Credits).HasDefaultValue(3);
             builder.HasIndex(p => p.CourseName).IsUnique();
         }
     }

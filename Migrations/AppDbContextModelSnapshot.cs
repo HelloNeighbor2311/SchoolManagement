@@ -34,28 +34,29 @@ namespace SchoolManagement.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("ExpiredDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("GpaId")
                         .HasColumnType("int");
 
                     b.Property<int>("RequireApproval")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
+                        .HasColumnType("int");
 
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
 
-                    b.Property<int>("status")
-                        .HasColumnType("int");
+                    b.Property<string>("status")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("AwardId");
 
-                    b.HasIndex("GpaId")
-                        .IsUnique();
+                    b.HasIndex("GpaId");
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("Award", t =>
+                    b.ToTable("Awards", t =>
                         {
                             t.HasCheckConstraint("CK_Award_Status", "Status IN ('Approved','Rejected','Pending')");
                         });
@@ -82,18 +83,19 @@ namespace SchoolManagement.Migrations
                     b.Property<int>("TeacherId")
                         .HasColumnType("int");
 
-                    b.Property<int>("decision")
-                        .HasMaxLength(100)
-                        .HasColumnType("int");
+                    b.Property<string>("decision")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("ApprovalId");
-
-                    b.HasIndex("TeacherId");
 
                     b.HasIndex("AwardId", "TeacherId")
                         .IsUnique();
 
-                    b.ToTable("AwardApproval", t =>
+                    b.HasIndex("TeacherId", "AwardId")
+                        .IsUnique();
+
+                    b.ToTable("AwardApprovals", t =>
                         {
                             t.HasCheckConstraint("CK_AwardApproval_decision", "decision IN ('Approve','Reject')");
                         });
@@ -111,6 +113,11 @@ namespace SchoolManagement.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("Credits")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(3);
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -186,23 +193,27 @@ namespace SchoolManagement.Migrations
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
 
-                    b.Property<int>("gpa")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
-
-                    b.Property<int>("rank")
+                    b.Property<int>("TotalCredits")
                         .HasColumnType("int");
+
+                    b.Property<double?>("gpa")
+                        .HasColumnType("float");
+
+                    b.Property<string>("rank")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("GPAId");
 
-                    b.HasIndex("SemesterId")
+                    b.HasIndex("SemesterId");
+
+                    b.HasIndex("StudentId", "SemesterId")
                         .IsUnique();
 
-                    b.HasIndex("StudentId");
-
-                    b.ToTable("Gpa", t =>
+                    b.ToTable("Gpas", t =>
                         {
+                            t.HasCheckConstraint("CK_Gpa_gpa", "gpa IS NULL OR (gpa >= 0 AND gpa <= 4)");
+
                             t.HasCheckConstraint("CK_Gpa_rank", "rank In ('Excellent','Good','Average','Bad')");
                         });
                 });
@@ -218,21 +229,28 @@ namespace SchoolManagement.Migrations
                     b.Property<int>("EnrollmentId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("FinalGrade")
-                        .HasColumnType("int");
+                    b.Property<double?>("FinalGrade")
+                        .HasColumnType("float");
 
-                    b.Property<int?>("FirstGrade")
-                        .HasColumnType("int");
+                    b.Property<double?>("FirstGrade")
+                        .HasColumnType("float");
 
-                    b.Property<int?>("SecondGrade")
-                        .HasColumnType("int");
+                    b.Property<double?>("SecondGrade")
+                        .HasColumnType("float");
 
                     b.HasKey("GradeId");
 
                     b.HasIndex("EnrollmentId")
                         .IsUnique();
 
-                    b.ToTable("Grades");
+                    b.ToTable("Grades", t =>
+                        {
+                            t.HasCheckConstraint("CK_Grade_FinalGrade", "FinalGrade IS NULL OR (FinalGrade >= 0 AND FinalGrade <= 10)");
+
+                            t.HasCheckConstraint("CK_Grade_SecondGrade", "SecondGrade IS NULL OR (SecondGrade >= 0 AND SecondGrade <= 10)");
+
+                            t.HasCheckConstraint("CK_Grades_FirstGrade", "FirstGrade IS NULL OR (FirstGrade >= 0 AND FirstGrade <= 10)");
+                        });
                 });
 
             modelBuilder.Entity("SchoolManagement.Models.RefreshToken", b =>
@@ -441,8 +459,8 @@ namespace SchoolManagement.Migrations
             modelBuilder.Entity("SchoolManagement.Models.Award", b =>
                 {
                     b.HasOne("SchoolManagement.Models.Gpa", "Gpa")
-                        .WithOne("Award")
-                        .HasForeignKey("SchoolManagement.Models.Award", "GpaId")
+                        .WithMany("Award")
+                        .HasForeignKey("GpaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -517,9 +535,9 @@ namespace SchoolManagement.Migrations
             modelBuilder.Entity("SchoolManagement.Models.Gpa", b =>
                 {
                     b.HasOne("SchoolManagement.Models.Semester", "Semester")
-                        .WithOne("Gpa")
-                        .HasForeignKey("SchoolManagement.Models.Gpa", "SemesterId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithMany("Gpa")
+                        .HasForeignKey("SemesterId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("SchoolManagement.Models.Student", "Student")

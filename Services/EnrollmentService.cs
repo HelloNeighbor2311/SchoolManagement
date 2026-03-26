@@ -21,8 +21,7 @@ namespace SchoolManagement.Services
         public async Task<List<EnrollmentResponse>> GetAllEnrollments()
         {
             var result =  await uow.Enrollment.GetAllEnrollmentInformationAsync();
-            var enrollmentResponse = result.Select(u=>mapper.Map<EnrollmentResponse>(u)).ToList();
-            return enrollmentResponse;
+            return result;
         }
 
         public async Task<EnrollmentResponse> RegisterEnrollment(RegisterEnrollmentRequest request)
@@ -30,7 +29,25 @@ namespace SchoolManagement.Services
             if (await uow.User.GetUserByIdAsync(request.StudentId) == null) throw new NotFoundException($"The student with the Id {request.StudentId} was not found");
             if (await uow.CourseSemester.GetCourseSemesterByIdAsync(request.CourseSemesterId) == null) throw new NotFoundException($"The course semester with the Id {request.CourseSemesterId} was not found");
             if (await uow.Enrollment.ExistsAsync(p => p.StudentId == request.StudentId && p.CourseSemesterId == request.CourseSemesterId)) throw new ConflictException($"The student with Id {request.StudentId} is already enrolled in the Course with Id {request.CourseSemesterId}");
+            var courseSemester = await uow.CourseSemester.GetCourseSemesterByIdAsync(request.CourseSemesterId);
             var enrollment = mapper.Map<Enrollment>(request);
+            enrollment.Grade = new Grade { 
+                FirstGrade = null,
+                SecondGrade = null,
+                FinalGrade = null
+            };
+            var isGpaExist = await uow.Gpa.ExistsAsync(g => g.StudentId == request.StudentId && g.SemesterId == courseSemester!.SemesterId);
+            if (!isGpaExist)
+            {
+                var newGpa = new Gpa
+                {
+                    rank = null,
+                    gpa = null,
+                    StudentId = request.StudentId,
+                    SemesterId = courseSemester!.SemesterId
+                };
+                await uow.Gpa.AddGpaAsync(newGpa);
+            }
             await uow.Enrollment.RegisterEnrollmentAsync(enrollment);
             await uow.SaveChangeAsync();
             var newEnrollment = await uow.Enrollment.GetEnrollmentByIdAsync(enrollment.EnrollmentId);

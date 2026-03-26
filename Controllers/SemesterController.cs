@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SchoolManagement.Controllers.BaseApi;
 using SchoolManagement.DTOs.Semester;
 using SchoolManagement.Models;
 using SchoolManagement.Services.Interfaces;
@@ -8,7 +9,7 @@ namespace SchoolManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SemesterController(ISemesterService service) : ControllerBase
+    public class SemesterController(ISemesterService service) : BaseApiController
     {
         [HttpPost]
         public async Task<ActionResult<SemesterResponse>> CreateSemester(CreateSemesterRequest request)

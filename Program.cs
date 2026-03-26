@@ -16,6 +16,7 @@ using SchoolManagement.Repositories.UnitOfWork;
 using SchoolManagement.Services;
 using SchoolManagement.Services.Interfaces;
 using System.Text;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -86,6 +87,14 @@ builder.Services.AddAuthorization(opt =>
     });
 });
 
+//Convert string to enum
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters
+            .Add(new JsonStringEnumConverter()); // ← toàn bộ enum trong project
+    });
+
 builder.Services.AddScoped<IAuthorizationHandler, SameUserOrAdminHandler>();
 builder.Services.AddScoped<IAuthorizationHandler, StudentDataOwnerHandler>();
 
@@ -97,6 +106,9 @@ builder.Services.AddScoped<ITeacherCourseSemesterRepository, TeacherCourseSemest
 builder.Services.AddScoped<ICourseSemesterRepository, CourseSemesterRepository>();
 builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
 builder.Services.AddScoped<IGradeRepository, GradeRepository>();
+builder.Services.AddScoped<IGpaRepository, GpaRepository>();
+builder.Services.AddScoped<IAwardRepository, AwardRepository>();
+builder.Services.AddScoped<IAwardApprovalRepository, AwardApprovalRepository>();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -109,6 +121,9 @@ builder.Services.AddScoped<ICourseSemesterService, CourseSemesterService>();
 builder.Services.AddScoped<ITeacherCourseSemesterService, TeacherCourseSemesterService>();
 builder.Services.AddScoped<IEnrollmentService, EnrollmentService>();
 builder.Services.AddScoped<IGradeService, GradeService>();
+builder.Services.AddScoped<IGpaService, GpaService>();
+builder.Services.AddScoped<IAwardService, AwardService>();
+builder.Services.AddScoped<IAwardApprovalService, AwardApprovalService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

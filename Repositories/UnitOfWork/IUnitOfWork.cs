@@ -14,6 +14,9 @@ namespace SchoolManagement.Repositories.UnitOfWork
         ICourseSemesterRepository CourseSemester { get; }
         IGradeRepository Grade { get; }
         IEnrollmentRepository Enrollment { get; }
+        IGpaRepository Gpa { get; }
+        IAwardRepository Award { get; }
+        IAwardApprovalRepository AwardApproval { get; }
         
         Task<int> SaveChangeAsync();
     }

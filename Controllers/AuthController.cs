@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using SchoolManagement.Controllers.BaseApi;
 using SchoolManagement.DTOs.Authentication;
 using SchoolManagement.Services.Interfaces;
 using System.Security.Claims;
@@ -10,7 +11,7 @@ namespace SchoolManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController (IAuthService service): ControllerBase
+    public class AuthController (IAuthService service): BaseApiController
     {
         [HttpPost("login")]
         [AllowAnonymous]

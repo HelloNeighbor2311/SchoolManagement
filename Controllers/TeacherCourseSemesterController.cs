@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SchoolManagement.Controllers.BaseApi;
 using SchoolManagement.DTOs.TeacherCourseSemester;
 using SchoolManagement.Services.Interfaces;
 
@@ -7,7 +8,7 @@ namespace SchoolManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TeacherCourseSemesterController(ITeacherCourseSemesterService service) : ControllerBase
+    public class TeacherCourseSemesterController(ITeacherCourseSemesterService service) : BaseApiController
     {
         [HttpGet]
         public async Task<ActionResult<List<TeacherCourseSemesterResponse>>> GetAllTeacherCourseSemester()

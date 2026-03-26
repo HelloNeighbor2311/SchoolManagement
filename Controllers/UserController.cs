@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SchoolManagement.Controllers.BaseApi;
 using SchoolManagement.DTOs.User;
 using SchoolManagement.Middleware.Authorizations;
 using SchoolManagement.Models;
@@ -11,7 +12,7 @@ namespace SchoolManagement.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class UserController(IUserService service): ControllerBase
+    public class UserController(IUserService service): BaseApiController
     {
         [HttpPost("CreateUser")]
         [Authorize(Policy = PolicyConstants.AllMighty)]

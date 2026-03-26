@@ -16,6 +16,9 @@ namespace SchoolManagement.Datas
         public DbSet<CourseSemester> CourseSemesters => Set<CourseSemester>();
         public DbSet<Enrollment> Enrollments => Set<Enrollment>();
         public DbSet<Grade> Grades => Set<Grade>();
+        public DbSet<Gpa> Gpas => Set<Gpa>();
+        public DbSet<Award> Awards => Set<Award>();
+        public DbSet<AwardApproval> AwardApprovals => Set<AwardApproval>();
  
         public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
 

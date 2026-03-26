@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using SchoolManagement.DTOs.Authentication;
+using SchoolManagement.DTOs.Award;
+using SchoolManagement.DTOs.AwardApproval;
 using SchoolManagement.DTOs.Course;
 using SchoolManagement.DTOs.CourseSemester;
 using SchoolManagement.DTOs.Enrollment;
+using SchoolManagement.DTOs.Gpa;
 using SchoolManagement.DTOs.Grade;
 using SchoolManagement.DTOs.Semester;
 using SchoolManagement.DTOs.TeacherCourseSemester;
@@ -43,12 +46,15 @@ namespace SchoolManagement.Mappings
                 ForMember(destination => destination.CreatedDate, opt => opt.MapFrom(_ => DateTime.UtcNow)).
                 ForMember(destination => destination.PasswordHashed, opt => opt.Ignore()).
                 ForMember(destination => destination.RoleId, opt => opt.MapFrom(_ => 3));
+            CreateMap<CreateAwardApprovalRequest, AwardApproval>();
 
             //Entities
             CreateMap<Course, CourseResponse>();
             CreateMap<CreateCourseRequest,Course>();
             CreateMap<CreateSemesterRequest,Semester>();
             CreateMap<CreateCourseSemesterRequest,CourseSemester>();
+            CreateMap<CreateAwardRequest, Award>().
+                ForMember(destination => destination.StudentId, opt => opt.Ignore());
             CreateMap<AllocateTeacherCourseSemesterRequest,TeacherCourseSemester>();
             CreateMap<Semester,SemesterResponse>();
             CreateMap<Course, CourseDetailResponse>().ForMember(destination => destination.Detail, src => src.MapFrom(u => u.CourseSemester));
@@ -65,7 +71,18 @@ namespace SchoolManagement.Mappings
                 ForMember(destination => destination.CourseName, opt => opt.MapFrom(u => u.CourseSemester != null ? u.CourseSemester.Course!.CourseName : string.Empty)).
                 ForMember(destination => destination.SemesterDescription, opt => opt.MapFrom(u => u.CourseSemester != null ? u.CourseSemester.Semester!.Description : string.Empty));
             CreateMap<RegisterEnrollmentRequest, Enrollment>();
-            CreateMap<Grade, GradeResponse>();
+            CreateMap<Grade, GradeResponse>().
+                ForMember(destination => destination.CourseName, opt => opt.MapFrom(u => u.Enrollment!.CourseSemester != null ? u.Enrollment.CourseSemester.Course!.CourseName : string.Empty)).
+                ForMember(destination => destination.SemesterDescription, opt => opt.MapFrom(u => u.Enrollment!.CourseSemester != null ? u.Enrollment.CourseSemester.Semester!.Description : string.Empty));
+            CreateMap<Gpa, GpaResponse>().
+                ForMember(destination => destination.StudentName, opt => opt.MapFrom(u => u.Student != null ? u.Student.Name : string.Empty)).
+                ForMember(destination => destination.SemesterDescription, opt => opt.MapFrom(u => u.Semester != null ? u.Semester.Description : string.Empty));
+            CreateMap<Award, AwardResponse>().
+                ForMember(destination => destination.Gpa, opt => opt.MapFrom(u => u.Gpa!.gpa)).
+                ForMember(destination => destination.StudentName, opt => opt.MapFrom(u => u.Student!.Name)).
+                ForMember(destination => destination.status, opt => opt.MapFrom(u => u.status.ToString()));
+            CreateMap<AwardApproval, AwardApprovalResponse>().
+                ForMember(destination => destination.TeacherName, opt => opt.MapFrom(u => u.Teacher!.Name));
         }
     }
 }
