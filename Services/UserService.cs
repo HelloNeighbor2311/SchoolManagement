@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using SchoolManagement.DTOs.User;
 using SchoolManagement.Exceptions;
@@ -72,7 +73,7 @@ namespace SchoolManagement.Services
             return mapper.Map<UserResponse>(user);
         }
 
-        public async Task UpdateUser(int id,UpdateUserRequest request)
+        public async Task<UserResponse> UpdateUser(int id,UpdateUserRequest request)
         {
             var user = await uow.User.GetUserByIdAsync(id);
             if(user is null) { throw new NotFoundException($"User with the given id {id} was not found !!"); }
@@ -80,24 +81,37 @@ namespace SchoolManagement.Services
                 var hashedPassword = new PasswordHasher<User>().HashPassword(user, request.Password);
                 user.PasswordHashed = hashedPassword;
             }
+            var rowVersionBytes = Convert.FromBase64String(request.RowVersion);
+            uow.User.SetRowVersion(user, rowVersionBytes);
             user.Name = !string.IsNullOrEmpty(request.Name) ? request.Name : user.Name;
             user.Email = !string.IsNullOrEmpty(request.Email) ? request.Email : user.Email;
 
             switch (user)
             {
                 case Admin admin:
+                    if (!string.IsNullOrEmpty(request.Speciality)) throw new BadRequestException("Admin doesn't have field Speciality");
+                    if (request.EnrollYear.HasValue) throw new BadRequestException("Admin doesn't have field EnrollYear");
                     await uow.User.UpdateUserAsync(admin);
                     break;
                 case Student student:
                     if (request.EnrollYear.HasValue) student.EnrollYear = request.EnrollYear.Value;
+                    if (!string.IsNullOrEmpty(request.Speciality)) throw new BadRequestException("Student doesn't have field Speciality"); 
                     await uow.User.UpdateUserAsync(student);
                     break;
                 case Teacher teacher:
+                    if (request.EnrollYear.HasValue) throw new BadRequestException("Teacher doesn't have field EnrollYear");
                     if (!string.IsNullOrEmpty(request.Speciality)) teacher.Speciality = request.Speciality;
                     await uow.User.UpdateUserAsync(teacher);
                     break;
             }
-            await uow.SaveChangeAsync();
+            try { 
+                await uow.SaveChangeAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw new ConflictException("User has been modified by someone. Please try again later");
+            }
+            return await uow.User.GetUserResponseByIdAsync(id);
         }
     }
 }

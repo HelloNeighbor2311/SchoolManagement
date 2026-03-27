@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using SchoolManagement.DTOs.Award;
 using SchoolManagement.Exceptions;
 using SchoolManagement.Models;
@@ -32,6 +33,31 @@ namespace SchoolManagement.Services
         public async Task<List<AwardResponse>> GetAllAwards()
         {
             return await uow.Award.GetAllAwardsAsync();
+        }
+
+        public async Task<AwardResponse> UpdateAward(int id, UpdateAwardRequest request)
+        {
+            var award = await uow.Award.GetAwardViaId(id);
+            if (award is null) throw new NotFoundException($"The given AwardId {id} was not found");
+            var rowVersionBytes = Convert.FromBase64String(request.RowVersion);
+            uow.Award.SetRowVersion(award, rowVersionBytes);
+            if(!string.IsNullOrWhiteSpace(award.Description)) award.Description = request.Description;
+            if(request.RequireApproval!=null) award.RequireApproval = request.RequireApproval;
+            award.status = request.status.ToLower() switch
+            {
+                "approved" => Status.Approved,
+                "rejected" => Status.Rejected,
+                _=> Status.Pending
+            };
+            try { 
+                await uow.SaveChangeAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw new ConflictException(
+                    "Award has been modified by someone. Please try again later");
+            }
+            return await uow.Award.GetAwardResponseViaId(id);
         }
     }
 }

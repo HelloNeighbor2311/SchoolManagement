@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace SchoolManagement.Models
 {
@@ -16,23 +17,11 @@ namespace SchoolManagement.Models
         public DateTime ExpiredDate { get; set; }
         public int RequireApproval { get; set; }
 
+        [Timestamp]
+        public byte[] RowVersion { get; set; } = null!;
+
         public Gpa? Gpa { get; set; }
         public Student? Student { get; set; }
         public ICollection<AwardApproval>? AwardApprovals { get; set; } = new List<AwardApproval>();
-
-        public void SetStatus(DateTime dateNow)
-        {
-            if(ExpiredDate<dateNow && AwardApprovals.Count < RequireApproval)
-            {
-                status = Status.Rejected;
-            }else if(ExpiredDate > dateNow && AwardApprovals.Count < RequireApproval)
-            {
-                status = Status.Pending;
-            }
-            else
-            {
-                status = Status.Approved;
-            }
-        }
     }
 }

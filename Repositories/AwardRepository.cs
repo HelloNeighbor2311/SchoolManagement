@@ -47,8 +47,13 @@ namespace SchoolManagement.Repositories
 
         public async Task<Award?> GetAwardViaId(int awardId)
         {
-            var result = await Context.Awards.FirstOrDefaultAsync(u=>u.AwardId == awardId);
+            var result = await Context.Awards.FindAsync(awardId);
             return result;
+        }
+
+        public void SetRowVersion(Award award, byte[] rowVersion)
+        {
+            Context.Entry(award).Property(a => a.RowVersion).OriginalValue = rowVersion;
         }
     }
 }

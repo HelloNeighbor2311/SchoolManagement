@@ -27,6 +27,11 @@ namespace SchoolManagement.Repositories
             return checkedGrades == 0;
         }
 
+        public void SetRowVersion(Grade grade, byte[] rowVersion)
+        {
+            context.Entry(grade).Property(u => u.RowVersion).OriginalValue = rowVersion;
+        }
+
         public async Task UpdateGradeAsync(Grade grade)
         {
             context.Grades.Update(grade);

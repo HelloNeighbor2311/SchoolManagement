@@ -1,14 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
 using SchoolManagement.Datas;
 using SchoolManagement.DTOs;
+using SchoolManagement.DTOs.User;
 using SchoolManagement.Models;
 using SchoolManagement.Repositories.Interfaces;
 using System;
 
 namespace SchoolManagement.Repositories
 {
-    public class UserRepository(AppDbContext context): GenericRepository<User>(context), IUserRepository
+    public class UserRepository(AppDbContext context, IMapper mapper): GenericRepository<User>(context), IUserRepository
     {
         public async Task<User?> CreateUserAsync(User user)
         {
@@ -35,6 +38,7 @@ namespace SchoolManagement.Repositories
         public async Task<int> GetTotalUser() =>  await Context.Users.CountAsync();
 
         public async Task<User?> GetUserByIdAsync(int id) => await Context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.UserId == id);
+        public async Task<UserResponse?> GetUserResponseByIdAsync(int id) => await Context.Users.ProjectTo<UserResponse>(mapper.ConfigurationProvider).FirstOrDefaultAsync(u => u.UserId == id);
 
         public async Task<User?> GetUserByUsernameAsync(string username) => await Context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Username == username);
 
@@ -57,6 +61,13 @@ namespace SchoolManagement.Repositories
         public async Task UpdateUserAsync(User user)
         {
             Context.Users.Update(user);
+        }
+
+        public void SetRowVersion(User award, byte[] rowVersion)
+        {
+            Context.Entry(award)
+                   .Property(a => a.RowVersion)
+                   .OriginalValue = rowVersion;
         }
     }
 }

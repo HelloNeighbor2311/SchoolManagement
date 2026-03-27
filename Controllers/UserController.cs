@@ -46,7 +46,7 @@ namespace SchoolManagement.Controllers
         public async Task<ActionResult<UserResponse>> GetUserById([FromRoute]int id)
         {
             var user = await service.GetUserById(id);
-            if (user is null) return NotFound("The user with the entered username is not existed");
+            if (user is null) return NotFound("The user with the entered Id is not existed");
 
             return Ok(user);
         }
@@ -61,10 +61,10 @@ namespace SchoolManagement.Controllers
         }
         [HttpPut("{id:int}")]
         [Authorize(Policy = PolicyConstants.CanViewUserDetail)]
-        public async Task<ActionResult> UpdateUser([FromRoute]int id, [FromBody] UpdateUserRequest request)
+        public async Task<ActionResult<UserResponse>> UpdateUser([FromRoute]int id, [FromBody] UpdateUserRequest request)
         {
-            await service.UpdateUser(id, request);
-            return NoContent();
+            var result = await service.UpdateUser(id, request);
+            return Ok(result);
         }
         [HttpDelete]
         [Authorize(Policy = PolicyConstants.AllMighty)]

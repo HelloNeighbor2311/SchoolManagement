@@ -9,5 +9,7 @@
         public double? FirstGrade { get; set; }
         public double? SecondGrade { get; set; }
         public double? FinalGrade { get; set; }
+
+        public string RowVersion { get; set; } = string.Empty;
     }
 }

@@ -9,5 +9,6 @@ namespace SchoolManagement.Repositories.Interfaces
         Task<bool> isAllGradedAsync(int studentId, int semesterId);
         Task UpdateGradeAsync(Grade grade);
         Task<Grade?> GetGradeByIdAsync(int id);
+        void SetRowVersion(Grade grade, byte[] rowVersion);
     }
 }

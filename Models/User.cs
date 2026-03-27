@@ -13,7 +13,7 @@ namespace SchoolManagement.Models
         public DateTime CreatedDate { get; set; }
 
         [Timestamp]
-        public byte[] RowVersion { get; set; }
+        public byte[] RowVersion { get; set; } = null!;
 
         public Role Role { get; set; }
     }

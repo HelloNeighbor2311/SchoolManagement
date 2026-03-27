@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using SchoolManagement.Models;
+using System.Linq.Expressions;
 
 namespace SchoolManagement.Repositories.Interfaces
 {

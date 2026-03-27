@@ -28,5 +28,11 @@ namespace SchoolManagement.Controllers
             await service.DeleteAward(id);
             return NoContent();
         }
+        [HttpPut]
+        public async Task<ActionResult<AwardResponse>> UpdateAward([FromQuery] int id, [FromBody] UpdateAwardRequest request)
+        {
+            var result = await service.UpdateAward(id, request);
+            return Ok(result);
+        }
     }
 }

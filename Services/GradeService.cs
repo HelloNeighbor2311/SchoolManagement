@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using SchoolManagement.DTOs.Grade;
 using SchoolManagement.Exceptions;
+using SchoolManagement.Models;
 using SchoolManagement.Repositories.UnitOfWork;
 using SchoolManagement.Services.Interfaces;
 
@@ -21,6 +23,8 @@ namespace SchoolManagement.Services
         {
             var grade = await uow.Grade.GetGradeByIdAsync(id);
             if (grade is null) throw new NotFoundException($"Grade with the Id {id} was not found");
+            var rowVersionBytes = Convert.FromBase64String(request.RowVersion);
+            uow.Grade.SetRowVersion(grade, rowVersionBytes);
             if (request.FirstGrade.HasValue)
                 grade.FirstGrade = request.FirstGrade;
 
@@ -29,7 +33,14 @@ namespace SchoolManagement.Services
             grade.FinalGrade = CaculateFinalGrade(grade.FirstGrade, grade.SecondGrade);
 
             await uow.Grade.UpdateGradeAsync(grade);
-            await uow.SaveChangeAsync();
+            try
+            {
+                await uow.SaveChangeAsync();
+            }
+            catch (DbUpdateException)
+            {
+                throw new ConflictException("Grade has been modified by someone. Please try again later");
+            }
 
             var studentId = grade.Enrollment!.StudentId;
             var semesterId = grade.Enrollment.CourseSemester!.SemesterId;

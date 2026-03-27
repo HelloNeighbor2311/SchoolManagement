@@ -15,6 +15,7 @@ namespace SchoolManagement.Configurations
                    .IsRequired(false);
             builder.Property(g => g.FinalGrade)
                    .IsRequired(false);
+            builder.Property(u => u.RowVersion).IsRowVersion().IsConcurrencyToken();
             builder.ToTable(t =>
             {
                 t.HasCheckConstraint("CK_Grades_FirstGrade",

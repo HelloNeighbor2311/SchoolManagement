@@ -7,5 +7,7 @@
         public string? Email { get; set; }
         public int? EnrollYear { get; set; }
         public string? Speciality { get; set; }
+
+        public string RowVersion { get; set; } = string.Empty;
     }
 }

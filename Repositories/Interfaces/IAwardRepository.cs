@@ -11,5 +11,6 @@ namespace SchoolManagement.Repositories.Interfaces
         Task CheckRequireApprovalsAsync(Award award, int approvedNums);
         Task<Award?> GetAwardViaId(int awardId);
         Task DeleteAwardAsync(Award award);
+        void SetRowVersion(Award award, byte[] rowVersion);
     }
 }
