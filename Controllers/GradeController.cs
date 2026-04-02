@@ -1,18 +1,23 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SchoolManagement.Controllers.BaseApi;
 using SchoolManagement.DTOs.Grade;
+using SchoolManagement.Middleware.Authorizations;
 using SchoolManagement.Services.Interfaces;
 
 namespace SchoolManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class GradeController(IGradeService service) : BaseApiController
     {
         [HttpGet]
-        public async Task<ActionResult<GradeResponse>> GetAllGradeWithStudentId([FromQuery]int id)
+        [Authorize(Policy = PolicyConstants.ForStudent)]
+        public async Task<ActionResult<GradeResponse>> GetAllGradeWithStudentId()
         {
+            if (!TryGetCurrentUserId(out int id)) return Unauthorized("Cannot find userId");
             var result = await service.GetGradeWithStudentId(id);
             return Ok(result);
         }

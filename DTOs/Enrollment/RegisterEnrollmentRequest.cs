@@ -2,7 +2,6 @@
 {
     public class RegisterEnrollmentRequest
     {
-        public int StudentId { get; set; }
         public int CourseSemesterId { get; set; }
     }
 }

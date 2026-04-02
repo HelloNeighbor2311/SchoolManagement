@@ -9,11 +9,19 @@ namespace SchoolManagement.Controllers.BaseApi
     [ApiController]
     public abstract class BaseApiController : ControllerBase
     {
+        protected bool TryGetCurrentUserId(out int userId)
+        {
+            userId = 0;
+            var claim = User.FindFirst(ClaimTypes.NameIdentifier)
+                     ?? User.FindFirst("sub");
+            return claim is not null && int.TryParse(claim.Value, out userId);
+        }
+
         protected int GetCurrentUserId()
         {
-            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (userIdClaim is null) throw new UnauthorizedException("User Id not found in token");
-            return int.Parse(userIdClaim);
+            if (!TryGetCurrentUserId(out int userId))
+                throw new UnauthorizedException("Không tìm thấy thông tin người dùng.");
+            return userId;
         }
         protected bool IsAdmin()
         {
