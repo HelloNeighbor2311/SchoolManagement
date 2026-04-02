@@ -1,16 +1,21 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SchoolManagement.DTOs;
+using SchoolManagement.Controllers.BaseApi;
+using SchoolManagement.DTOs.User;
+using SchoolManagement.Middleware.Authorizations;
 using SchoolManagement.Models;
-using SchoolManagement.Services;
+using SchoolManagement.Services.Interfaces;
 
 namespace SchoolManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController(IUserService service): ControllerBase
+    [Authorize]
+    public class UserController(IUserService service): BaseApiController
     {
-        [HttpPost("register")]
+        [HttpPost("CreateUser")]
+        [Authorize(Policy = PolicyConstants.AllMighty)]
         public async Task<ActionResult<User>> CreateUser(CreateUserResponse request)
         {
             var user = await service.CreateUser(request);
@@ -19,6 +24,7 @@ namespace SchoolManagement.Controllers
             return Ok(user);
         }
         [HttpGet]
+        [Authorize(Policy = PolicyConstants.AllMighty)]
         public async Task<ActionResult<List<UserResponse>>> GetAllUsers()
         {
             var user = await service.GetAllUsers();
@@ -27,14 +33,25 @@ namespace SchoolManagement.Controllers
             return Ok(user);
         }
         [HttpGet("username")]
-        public async Task<ActionResult<List<UserResponse>>> GetUserById(string username)
+        [Authorize(Policy = PolicyConstants.AllMighty)]
+        public async Task<ActionResult<UserResponse>> GetUserByUsername(string username)
         {
             var user = await service.GetUserByUsername(username);
             if (user is null) return NotFound("The user with the entered username is not existed");
 
             return Ok(user);
         }
+        [HttpGet("{id:int}")]
+        [Authorize(Policy = PolicyConstants.CanViewUserDetail)]
+        public async Task<ActionResult<UserResponse>> GetUserById([FromRoute]int id)
+        {
+            var user = await service.GetUserById(id);
+            if (user is null) return NotFound("The user with the entered Id is not existed");
+
+            return Ok(user);
+        }
         [HttpGet("pagination")]
+        [Authorize(Policy = PolicyConstants.AllMighty)]
         public async Task<ActionResult<List<UserResponse>>> GetUserByPage([FromQuery]PaginationParam param)
         {
             var user = await service.GetPageResultUsers(param);
@@ -42,13 +59,15 @@ namespace SchoolManagement.Controllers
 
             return Ok(user);
         }
-        [HttpPut]
-        public async Task<ActionResult> UpdateUser(int id, [FromBody] UpdateUserResponse request)
+        [HttpPut("{id:int}")]
+        [Authorize(Policy = PolicyConstants.CanViewUserDetail)]
+        public async Task<ActionResult<UserResponse>> UpdateUser([FromRoute]int id, [FromBody] UpdateUserRequest request)
         {
-            await service.UpdateUser(id, request);
-            return NoContent();
+            var result = await service.UpdateUser(id, request);
+            return Ok(result);
         }
         [HttpDelete]
+        [Authorize(Policy = PolicyConstants.AllMighty)]
         public async Task<ActionResult> DeleteUser([FromQuery] int id)
         {
             await service.DeleteUser(id);

@@ -9,12 +9,14 @@ namespace SchoolManagement.Configurations
         public void Configure(EntityTypeBuilder<AwardApproval> builder)
         {
             builder.HasKey(p => p.ApprovalId);
-            builder.Property(p => p.decision).HasMaxLength(100).IsRequired();
+            builder.Property(p => p.decision).HasConversion<string>().HasMaxLength(20);
             builder.ToTable(p=> p.HasCheckConstraint("CK_AwardApproval_decision", "decision IN ('Approve','Reject')"));
-            builder.Property(p => p.DecisionDate).HasColumnType("datetime2").IsRequired();
+            builder.Property(p => p.DecisionDate).HasColumnType("datetime2");
+            builder.HasIndex(p => new { p.TeacherId, p.AwardId }).IsUnique();
 
             builder.HasOne(p => p.Teacher).WithMany(p => p.AwardApprovals).HasForeignKey(p => p.TeacherId);
             builder.HasOne(p => p.Award).WithMany(p => p.AwardApprovals).HasForeignKey(p => p.AwardId);
+            builder.HasIndex(p => new { p.AwardId, p.TeacherId }).IsUnique();
         }
     }
 }

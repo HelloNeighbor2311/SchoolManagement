@@ -10,6 +10,17 @@ namespace SchoolManagement.Datas
         public DbSet<Student> Students => Set<Student>();
         public DbSet<Teacher> Teachers => Set<Teacher>();
         public DbSet<Admin> Admins => Set<Admin>();
+        public DbSet<Course> Courses => Set<Course>();
+        public DbSet<Semester> Semesters => Set<Semester>();
+        public DbSet<TeacherCourseSemester> TeacherCourseSemesters => Set<TeacherCourseSemester>();
+        public DbSet<CourseSemester> CourseSemesters => Set<CourseSemester>();
+        public DbSet<Enrollment> Enrollments => Set<Enrollment>();
+        public DbSet<Grade> Grades => Set<Grade>();
+        public DbSet<Gpa> Gpas => Set<Gpa>();
+        public DbSet<Award> Awards => Set<Award>();
+        public DbSet<AwardApproval> AwardApprovals => Set<AwardApproval>();
+ 
+        public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -10,9 +10,15 @@ namespace SchoolManagement.Configurations
         {
             builder.HasKey(p => p.GPAId);
             builder.HasOne(p => p.Student).WithMany(p => p.Gpa).HasForeignKey(p => p.StudentId).OnDelete(DeleteBehavior.Restrict);
-            builder.HasOne(p => p.Semester).WithOne(p => p.Gpa).HasForeignKey<Gpa>(p => p.SemesterId);
-            builder.Property(p => p.gpa).IsRequired().HasDefaultValue(false);
-            builder.Property(p => p.rank).IsRequired();
+            builder.HasOne(p => p.Semester).WithMany(p => p.Gpa).HasForeignKey(p => p.SemesterId).OnDelete(DeleteBehavior.Restrict);
+            builder.Property(p => p.gpa).IsRequired(false);
+            builder.ToTable(t =>
+            {
+                t.HasCheckConstraint("CK_Gpa_gpa",
+                    "gpa IS NULL OR (gpa >= 0 AND gpa <= 4)");
+            });
+            builder.HasIndex(u => new { u.StudentId, u.SemesterId }).IsUnique();
+            builder.Property(p => p.rank).HasConversion<string>().HasMaxLength(20); 
             builder.ToTable(p => p.HasCheckConstraint("CK_Gpa_rank", "rank In ('Excellent','Good','Average','Bad')"));
         }
     }
