@@ -37,23 +37,20 @@ namespace SchoolManagement.Repositories
 
         public async Task<int> GetTotalUser() =>  await Context.Users.CountAsync();
 
-        public async Task<User?> GetUserByIdAsync(int id) => await Context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.UserId == id);
-        public async Task<UserResponse?> GetUserResponseByIdAsync(int id) => await Context.Users.ProjectTo<UserResponse>(mapper.ConfigurationProvider).FirstOrDefaultAsync(u => u.UserId == id);
+        public async Task<User?> GetUserByIdAsync(int userId) => await Context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.UserId == userId);
+        public async Task<UserResponse?> GetUserResponseByIdAsync(int userId) => await Context.Users.ProjectTo<UserResponse>(mapper.ConfigurationProvider).FirstOrDefaultAsync(u => u.UserId == userId);
 
         public async Task<User?> GetUserByUsernameAsync(string username) => await Context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Username == username);
 
-        public async Task<User?> GetWithRoleAsync(string username)
-            => await Context.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Username == username);
-
-        public async Task<bool> IsTeacherAsync(int id)
+        public async Task<bool> IsTeacherAsync(int userId)
         {
-            var teacher = await GetUserByIdAsync(id);
+            var teacher = await GetUserByIdAsync(userId);
             if (teacher is null) return false;
             return teacher.RoleId == 3;
         }
-        public async Task<bool> IsStudentAsync(int id)
+        public async Task<bool> IsStudentAsync(int userId)
         {
-            var student = await GetUserByIdAsync(id);
+            var student = await GetUserByIdAsync(userId);
             if (student is null) return false;
             return student.RoleId == 2;
         }

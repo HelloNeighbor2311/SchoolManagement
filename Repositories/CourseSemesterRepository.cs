@@ -18,9 +18,9 @@ namespace SchoolManagement.Repositories
             Context.CourseSemesters.Remove(courseSemester);
         }
 
-        public async Task<CourseSemester?> GetCourseSemesterByIdAsync(int id)
+        public async Task<CourseSemester?> GetCourseSemesterByIdAsync(int courseSemesterId)
         {
-            return await Context.CourseSemesters.Include(u => u.Course).Include(u => u.Semester).FirstOrDefaultAsync(u => u.CourseSemesterId == id);
+            return await Context.CourseSemesters.Include(u => u.Course).Include(u => u.Semester).FirstOrDefaultAsync(u => u.CourseSemesterId == courseSemesterId);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace SchoolManagement.Infrastructure.Logging
         }
         public static void LogLoginFailed(this ILogger logger, string userName)
         {
-            logger.LogInformation("Login fail for Username. Username: {Username}", userName);
+            logger.LogWarning("Login failed for Username. Username: {Username}", userName);
         }
         public static void LogUserRegistered(this ILogger logger,int userId, string userName, string roleName)
         {
@@ -33,25 +33,25 @@ namespace SchoolManagement.Infrastructure.Logging
         }
 
         //CRUD operation logging
-        public static void LogEntityCreated<T>(this ILogger logger, string entityName, int id)
+        public static void LogEntityCreated(this ILogger logger, string entityName, int id)
         {
             logger.LogInformation("{EntityName} created successfully. Id: {Id}", entityName, id);
         }
-        public static void LogEntityUpdated<T>(this ILogger logger, string entityName, int id)
+        public static void LogEntityUpdated(this ILogger logger, string entityName, int id)
         {
             logger.LogInformation(
                 "{EntityName} updated successfully. Id: {Id}",
                 entityName, id);
         }
 
-        public static void LogEntityDeleted<T>(this ILogger logger, string entityName, int id)
+        public static void LogEntityDeleted(this ILogger logger, string entityName, int id)
         {
             logger.LogInformation(
                 "{EntityName} deleted successfully. Id: {Id}",
                 entityName, id);
         }
 
-        public static void LogEntityNotFound<T>(this ILogger logger, string entityName, int id)
+        public static void LogEntityNotFound(this ILogger logger, string entityName, int id)
         {
             logger.LogWarning(
                 "{EntityName} not found with Id: {Id}",
@@ -73,7 +73,7 @@ namespace SchoolManagement.Infrastructure.Logging
         }
         public static void LogOperationStart<T>(this ILogger<T> logger, string operationName, params object[] args)
         {
-            logger.LogDebug("Starting operation: {Operation} with args: {Args}", operationName, args);
+            logger.LogDebug("Starting operation: {Operation} with args: {@Args}", operationName, args);
         }
         public static void LogOperationComplete<T>(this ILogger<T> logger,string operationName,long elapsedMs)
         {
@@ -89,7 +89,7 @@ namespace SchoolManagement.Infrastructure.Logging
         public static void LogOperationError<T>(this ILogger<T> logger, string operationName, Exception ex, params object[] context)
         {
             logger.LogError(ex,
-                "Error in operation {Operation}. Context: {Context}",
+                "Error in operation {Operation}. Context: {@Context}",
                 operationName, context);
         }
         //Validation

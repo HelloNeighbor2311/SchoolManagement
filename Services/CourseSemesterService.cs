@@ -27,7 +27,7 @@ namespace SchoolManagement.Services
                     await uow.SaveChangeAsync();
                     var newCourseSemester = await uow.CourseSemester.GetCourseSemesterByIdAsync(courseSemester.CourseSemesterId);
                     var courseSemesterResponse = mapper.Map<CourseSemesterResponse>(newCourseSemester);
-                    logger.LogEntityCreated<CourseSemester>("CourseSemester", courseSemesterResponse.CourseSemesterId);
+                    logger.LogEntityCreated("CourseSemester", courseSemesterResponse.CourseSemesterId);
                     return courseSemesterResponse;
                 }catch(Exception ex)
                 {
@@ -37,21 +37,21 @@ namespace SchoolManagement.Services
             }
         }
 
-        public async Task DeleteCourseSemester(int id)
+        public async Task DeleteCourseSemester(int courseSemesterId)
         {
-            using (logger.BeginOperationScope("DeleteCourseSemester", ("CourseSemesterId", id)))
+            using (logger.BeginOperationScope("DeleteCourseSemester", ("CourseSemesterId", courseSemesterId)))
             using (var timer = logger.TimeOperation("DeleteCourseSemester"))
             {
-                if (!await uow.CourseSemester.ExistsAsync(p => p.CourseSemesterId == id)) throw new NotFoundException($"The Course Semester with the Id {id} was not found");
-                var courseSemester = await uow.CourseSemester.GetCourseSemesterByIdAsync(id);
+                if (!await uow.CourseSemester.ExistsAsync(p => p.CourseSemesterId == courseSemesterId)) throw new NotFoundException($"The Course Semester with the Id {courseSemesterId} was not found");
+                var courseSemester = await uow.CourseSemester.GetCourseSemesterByIdAsync(courseSemesterId);
                 try
                 {
                     await uow.CourseSemester.DeletetCourseSemesterAsync(courseSemester!);
                     await uow.SaveChangeAsync();
-                    logger.LogEntityDeleted<CourseSemester>("CourseSemester", id);
+                    logger.LogEntityDeleted("CourseSemester", courseSemesterId);
                 }catch(Exception e)
                 {
-                    logger.LogOperationError("DeleteCourseSemester", e, id);
+                    logger.LogOperationError("DeleteCourseSemester", e, courseSemesterId);
                 }
             }
         }

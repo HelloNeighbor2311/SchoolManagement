@@ -6,6 +6,6 @@ namespace SchoolManagement.Services.Interfaces
     {
         Task<List<EnrollmentResponse>> GetAllEnrollments();
         Task<EnrollmentResponse> RegisterEnrollment(int studentId, RegisterEnrollmentRequest request);
-        Task DeleteEnrollment(int id);
+        Task DeleteEnrollment(int enrollmentId);
     }
 }

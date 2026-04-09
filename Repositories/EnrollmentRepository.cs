@@ -25,11 +25,11 @@ namespace SchoolManagement.Repositories
             return enrollments;
         }
 
-        public async Task<Enrollment?> GetEnrollmentByIdAsync(int id)
+        public async Task<Enrollment?> GetEnrollmentByIdAsync(int enrollmentId)
         {
             return await Context.Enrollments.Include(u => u.Student).
                 Include(u => u.CourseSemester).ThenInclude(u => u!.Course).
-                Include(u => u.CourseSemester).ThenInclude(u => u.Semester).FirstOrDefaultAsync(p=>p.EnrollmentId == id);
+                Include(u => u.CourseSemester).ThenInclude(u => u.Semester).FirstOrDefaultAsync(p=>p.EnrollmentId == enrollmentId);
         }
 
         public async Task RegisterEnrollmentAsync(Enrollment request)

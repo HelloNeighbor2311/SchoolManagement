@@ -25,7 +25,7 @@ namespace SchoolManagement.Services
                     if (newCourse is null) throw new BadRequestException("The current course name is already existed !");
                     await uow.SaveChangeAsync();
                     var response = mapper.Map<CourseResponse>(newCourse);
-                    logger.LogEntityCreated<Course>("Course", response.CourseId);
+                    logger.LogEntityCreated("Course", response.CourseId);
                     return response;
                 }catch (Exception e)
                 {
@@ -35,21 +35,21 @@ namespace SchoolManagement.Services
             }
         }
 
-        public async Task DeleteCourse(int id)
+        public async Task DeleteCourse(int courseId)
         {
-            using (logger.BeginOperationScope("DeleteCourse", ("CourseId", id)))
+            using (logger.BeginOperationScope("DeleteCourse", ("CourseId", courseId)))
             using (var timer = logger.TimeOperation("DeleteCourse"))
             {
-                var course = await uow.Course.GetCourseByIdAsync(id);
-                if (course is null) throw new NotFoundException($"The given id {id} is not existed!");
+                var course = await uow.Course.GetCourseByIdAsync(courseId);
+                if (course is null) throw new NotFoundException($"The given id {courseId} is not existed!");
                 try
                 {
                     await uow.Course.DeleteCourseAsync(course);
                     await uow.SaveChangeAsync();
-                    logger.LogEntityDeleted<Course>("Course", id);
+                    logger.LogEntityDeleted("Course", courseId);
                 }catch(Exception e)
                 {
-                    logger.LogOperationError("DeleteCourse", e, id);
+                    logger.LogOperationError("DeleteCourse", e, courseId);
                     throw;
                 }
             }
@@ -92,40 +92,40 @@ namespace SchoolManagement.Services
             }
         }
 
-        public async Task<CourseResponse> GetCourseById(int id)
+        public async Task<CourseResponse> GetCourseById(int courseId)
         {
-            using (logger.BeginOperationScope("GetCourseById", ("CourseId", id)))
+            using (logger.BeginOperationScope("GetCourseById", ("CourseId", courseId)))
             using (var timer = logger.TimeOperation("GetCourseById"))
             {
                 try
                 {
-                    var course = await uow.Course.GetCourseByIdAsync(id);
-                    if (course is null) throw new NotFoundException($"The given id {id} is not existed!");
+                    var course = await uow.Course.GetCourseByIdAsync(courseId);
+                    if (course is null) throw new NotFoundException($"The given id {courseId} is not existed!");
                     var courseResponse = mapper.Map<CourseResponse>(course);
                     return courseResponse;
                 }
                 catch (Exception e)
                 {
-                    logger.LogOperationError("GetCourseById", e, id);
+                    logger.LogOperationError("GetCourseById", e, courseId);
                     throw;
                 }
             }
         }
 
-        public async Task<CourseDetailResponse?> GetCourseDetail(int id)
+        public async Task<CourseDetailResponse?> GetCourseDetail(int courseId)
         {
-            using (logger.BeginOperationScope("GetCourseDetail", ("CourseId", id)))
+            using (logger.BeginOperationScope("GetCourseDetail", ("CourseId", courseId)))
             using (var timer = logger.TimeOperation("GetCourseDetail"))
             {
                 try
                 {
-                    var course = await uow.Course.GetCourseDetailAsync(id);
-                    if (course is null) throw new NotFoundException($"The course with the given id {id} was not found");
+                    var course = await uow.Course.GetCourseDetailAsync(courseId);
+                    if (course is null) throw new NotFoundException($"The course with the given id {courseId} was not found");
                     var CourseDetailResponse = mapper.Map<CourseDetailResponse>(course);
                     return CourseDetailResponse;
                 }catch(Exception e)
                 {
-                    logger.LogOperationError("GetCourseDetail", e, id);
+                    logger.LogOperationError("GetCourseDetail", e, courseId);
                     throw;
                 }
             }

@@ -8,9 +8,9 @@ namespace SchoolManagement.Services.Interfaces
         Task<UserResponse> CreateUser(CreateUserResponse request);
         Task<List<UserResponse>> GetAllUsers();
         Task<UserResponse?> GetUserByUsername(string username);
-        Task<UserResponse?> GetUserById(int id);
-        Task <UserResponse>UpdateUser(int id, UpdateUserRequest request);
-        Task DeleteUser(int id);
+        Task<UserResponse?> GetUserById(int userId);
+        Task <UserResponse>UpdateUser(int userId, UpdateUserRequest request);
+        Task DeleteUser(int userId);
         Task<PageResult<UserResponse>> GetPageResultUsers(PaginationParam param);
     }
 }

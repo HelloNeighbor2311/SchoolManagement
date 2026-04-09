@@ -111,7 +111,7 @@ namespace SchoolManagement.Services
             {
                 var user = await uow.User.GetUserByIdAsync(userId);
                 if (user is null) {
-                    logger.LogEntityNotFound<User>("User", userId);
+                    logger.LogEntityNotFound("User", userId);
                     throw new BadRequestException($"The user with the given user ID {userId} is not existed"); 
                 }
                 await uow.Auth.RevokeAllTokenByUserIdAsync(userId);

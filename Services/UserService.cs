@@ -46,21 +46,21 @@ namespace SchoolManagement.Services
             }
         }
 
-        public async Task DeleteUser(int id)
+        public async Task DeleteUser(int userId)
         {
-            using (logger.BeginOperationScope("DeleteUser", ("UserId", id)))
+            using (logger.BeginOperationScope("DeleteUser", ("UserId", userId)))
             using (var timer = logger.TimeOperation("DeleteUser"))
             {
-                var user = await uow.User.GetUserByIdAsync(id);
-                if (user is null) throw new BadRequestException($"User with the given id {id} was not found !");
+                var user = await uow.User.GetUserByIdAsync(userId);
+                if (user is null) throw new BadRequestException($"User with the given id {userId} was not found !");
                 try
                 {
                     await uow.User.DeleteUserAsync(user);
                     await uow.SaveChangeAsync();
-                    logger.LogEntityDeleted<User>("User", id);
+                    logger.LogEntityDeleted("User", userId);
                 }catch(Exception e)
                 {
-                    logger.LogOperationError("DeleteUser", e, id);
+                    logger.LogOperationError("DeleteUser", e, userId);
                     throw;
                 }
             }
@@ -100,24 +100,24 @@ namespace SchoolManagement.Services
                 return mapper.Map<UserResponse>(user);
             }
         }
-        public async Task<UserResponse?> GetUserById(int id)
+        public async Task<UserResponse?> GetUserById(int userId)
         {
-            using (logger.BeginOperationScope("GetUserById", ("UserId", id)))
+            using (logger.BeginOperationScope("GetUserById", ("UserId", userId)))
             using (var timer = logger.TimeOperation("GetUserById"))
             {
-                var user = await uow.User.GetUserByIdAsync(id);
+                var user = await uow.User.GetUserByIdAsync(userId);
                 if (user is null) { throw new NotFoundException("User with the given id was not found!"); }
                 return mapper.Map<UserResponse>(user);
             }
         }
 
-        public async Task<UserResponse> UpdateUser(int id,UpdateUserRequest request)
+        public async Task<UserResponse> UpdateUser(int userId,UpdateUserRequest request)
         {
-            using (logger.BeginOperationScope("UpdateUser", ("UserId", id)))
+            using (logger.BeginOperationScope("UpdateUser", ("UserId", userId)))
             using (var timer = logger.TimeOperation("UpdateUser"))
             {
-                var user = await uow.User.GetUserByIdAsync(id);
-                if (user is null) { throw new NotFoundException($"User with the given id {id} was not found !!"); }
+                var user = await uow.User.GetUserByIdAsync(userId);
+                if (user is null) { throw new NotFoundException($"User with the given id {userId} was not found !!"); }
                 if (!string.IsNullOrEmpty(request.Password))
                 {
                     var hashedPassword = new PasswordHasher<User>().HashPassword(user, request.Password);
@@ -149,7 +149,7 @@ namespace SchoolManagement.Services
                 try
                 {
                     await uow.SaveChangeAsync();
-                    return await uow.User.GetUserResponseByIdAsync(id);
+                    return await uow.User.GetUserResponseByIdAsync(userId);
                 }
                 catch (DbUpdateConcurrencyException)
                 {

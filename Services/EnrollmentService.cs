@@ -11,21 +11,21 @@ namespace SchoolManagement.Services
 {
     public class EnrollmentService(IUnitOfWork uow, IMapper mapper, ILogger<EnrollmentService> logger) : IEnrollmentService
     {
-        public async Task DeleteEnrollment(int id)
+        public async Task DeleteEnrollment(int enrollmentId)
         {
-            using (logger.BeginOperationScope("DeleteEnrollment", ("EnrollmentId", id)))
+            using (logger.BeginOperationScope("DeleteEnrollment", ("EnrollmentId", enrollmentId)))
             using (var timer = logger.TimeOperation("DeleteEnrollment"))
             {
-                var enrollment = await uow.Enrollment.GetEnrollmentByIdAsync(id);
-                if (enrollment is null) throw new NotFoundException($"The enrollment with the Id {id} was not found");
+                var enrollment = await uow.Enrollment.GetEnrollmentByIdAsync(enrollmentId);
+                if (enrollment is null) throw new NotFoundException($"The enrollment with the Id {enrollmentId} was not found");
                 try
                 {
                     await uow.Enrollment.DeleteEnrollmentAsync(enrollment);
                     await uow.SaveChangeAsync();
-                    logger.LogEntityDeleted<Enrollment>("Enrollment", id);
+                    logger.LogEntityDeleted("Enrollment", enrollmentId);
                 }catch(Exception e)
                 {
-                    logger.LogOperationError("DeleteEnrollment", e, id);
+                    logger.LogOperationError("DeleteEnrollment", e, enrollmentId);
                     throw;
                 }
             }

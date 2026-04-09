@@ -34,19 +34,19 @@ namespace SchoolManagement.Repositories
             return courseFiltered;
         }
 
-        public async Task<Course?> GetCourseByIdAsync(int id)
+        public async Task<Course?> GetCourseByIdAsync(int courseId)
         {
-            var course = await context.Courses.FirstOrDefaultAsync(u => u.CourseId == id);
+            var course = await context.Courses.FirstOrDefaultAsync(u => u.CourseId == courseId);
             if (course is null) return null;
             return course;
         }
 
-        public async Task<Course?> GetCourseDetailAsync(int id )
+        public async Task<Course?> GetCourseDetailAsync(int courseId )
         {
             var CourseDetail = await context.Courses
                 .Include(u => u.CourseSemester)
                     .ThenInclude(cs => cs.Semester)
-                .FirstOrDefaultAsync(u => u.CourseId == id);
+                .FirstOrDefaultAsync(u => u.CourseId == courseId);
             return CourseDetail;
         }
     }

@@ -25,7 +25,7 @@ namespace SchoolManagement.Services
                     var result = await uow.Award.CreateAwardAsync(award);
                     result.StudentId = Gpa.StudentId;
                     await uow.SaveChangeAsync();
-                    logger.LogEntityCreated<Award>("Award", result.AwardId);
+                    logger.LogEntityCreated("Award", result.AwardId);
                     var response = await uow.Award.GetAwardResponseViaId(result.AwardId);
                     return response!;
                 }catch(Exception e) {
@@ -35,20 +35,20 @@ namespace SchoolManagement.Services
             }
         }
 
-        public async Task DeleteAward(int id)
+        public async Task DeleteAward(int awardId)
         {
-            using (logger.BeginOperationScope("Deleteward", ("AwardId", id)))
+            using (logger.BeginOperationScope("Deleteward", ("AwardId", awardId)))
             using (var timer = logger.TimeOperation("DeleteAward"))
             {
-                var award = await uow.Award.GetAwardViaId(id);
-                if (award is null) throw new NotFoundException($"The Award with the given id {id} was not found");
+                var award = await uow.Award.GetAwardViaId(awardId);
+                if (award is null) throw new NotFoundException($"The Award with the given id {awardId} was not found");
                 try
                 {
                     await uow.Award.DeleteAwardAsync(award);
                     await uow.SaveChangeAsync();
                 }catch(Exception e)
                 {
-                    logger.LogOperationError("DeleteAward", e, id);
+                    logger.LogOperationError("DeleteAward", e, awardId);
                     throw;
                 }
             }
@@ -73,13 +73,13 @@ namespace SchoolManagement.Services
             }
         }
 
-        public async Task<AwardResponse> UpdateAward(int id, UpdateAwardRequest request)
+        public async Task<AwardResponse> UpdateAward(int awardId, UpdateAwardRequest request)
         {
-            using (logger.BeginOperationScope("UpdateAward", ("AwardId", id)))
+            using (logger.BeginOperationScope("UpdateAward", ("AwardId", awardId)))
             using (var timer = logger.TimeOperation("UpdateAward"))
             {
-                var award = await uow.Award.GetAwardViaId(id);
-                if (award is null) throw new NotFoundException($"The given AwardId {id} was not found");
+                var award = await uow.Award.GetAwardViaId(awardId);
+                if (award is null) throw new NotFoundException($"The given AwardId {awardId} was not found");
                 var rowVersionBytes = Convert.FromBase64String(request.RowVersion);
                 uow.Award.SetRowVersion(award, rowVersionBytes);
                 if (!string.IsNullOrWhiteSpace(request.Description)) award.Description = request.Description;
@@ -93,7 +93,7 @@ namespace SchoolManagement.Services
                 try
                 {
                     await uow.SaveChangeAsync();
-                    return await uow.Award.GetAwardResponseViaId(id);
+                    return await uow.Award.GetAwardResponseViaId(awardId);
                 }
                 catch (DbUpdateConcurrencyException)
                 {

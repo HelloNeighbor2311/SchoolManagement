@@ -6,8 +6,8 @@ namespace SchoolManagement.Repositories.Interfaces
     {
         Task AddRefreshTokenAsync(RefreshToken refreshToken);
         Task<RefreshToken?> GetRefreshTokenAsync(string token);
-        Task<List<RefreshToken>?> GetActivedTokensByUserIdAsync(int id);
+        Task<List<RefreshToken>?> GetActivedTokensByUserIdAsync(int userId);
         Task RevokeTokenAsync(RefreshToken token);
-        Task RevokeAllTokenByUserIdAsync(int id);
+        Task RevokeAllTokenByUserIdAsync(int userId);
     }
 }

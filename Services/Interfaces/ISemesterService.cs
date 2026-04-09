@@ -7,8 +7,8 @@ namespace SchoolManagement.Services.Interfaces
     {
         Task<SemesterResponse> CreateSemester(CreateSemesterRequest request);
         Task<List<SemesterResponse>> GetAllSemester();
-        Task<SemesterResponse> GetSemesterById(int id);
-        Task<SemesterDetailResponse> GetSemesterDetail(int id);
-        Task DeleteSemester(int id);
+        Task<SemesterResponse> GetSemesterById(int semesterId);
+        Task<SemesterDetailResponse> GetSemesterDetail(int semesterId);
+        Task DeleteSemester(int semesterId);
     }
 }

@@ -9,9 +9,33 @@ namespace SchoolManagement.Middleware
 {
     public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IExceptionHandler
     {
+        private static readonly HashSet<Type> ClientExceptionTypes =
+       [
+           typeof(NotFoundException),
+            typeof(BadRequestException),
+            typeof(ValidationException),
+            typeof(ConflictException),
+            typeof(ForbiddenException),
+            typeof(UnauthorizedException),
+            typeof(DbUpdateConcurrencyException),
+        ];
         public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
         {
-            logger.LogError(exception, "An error occured {Message}", exception.Message);
+            var path = httpContext.Request.Path;
+            var method = httpContext.Request.Method;
+            var traceId = httpContext.TraceIdentifier;
+            if (ClientExceptionTypes.Contains(exception.GetType()))
+            {
+                logger.LogWarning(exception,
+                    "Client error. Type: {ExceptionType}, TraceId: {TraceId}, Method: {Method}, Path: {Path}",
+                    exception.GetType().Name, traceId, method, path);
+            }
+            else
+            {
+                logger.LogError(exception,
+                    "Unhandled server error. Type: {ExceptionType}, TraceId: {TraceId}, Method: {Method}, Path: {Path}",
+                    exception.GetType().Name, traceId, method, path);
+            }
             var errorResponse = CreateErrorResponse(httpContext, exception);
             httpContext.Response.ContentType = "application/json";
             httpContext.Response.StatusCode = errorResponse.StatusCode;
@@ -54,6 +78,11 @@ namespace SchoolManagement.Middleware
                     response.Message = "Concurrency conflict";
                     response.Detail = "Data has been changed. Please try again";
                     break;
+                case UnauthorizedException unauthorizedException:
+                    response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    response.Message = "Unauthorized";
+                    response.Detail = unauthorizedException.Message;
+                    break;
                 case ForbiddenException forbiddenException:
                     response.StatusCode = (int)HttpStatusCode.Forbidden;
                     response.Message = "Permission denied";
@@ -64,26 +93,12 @@ namespace SchoolManagement.Middleware
                     response.Message = "Internal server error";
                     response.Detail = "An unexpected errors occured. Please try again later";
                     if (context.RequestServices.GetRequiredService<IWebHostEnvironment>().IsDevelopment()) {
-                        response.Detail = GetFullExceptionDetail(exception);
+                        response.Detail = exception.ToString();
                     }
                     break;
             }
             return response;
         }
-        private static string GetFullExceptionDetail(Exception exception)
-        {
-            var messages = new List<string>();
-            var current = exception;
-
-            while (current != null)
-            {
-                // Gom tất cả message trong chuỗi exception
-                messages.Add($"[{current.GetType().Name}] {current.Message}");
-                current = current.InnerException;
-            }
-
-            // Nối lại thành 1 chuỗi để dễ đọc
-            return string.Join(" ", messages);
-        }
+ 
     }
 }

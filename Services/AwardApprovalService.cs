@@ -28,7 +28,7 @@ namespace SchoolManagement.Services
                     var result = await uow.AwardApproval.CreateApprovalAsync(approval);
                     await uow.SaveChangeAsync();
                     var response = await uow.AwardApproval.GetAwardApprovalResponseViaIdAsync(result.ApprovalId);
-                    logger.LogEntityCreated<AwardApproval>("AwardApproval", response!.ApprovalId);
+                    logger.LogEntityCreated("AwardApproval", response!.ApprovalId);
                     return response!;
                 }
                 catch(Exception e)
@@ -40,21 +40,21 @@ namespace SchoolManagement.Services
             }
         }
 
-        public async Task DeleteAwardApproval(int id)
+        public async Task DeleteAwardApproval(int awardApprovalId)
         {
-            using (logger.BeginOperationScope("DeleteAwardApproval", ("AwardApprovalID", id)))
+            using (logger.BeginOperationScope("DeleteAwardApproval", ("AwardApprovalID", awardApprovalId)))
             using (var timer = logger.TimeOperation("DeleteAwardApproval"))
             {
-                var approval = await uow.AwardApproval.GetAwardApprovalViaIdAsync(id);
-                if (approval is null) throw new NotFoundException($"The given AwardApprovalId {id} was not found");
+                var approval = await uow.AwardApproval.GetAwardApprovalViaIdAsync(awardApprovalId);
+                if (approval is null) throw new NotFoundException($"The given AwardApprovalId {awardApprovalId} was not found");
                 try
                 {
                     await uow.AwardApproval.DeleteAwardApprovalAsync(approval);
                     await uow.SaveChangeAsync();
-                    logger.LogEntityDeleted<AwardApproval>("AwardApproval", id);
+                    logger.LogEntityDeleted("AwardApproval", awardApprovalId);
                 }catch(Exception e)
                 {
-                    logger.LogOperationError("DeleteAwardApproval", e, id);
+                    logger.LogOperationError("DeleteAwardApproval", e, awardApprovalId);
                     throw;
                 }
             }
@@ -94,14 +94,14 @@ namespace SchoolManagement.Services
             }
         }
 
-        public async Task UpdateAwardApproval(int id, UpdateAwardApprovalRequest request)
+        public async Task UpdateAwardApproval(int awardApprovalId, UpdateAwardApprovalRequest request)
         {
-            using (logger.BeginOperationScope("UpdateAwardApproval", ("AwardApprovalID", id)))
+            using (logger.BeginOperationScope("UpdateAwardApproval", ("AwardApprovalID", awardApprovalId)))
             using (var timer = logger.TimeOperation("UpdateAwardApproval"))
             {
                 logger.LogInformation("Update method for Admin");
-                var approval = await uow.AwardApproval.GetAwardApprovalViaIdAsync(id);
-                if (approval is null) throw new NotFoundException($"The given AwardApprovalId {id} was not found");
+                var approval = await uow.AwardApproval.GetAwardApprovalViaIdAsync(awardApprovalId);
+                if (approval is null) throw new NotFoundException($"The given AwardApprovalId {awardApprovalId} was not found");
                 var award = await uow.Award.GetAwardViaId(approval.AwardId);
                 if (request.decision != null)
                 {
@@ -126,17 +126,17 @@ namespace SchoolManagement.Services
                 int approvalsNum = await uow.AwardApproval.CountApprovedAwardApprovalsByAwardId(approval.AwardId);
                 await uow.Award.CheckRequireApprovalsAsync(award, approvalsNum);
                 await uow.SaveChangeAsync();
-                logger.LogEntityUpdated<AwardApproval>("AwardApproval", id);
+                logger.LogEntityUpdated("AwardApproval", awardApprovalId);
             }
         }
-        public async Task UpdateAwardApprovalForTeacher(int id,int teacherId, UpdateAwardApprovalRequest request)
+        public async Task UpdateAwardApprovalForTeacher(int awardApprovalId,int teacherId, UpdateAwardApprovalRequest request)
         {
-            using (logger.BeginOperationScope("UpdateAwardApproval", ("AwardApprovalID", id)))
+            using (logger.BeginOperationScope("UpdateAwardApproval", ("AwardApprovalID", awardApprovalId)))
             using (var timer = logger.TimeOperation("UpdateAwardApproval"))
             {
                 logger.LogInformation("Update method for Teacher");
-                var approval = await uow.AwardApproval.GetAwardApprovalViaIdAsync(id);
-                if (approval is null) throw new NotFoundException($"The given AwardApprovalId {id} was not found");
+                var approval = await uow.AwardApproval.GetAwardApprovalViaIdAsync(awardApprovalId);
+                if (approval is null) throw new NotFoundException($"The given AwardApprovalId {awardApprovalId} was not found");
                 try
                 {
                     var award = await uow.Award.GetAwardViaId(approval.AwardId);
@@ -166,10 +166,10 @@ namespace SchoolManagement.Services
                     int approvalsNum = await uow.AwardApproval.CountApprovedAwardApprovalsByAwardId(approval.AwardId);
                     await uow.Award.CheckRequireApprovalsAsync(award, approvalsNum);
                     await uow.SaveChangeAsync();
-                    logger.LogEntityUpdated<AwardApproval>("AwardApproval", id);
+                    logger.LogEntityUpdated("AwardApproval", awardApprovalId);
                 }catch(Exception e)
                 {
-                    logger.LogOperationError("UpdateAwardApproval", e, teacherId, id);
+                    logger.LogOperationError("UpdateAwardApproval", e, teacherId, awardApprovalId);
                     throw;
                 }
             }

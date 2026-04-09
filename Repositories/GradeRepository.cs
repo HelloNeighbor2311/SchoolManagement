@@ -10,15 +10,15 @@ namespace SchoolManagement.Repositories
 {
     public class GradeRepository(AppDbContext context, IMapper mapper) : IGradeRepository
     {
-        public async Task<List<GradeResponse>> GetAllGradeWithStudentIdAsync(int id)
+        public async Task<List<GradeResponse>> GetAllGradeWithStudentIdAsync(int studentId)
         {
-            var result = await context.Grades.Where(u=>u.Enrollment!.StudentId == id).ProjectTo<GradeResponse>(mapper.ConfigurationProvider).ToListAsync();
+            var result = await context.Grades.Where(u=>u.Enrollment!.StudentId == studentId).ProjectTo<GradeResponse>(mapper.ConfigurationProvider).ToListAsync();
             return result;
         }
 
-        public async Task<Grade?> GetGradeByIdAsync(int id)
+        public async Task<Grade?> GetGradeByIdAsync(int gradeId)
         {
-            return await context.Grades.Include(u=>u.Enrollment).ThenInclude(u=>u.CourseSemester).FirstOrDefaultAsync(u => u.GradeId == id);
+            return await context.Grades.Include(u=>u.Enrollment).ThenInclude(u=>u.CourseSemester).FirstOrDefaultAsync(u => u.GradeId == gradeId);
         }
 
         public async Task<bool> isAllGradedAsync(int studentId, int semesterId)

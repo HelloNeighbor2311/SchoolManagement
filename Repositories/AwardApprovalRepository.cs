@@ -26,20 +26,20 @@ namespace SchoolManagement.Repositories
             return Context.AwardApprovals.ProjectTo<AwardApprovalResponse>(mapper.ConfigurationProvider).ToListAsync();
         }
 
-        public async Task<int> CountApprovedAwardApprovalsByAwardId(int id)
+        public async Task<int> CountApprovedAwardApprovalsByAwardId(int awardId)
         {
             if (await Context.AwardApprovals.AnyAsync(u => u.decision == Decision.Reject)) return -1;
-            return await Context.AwardApprovals.CountAsync(u => u.AwardId == id && u.decision == Decision.Approve);
+            return await Context.AwardApprovals.CountAsync(u => u.AwardId == awardId && u.decision == Decision.Approve);
         }
 
-        public async Task<AwardApprovalResponse?> GetAwardApprovalResponseViaIdAsync(int id)
+        public async Task<AwardApprovalResponse?> GetAwardApprovalResponseViaIdAsync(int awardApprovalId)
         {
-            return await Context.AwardApprovals.ProjectTo<AwardApprovalResponse>(mapper.ConfigurationProvider).FirstOrDefaultAsync(u => u.ApprovalId == id);
+            return await Context.AwardApprovals.ProjectTo<AwardApprovalResponse>(mapper.ConfigurationProvider).FirstOrDefaultAsync(u => u.ApprovalId == awardApprovalId);
         }
 
-        public async Task<AwardApproval?> GetAwardApprovalViaIdAsync(int id)
+        public async Task<AwardApproval?> GetAwardApprovalViaIdAsync(int awardApprovalId)
         {
-            return await Context.AwardApprovals.FirstOrDefaultAsync(u => u.ApprovalId == id);
+            return await Context.AwardApprovals.FirstOrDefaultAsync(u => u.ApprovalId == awardApprovalId);
         }
 
         public async Task<List<AwardApprovalResponse>> GetListApprovalsViaTeacherIdAsync(int teacherId)

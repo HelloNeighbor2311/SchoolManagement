@@ -23,15 +23,15 @@ namespace SchoolManagement.Repositories
             return await context.Semesters.ToListAsync();
         }
 
-        public async Task<Semester?> GetSemesterByIdAsync(int id)
+        public async Task<Semester?> GetSemesterByIdAsync(int semesterId)
         {
-            var semester = await context.Semesters.FirstOrDefaultAsync(p => p.SemesterId == id);
+            var semester = await context.Semesters.FirstOrDefaultAsync(p => p.SemesterId == semesterId);
             return semester;
         }
 
-        public async Task<Semester?> GetSemesterDetailAsync(int id)
+        public async Task<Semester?> GetSemesterDetailAsync(int semesterId)
         {
-            var semesterDetail = await context.Semesters.Include(u => u.CourseSemester).ThenInclude(u => u.Course).FirstOrDefaultAsync(s => s.SemesterId == id);
+            var semesterDetail = await context.Semesters.Include(u => u.CourseSemester).ThenInclude(u => u.Course).FirstOrDefaultAsync(s => s.SemesterId == semesterId);
             return semesterDetail;
         }
     }

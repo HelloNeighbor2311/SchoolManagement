@@ -6,6 +6,6 @@ namespace SchoolManagement.Services.Interfaces
     {
         Task<List<TeacherCourseSemesterResponse>?> GetAllTeacherCourseSemester();
         Task<TeacherCourseSemesterResponse> AllocateTeacherToCourse(AllocateTeacherCourseSemesterRequest request);
-        Task DeleteTeacherFromCourse(int id);
+        Task DeleteTeacherFromCourse(int teacherCourseSemesterId);
     }
 }

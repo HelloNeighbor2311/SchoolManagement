@@ -12,9 +12,9 @@ namespace SchoolManagement.Repositories
             await context.RefreshTokens.AddAsync(refreshToken);
         }
 
-        public async Task<List<RefreshToken>?> GetActivedTokensByUserIdAsync(int id)
+        public async Task<List<RefreshToken>?> GetActivedTokensByUserIdAsync(int userId)
         {
-            var refreshTokens = await context.RefreshTokens.Where(u => u.UserId == id && u.ExpiredDate > DateTime.UtcNow && !u.IsRevoked).ToListAsync();
+            var refreshTokens = await context.RefreshTokens.Where(u => u.UserId == userId && u.ExpiredDate > DateTime.UtcNow && !u.IsRevoked).ToListAsync();
             return refreshTokens;
         }
 
@@ -23,9 +23,9 @@ namespace SchoolManagement.Repositories
             return await context.RefreshTokens.Include(u => u.User).ThenInclude(u => u!.Role).FirstOrDefaultAsync(rt => rt.Token == token);
         }
 
-        public async Task RevokeAllTokenByUserIdAsync(int id)
+        public async Task RevokeAllTokenByUserIdAsync(int userId)
         {
-            var activedRefreshToken = await GetActivedTokensByUserIdAsync(id);
+            var activedRefreshToken = await GetActivedTokensByUserIdAsync(userId);
             if (activedRefreshToken is null) return;
             foreach(var i in activedRefreshToken)
             {

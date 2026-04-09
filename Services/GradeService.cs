@@ -31,13 +31,13 @@ namespace SchoolManagement.Services
             }
         }
 
-        public async Task UpdateGrade(int id, UpdateGradeRequest request)
+        public async Task UpdateGrade(int gradeId, UpdateGradeRequest request)
         {
-            using (logger.BeginOperationScope("UpdateGrade", ("GradeId", id)))
+            using (logger.BeginOperationScope("UpdateGrade", ("GradeId", gradeId)))
             using (var timer = logger.TimeOperation("UpdateGrade"))
             {
-                var grade = await uow.Grade.GetGradeByIdAsync(id);
-                if (grade is null) throw new NotFoundException($"Grade with the Id {id} was not found");
+                var grade = await uow.Grade.GetGradeByIdAsync(gradeId);
+                if (grade is null) throw new NotFoundException($"Grade with the Id {gradeId} was not found");
                 var rowVersionBytes = Convert.FromBase64String(request.RowVersion);
                 uow.Grade.SetRowVersion(grade, rowVersionBytes);
                 if (request.FirstGrade.HasValue)
@@ -51,7 +51,7 @@ namespace SchoolManagement.Services
                 try
                 {
                     await uow.SaveChangeAsync();
-                    logger.LogEntityUpdated<Grade>("Grade", id);
+                    logger.LogEntityUpdated("Grade", gradeId);
                 }
                 catch (DbUpdateException)
                 {

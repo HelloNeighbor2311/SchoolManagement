@@ -29,7 +29,7 @@ namespace SchoolManagement.Services
                     await uow.SaveChangeAsync();
                     var newTeacherCourseSemester = await uow.TeacherCourseSemester.GetTeacherCourseSemesterByIdAsync(teacherCourseSemester.TeacherCourseSemesterId);
                     var newTeacherCourseSemesterResponse = mapper.Map<TeacherCourseSemesterResponse>(newTeacherCourseSemester);
-                    logger.LogEntityCreated<TeacherCourseSemester>("TeacherCourseSemester", newTeacherCourseSemesterResponse.TeacherCourseSemesterId);
+                    logger.LogEntityCreated("TeacherCourseSemester", newTeacherCourseSemesterResponse.TeacherCourseSemesterId);
                     return newTeacherCourseSemesterResponse;
                 }catch(Exception e)
                 {
@@ -39,21 +39,21 @@ namespace SchoolManagement.Services
             }
         }
 
-        public async Task DeleteTeacherFromCourse(int id)
+        public async Task DeleteTeacherFromCourse(int teacherCourseSemesterId)
         {
-            using (logger.BeginOperationScope("DeleteTeacherFromCourse", ("TeacherCourseSemesterId", id)))
+            using (logger.BeginOperationScope("DeleteTeacherFromCourse", ("TeacherCourseSemesterId", teacherCourseSemesterId)))
             using (var timer = logger.TimeOperation("DeleteTeacherFromCourse"))
             {
-                var result = await uow.TeacherCourseSemester.GetTeacherCourseSemesterByIdAsync(id);
-                if (result is null) throw new NotFoundException($"The ID {id} was not found");
+                var result = await uow.TeacherCourseSemester.GetTeacherCourseSemesterByIdAsync(teacherCourseSemesterId);
+                if (result is null) throw new NotFoundException($"The ID {teacherCourseSemesterId} was not found");
                 await uow.TeacherCourseSemester.DeleteTeacherFromCourse(result);
                 try
                 {
                     await uow.SaveChangeAsync();
-                    logger.LogEntityDeleted<TeacherCourseSemester>("TeacherCourseSemester", id);
+                    logger.LogEntityDeleted("TeacherCourseSemester", teacherCourseSemesterId);
                 }catch(Exception e)
                 {
-                    logger.LogOperationError("DeleteTeacherFromCourse", e, id);
+                    logger.LogOperationError("DeleteTeacherFromCourse", e, teacherCourseSemesterId);
                     throw;
                 }
             }

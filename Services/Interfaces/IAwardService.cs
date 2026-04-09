@@ -6,7 +6,8 @@ namespace SchoolManagement.Services.Interfaces
     {
         Task<List<AwardResponse>> GetAllAwards();
         Task<AwardResponse> CreateAward(CreateAwardRequest request);
-        Task<AwardResponse> UpdateAward(int id, UpdateAwardRequest request);
-        Task DeleteAward(int id);
+        Task<AwardResponse> UpdateAward(int awardId, UpdateAwardRequest request);
+        Task<AwardResponse> UpdateAwardStatus(int awardId, UpdateAwardRequest request);
+        Task DeleteAward(int awardId);
     }
 }
