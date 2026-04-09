@@ -38,7 +38,7 @@ namespace SchoolManagement.Services
         public async Task DeleteAward(int id)
         {
             using (logger.BeginOperationScope("Deleteward", ("AwardId", id)))
-            using (var timer = logger.TimeOperation("CreateAward"))
+            using (var timer = logger.TimeOperation("DeleteAward"))
             {
                 var award = await uow.Award.GetAwardViaId(id);
                 if (award is null) throw new NotFoundException($"The Award with the given id {id} was not found");
@@ -49,6 +49,7 @@ namespace SchoolManagement.Services
                 }catch(Exception e)
                 {
                     logger.LogOperationError("DeleteAward", e, id);
+                    throw;
                 }
             }
         }
@@ -74,14 +75,14 @@ namespace SchoolManagement.Services
 
         public async Task<AwardResponse> UpdateAward(int id, UpdateAwardRequest request)
         {
-            using (logger.BeginOperationScope("Deleteward", ("AwardId", id)))
-            using (var timer = logger.TimeOperation("CreateAward"))
+            using (logger.BeginOperationScope("UpdateAward", ("AwardId", id)))
+            using (var timer = logger.TimeOperation("UpdateAward"))
             {
                 var award = await uow.Award.GetAwardViaId(id);
                 if (award is null) throw new NotFoundException($"The given AwardId {id} was not found");
                 var rowVersionBytes = Convert.FromBase64String(request.RowVersion);
                 uow.Award.SetRowVersion(award, rowVersionBytes);
-                if (!string.IsNullOrWhiteSpace(award.Description)) award.Description = request.Description;
+                if (!string.IsNullOrWhiteSpace(request.Description)) award.Description = request.Description;
                 if (request.RequireApproval != null) award.RequireApproval = request.RequireApproval;
                 award.status = request.status.ToLower() switch
                 {

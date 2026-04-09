@@ -15,7 +15,7 @@ namespace SchoolManagement.Repositories
             await Context.Gpas.AddAsync(gpa);
         }
 
-        public async Task<Gpa> FindGpaViaStudentIdAndSemesterIdAsync(int studentId, int semesterId)
+        public async Task<Gpa?> FindGpaViaStudentIdAndSemesterIdAsync(int studentId, int semesterId)
         {
             var gpa = await Context.Gpas.FirstOrDefaultAsync(u => u.StudentId == studentId && u.SemesterId == semesterId);
             return gpa;

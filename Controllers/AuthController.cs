@@ -20,18 +20,11 @@ namespace SchoolManagement.Controllers
             var response = await service.LoginAsync(request);
             return Ok(response);
         }
-        [HttpPost("register {student}")]
+        [HttpPost("register student")]
         [AllowAnonymous]
         public async Task<IActionResult> RegisterStudent([FromBody] RegisterStudentRequest request)
         {
             var response = await service.RegisterStudentAsync(request);
-            return Ok(response);
-        }
-        [HttpPost("{register teacher}")]
-        [AllowAnonymous]
-        public async Task<IActionResult> RegisterTeacher([FromBody] RegisterTeacherRequest request)
-        {
-            var response = await service.RegisterTeacherAsync(request);
             return Ok(response);
         }
         [HttpPost("refresh")]

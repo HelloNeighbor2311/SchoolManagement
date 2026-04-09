@@ -7,8 +7,8 @@ namespace SchoolManagement.Repositories
 {
     public class GenericRepository<T>: IGenericRepository<T> where T : class
     {
-        public readonly AppDbContext Context;
-        public readonly DbSet<T> DbSet;
+        protected readonly AppDbContext Context;
+        protected readonly DbSet<T> DbSet;
         public GenericRepository(AppDbContext _context)
         {
             Context = _context;

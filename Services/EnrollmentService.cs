@@ -14,7 +14,7 @@ namespace SchoolManagement.Services
         public async Task DeleteEnrollment(int id)
         {
             using (logger.BeginOperationScope("DeleteEnrollment", ("EnrollmentId", id)))
-            using (var timer = logger.TimeOperation("LoginAsync"))
+            using (var timer = logger.TimeOperation("DeleteEnrollment"))
             {
                 var enrollment = await uow.Enrollment.GetEnrollmentByIdAsync(id);
                 if (enrollment is null) throw new NotFoundException($"The enrollment with the Id {id} was not found");

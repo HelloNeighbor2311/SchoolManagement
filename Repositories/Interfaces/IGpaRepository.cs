@@ -7,7 +7,7 @@ namespace SchoolManagement.Repositories.Interfaces
     {
         Task<List<GpaResponse>> GetAllGpaAsync();
         Task AddGpaAsync(Gpa gpa);
-        Task<Gpa> FindGpaViaStudentIdAndSemesterIdAsync(int studentId, int semesterId);
+        Task<Gpa?> FindGpaViaStudentIdAndSemesterIdAsync(int studentId, int semesterId);
         Task<Gpa?> FindGpaViaIdAsync(int gpaId);
 
         Task<(double? gpa, int totalCredit)> CaculateGpaAsync(int studentId, int semesterId);

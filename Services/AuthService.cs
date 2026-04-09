@@ -22,7 +22,7 @@ namespace SchoolManagement.Services
             {
                 logger.LogOperationStart("LoginAsync", request.Username);
 
-                var user = await uow.User.GetWithRoleAsync(request.Username);
+                var user = await uow.User.GetUserByUsernameAsync(request.Username);
 
                 if (user == null)
                 {
@@ -58,7 +58,7 @@ namespace SchoolManagement.Services
                 var userIdClaim = principal.FindFirst(ClaimTypes.NameIdentifier) ?? principal.FindFirst("sub");
                 if (userIdClaim is null || !int.TryParse(userIdClaim.Value, out int userId))
                 {
-                    logger.LogValidationError("Access token", "Invalid claim");
+                    logger.LogValidationWarning("Access token", "Invalid claim");
                     throw new UnauthorizedException("Invalid claim tokens");
                 }
                 var storedToken = await uow.Auth.GetRefreshTokenAsync(request.RefreshToken) ?? throw new UnauthorizedException("Invalid refresh token");
@@ -95,7 +95,7 @@ namespace SchoolManagement.Services
                 student.PasswordHashed = hashedPassword;
                 var savedStudent = await uow.User.CreateUserAsync(student);
                 if (savedStudent is null) {
-                    logger.LogValidationError("Username", "Already existed!");
+                    logger.LogValidationWarning("Username", "Already existed!");
                     throw new UnauthorizedException("The current username is already existed!"); }
                 await uow.SaveChangeAsync();
                 logger.LogUserRegistered(savedStudent.UserId, request.Username, "Student");
@@ -104,34 +104,12 @@ namespace SchoolManagement.Services
             }
 
         }
-
-        public async Task<TokenResponse> RegisterTeacherAsync(RegisterTeacherRequest request)
-        {
-            using (logger.BeginOperationScope("RegisterTeacher", ("Username", request.Username)))
-            using (var timer = logger.TimeOperation("RegisterTeacherAsync"))
-            {
-                var teacher = mapper.Map<Teacher>(request);
-                if (teacher is null) throw new BadRequestException("An unexpected error occured when trying to map teacher! Please try again later");
-                var hashedPassword = new PasswordHasher<User>().HashPassword(teacher, request.Password);
-                teacher.PasswordHashed = hashedPassword;
-                var savedTeacher = await uow.User.CreateUserAsync(teacher);   
-                if (savedTeacher is null){
-                    logger.LogValidationError("Username", "Already existed!");
-                    throw new BadRequestException("The current username is already existed!");
-                }
-                await uow.SaveChangeAsync();
-                logger.LogUserRegistered(savedTeacher.UserId, request.Username, "Student");
-                var newTeacher = await uow.User.GetUserByIdAsync(savedTeacher.UserId) ?? throw new NotFoundException("User was not found after registered");
-                return await BuildAuthResponseAsync(newTeacher);
-            }
-        }
-
         public async Task RevokeAllTokenAsync(int userId)
         {
             using (logger.BeginOperationScope("RevokeAllToken", ("UserId", userId)))
             using (var timer = logger.TimeOperation("RevokeAllTokenAsync"))
             {
-                var user = uow.User.GetUserByIdAsync(userId);
+                var user = await uow.User.GetUserByIdAsync(userId);
                 if (user is null) {
                     logger.LogEntityNotFound<User>("User", userId);
                     throw new BadRequestException($"The user with the given user ID {userId} is not existed"); 

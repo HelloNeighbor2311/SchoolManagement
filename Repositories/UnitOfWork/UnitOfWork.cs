@@ -7,8 +7,8 @@ namespace SchoolManagement.Repositories.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
-        public AppDbContext context;
-        public IAuthRepository Auth { get; set; }
+        private AppDbContext context;
+        public IAuthRepository Auth { get; }
         public IUserRepository User { get; }
         public ICourseRepository Course { get; }
         public ISemesterRepository Semester { get; }

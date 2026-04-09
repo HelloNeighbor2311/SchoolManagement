@@ -22,6 +22,7 @@ namespace SchoolManagement.Controllers
             return Ok(result);
         }
         [HttpPut]
+        [Authorize(Policy = PermissionConstants.TeacherAndAdmin)]
         public async Task<ActionResult> UpdateGrade([FromQuery]int id, [FromBody]UpdateGradeRequest request)
         {
             await service.UpdateGrade(id, request);

@@ -93,7 +93,7 @@ namespace SchoolManagement.Infrastructure.Logging
                 operationName, context);
         }
         //Validation
-        public static void LogValidationError<T>(this ILogger<T> logger, string field, string error)
+        public static void LogValidationWarning<T>(this ILogger<T> logger, string field, string error)
         {
             logger.LogWarning("Validation error - Filed: {Field}, Error: {Error}", field, error);
         }

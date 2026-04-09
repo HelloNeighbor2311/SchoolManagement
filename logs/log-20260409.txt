@@ -1,0 +1,46 @@
+2026-04-09 14:49:52.658 +07:00 [INF] [Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager] User profile is available. Using 'C:\Users\Viet Dat\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+{"EventId":{"Id":63,"Name":"UsingProfileAsKeyRepositoryWithDPAPI"},"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-09 14:49:52.745 +07:00 [INF] [Microsoft.Hosting.Lifetime] Now listening on: http://localhost:5129
+{"EventId":{"Id":14,"Name":"ListeningOnAddress"},"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-09 14:49:52.749 +07:00 [INF] [Microsoft.Hosting.Lifetime] Application started. Press Ctrl+C to shut down.
+{"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-09 14:49:52.751 +07:00 [INF] [Microsoft.Hosting.Lifetime] Hosting environment: Development
+{"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-09 14:49:52.753 +07:00 [INF] [Microsoft.Hosting.Lifetime] Content root path: D:\Viet Dat\Visual Studio\C#\SchoolManagement\SchoolManagement
+{"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-09 14:50:22.770 +07:00 [INF] [Microsoft.Hosting.Lifetime] Application is shutting down...
+{"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":3,"Application":"SchoolManagement"}
+2026-04-09 14:50:52.562 +07:00 [INF] [Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager] User profile is available. Using 'C:\Users\Viet Dat\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+{"EventId":{"Id":63,"Name":"UsingProfileAsKeyRepositoryWithDPAPI"},"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-09 14:50:52.627 +07:00 [INF] [Microsoft.Hosting.Lifetime] Now listening on: http://localhost:5129
+{"EventId":{"Id":14,"Name":"ListeningOnAddress"},"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-09 14:50:52.631 +07:00 [INF] [Microsoft.Hosting.Lifetime] Application started. Press Ctrl+C to shut down.
+{"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-09 14:50:52.633 +07:00 [INF] [Microsoft.Hosting.Lifetime] Hosting environment: Development
+{"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-09 14:50:52.635 +07:00 [INF] [Microsoft.Hosting.Lifetime] Content root path: D:\Viet Dat\Visual Studio\C#\SchoolManagement\SchoolManagement
+{"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-09 15:12:52.310 +07:00 [INF] [Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager] User profile is available. Using 'C:\Users\Viet Dat\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+{"EventId":{"Id":63,"Name":"UsingProfileAsKeyRepositoryWithDPAPI"},"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-09 15:12:52.408 +07:00 [INF] [Microsoft.Hosting.Lifetime] Now listening on: https://localhost:7248
+{"EventId":{"Id":14,"Name":"ListeningOnAddress"},"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-09 15:12:52.412 +07:00 [INF] [Microsoft.Hosting.Lifetime] Now listening on: http://localhost:5129
+{"EventId":{"Id":14,"Name":"ListeningOnAddress"},"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-09 15:12:52.444 +07:00 [INF] [Microsoft.Hosting.Lifetime] Application started. Press Ctrl+C to shut down.
+{"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-09 15:12:52.447 +07:00 [INF] [Microsoft.Hosting.Lifetime] Hosting environment: Development
+{"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-09 15:12:52.449 +07:00 [INF] [Microsoft.Hosting.Lifetime] Content root path: D:\Viet Dat\Visual Studio\C#\SchoolManagement\SchoolManagement
+{"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-09 15:18:16.847 +07:00 [INF] [Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager] User profile is available. Using 'C:\Users\Viet Dat\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+{"EventId":{"Id":63,"Name":"UsingProfileAsKeyRepositoryWithDPAPI"},"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-09 15:18:16.941 +07:00 [INF] [Microsoft.Hosting.Lifetime] Now listening on: https://localhost:7248
+{"EventId":{"Id":14,"Name":"ListeningOnAddress"},"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-09 15:18:16.944 +07:00 [INF] [Microsoft.Hosting.Lifetime] Now listening on: http://localhost:5129
+{"EventId":{"Id":14,"Name":"ListeningOnAddress"},"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-09 15:18:16.975 +07:00 [INF] [Microsoft.Hosting.Lifetime] Application started. Press Ctrl+C to shut down.
+{"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-09 15:18:16.977 +07:00 [INF] [Microsoft.Hosting.Lifetime] Hosting environment: Development
+{"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-09 15:18:16.978 +07:00 [INF] [Microsoft.Hosting.Lifetime] Content root path: D:\Viet Dat\Visual Studio\C#\SchoolManagement\SchoolManagement
+{"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}

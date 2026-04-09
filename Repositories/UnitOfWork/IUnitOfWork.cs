@@ -6,7 +6,7 @@ namespace SchoolManagement.Repositories.UnitOfWork
 {
     public interface IUnitOfWork: IDisposable
     {
-        IAuthRepository Auth { get; set; }
+        IAuthRepository Auth { get; }
         IUserRepository User { get; }
         ICourseRepository Course { get; }
         ISemesterRepository Semester { get; }

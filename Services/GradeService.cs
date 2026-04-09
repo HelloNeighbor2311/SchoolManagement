@@ -34,7 +34,7 @@ namespace SchoolManagement.Services
         public async Task UpdateGrade(int id, UpdateGradeRequest request)
         {
             using (logger.BeginOperationScope("UpdateGrade", ("GradeId", id)))
-            using (var timer = logger.TimeOperation("GetGradeWithStudentId"))
+            using (var timer = logger.TimeOperation("UpdateGrade"))
             {
                 var grade = await uow.Grade.GetGradeByIdAsync(id);
                 if (grade is null) throw new NotFoundException($"Grade with the Id {id} was not found");

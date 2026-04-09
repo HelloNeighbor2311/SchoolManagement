@@ -49,7 +49,7 @@ namespace SchoolManagement.Services
         public async Task DeleteUser(int id)
         {
             using (logger.BeginOperationScope("DeleteUser", ("UserId", id)))
-            using (var timer = logger.TimeOperation("GetAllTeacherCourseSemester"))
+            using (var timer = logger.TimeOperation("DeleteUser"))
             {
                 var user = await uow.User.GetUserByIdAsync(id);
                 if (user is null) throw new BadRequestException($"User with the given id {id} was not found !");

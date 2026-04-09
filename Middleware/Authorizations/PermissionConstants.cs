@@ -1,6 +1,7 @@
 ﻿namespace SchoolManagement.Middleware.Authorizations
 {
-    public static class PolicyConstants
+    public static class PermissionConstants
+
     {
 
         //User policy
