@@ -14,21 +14,21 @@ namespace SchoolManagement.Controllers
     public class CourseController(ICourseService service) : BaseApiController
     {
         [HttpGet("Course")]
-        [Authorize(Policy = PolicyConstants.CanViewCourses)]
+        [Authorize(Policy = PermissionConstants.CanViewCourses)]
         public async Task<ActionResult<List<CourseResponse>>> GetAllCourse()
         {
             var result = await service.GetAllCourse();
             return Ok(result);
         }
         [HttpGet("FilterCourse")]
-        [Authorize(Policy = PolicyConstants.CanViewCourses)]
+        [Authorize(Policy = PermissionConstants.CanViewCourses)]
         public async Task<ActionResult<List<CourseResponse>>> GetCourseFilter([FromQuery] string name)
         {
             var result = await service.FilterCourseInformationByName(name);
             return Ok(result);
         }
         [HttpGet("id")]
-        [Authorize(Policy = PolicyConstants.CanViewCourses)]
+        [Authorize(Policy = PermissionConstants.CanViewCourses)]
         public async Task<ActionResult<CourseResponse>> GetCourseById([FromQuery] int id)
         {
             var result = await service.GetCourseById(id);
@@ -41,14 +41,14 @@ namespace SchoolManagement.Controllers
             return Ok(result);
         }
         [HttpPost]
-        [Authorize(Policy = PolicyConstants.AllMighty)]
+        [Authorize(Policy = PermissionConstants.AllMighty)]
         public async Task<ActionResult<CourseResponse>> CreateCourse([FromBody]CreateCourseRequest request)
         {
             var result = await service.CreateCourse(request);
             return Ok(result);
         }
         [HttpDelete]
-        [Authorize(Policy = PolicyConstants.AllMighty)]
+        [Authorize(Policy = PermissionConstants.AllMighty)]
         public async Task<ActionResult> DeleteCourse([FromQuery]int id)
         {
             await service.DeleteCourse(id);

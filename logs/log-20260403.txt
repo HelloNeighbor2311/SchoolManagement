@@ -1,0 +1,98 @@
+2026-04-03 03:59:37.496 +07:00 [INF] [Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager] User profile is available. Using 'C:\Users\Viet Dat\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+{"EventId":{"Id":63,"Name":"UsingProfileAsKeyRepositoryWithDPAPI"},"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-03 03:59:37.616 +07:00 [INF] [Microsoft.Hosting.Lifetime] Now listening on: https://localhost:7248
+{"EventId":{"Id":14,"Name":"ListeningOnAddress"},"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-03 03:59:37.619 +07:00 [INF] [Microsoft.Hosting.Lifetime] Now listening on: http://localhost:5129
+{"EventId":{"Id":14,"Name":"ListeningOnAddress"},"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-03 03:59:37.652 +07:00 [INF] [Microsoft.Hosting.Lifetime] Application started. Press Ctrl+C to shut down.
+{"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-03 03:59:37.655 +07:00 [INF] [Microsoft.Hosting.Lifetime] Hosting environment: Development
+{"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-03 03:59:37.658 +07:00 [INF] [Microsoft.Hosting.Lifetime] Content root path: D:\Viet Dat\Visual Studio\C#\SchoolManagement\SchoolManagement
+{"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-03 13:23:22.912 +07:00 [INF] [Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager] User profile is available. Using 'C:\Users\Viet Dat\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+{"EventId":{"Id":63,"Name":"UsingProfileAsKeyRepositoryWithDPAPI"},"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-03 13:23:23.064 +07:00 [INF] [Microsoft.Hosting.Lifetime] Now listening on: https://localhost:7248
+{"EventId":{"Id":14,"Name":"ListeningOnAddress"},"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-03 13:23:23.069 +07:00 [INF] [Microsoft.Hosting.Lifetime] Now listening on: http://localhost:5129
+{"EventId":{"Id":14,"Name":"ListeningOnAddress"},"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-03 13:23:23.109 +07:00 [INF] [Microsoft.Hosting.Lifetime] Application started. Press Ctrl+C to shut down.
+{"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-03 13:23:23.112 +07:00 [INF] [Microsoft.Hosting.Lifetime] Hosting environment: Development
+{"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-03 13:23:23.114 +07:00 [INF] [Microsoft.Hosting.Lifetime] Content root path: D:\Viet Dat\Visual Studio\C#\SchoolManagement\SchoolManagement
+{"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-03 13:23:25.323 +07:00 [INF] [Microsoft.AspNetCore.Hosting.Diagnostics] Request starting HTTP/2 GET https://localhost:7248/ - null null
+{"EventId":{"Id":1},"RequestId":"0HNKH961IMSFN:00000001","RequestPath":"/","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":12,"Application":"SchoolManagement"}
+2026-04-03 13:23:26.308 +07:00 [INF] [Serilog.AspNetCore.RequestLoggingMiddleware] HTTP GET / responded 404 in 879.5222ms
+{"RequestHost":"localhost:7248","UserAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36","RemoteIP":"::1","RequestId":"0HNKH961IMSFN:00000001","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":12,"Application":"SchoolManagement"}
+2026-04-03 13:23:26.318 +07:00 [INF] [Microsoft.AspNetCore.Hosting.Diagnostics] Request finished HTTP/2 GET https://localhost:7248/ - 404 null null 997.0806ms
+{"EventId":{"Id":2},"RequestId":"0HNKH961IMSFN:00000001","RequestPath":"/","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":12,"Application":"SchoolManagement"}
+2026-04-03 13:23:26.331 +07:00 [INF] [Microsoft.AspNetCore.Hosting.Diagnostics] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7248/, Response status code: 404
+{"EventId":{"Id":16},"RequestId":"0HNKH961IMSFN:00000001","RequestPath":"/","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":12,"Application":"SchoolManagement"}
+2026-04-03 13:23:28.688 +07:00 [INF] [Microsoft.AspNetCore.Hosting.Diagnostics] Request starting HTTP/2 GET https://localhost:7248/scalar - null null
+{"EventId":{"Id":1},"RequestId":"0HNKH961IMSFN:00000003","RequestPath":"/scalar","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":12,"Application":"SchoolManagement"}
+2026-04-03 13:23:28.703 +07:00 [INF] [Microsoft.AspNetCore.Routing.EndpointMiddleware] Executing endpoint 'HTTP: GET /scalar/{documentName?}'
+{"EventId":{"Name":"ExecutingEndpoint"},"RequestId":"0HNKH961IMSFN:00000003","RequestPath":"/scalar","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":15,"Application":"SchoolManagement"}
+2026-04-03 13:23:28.716 +07:00 [INF] [Microsoft.AspNetCore.Http.Result.RedirectResult] Executing RedirectResult, redirecting to scalar/.
+{"EventId":{"Id":1,"Name":"RedirectResultExecuting"},"RequestId":"0HNKH961IMSFN:00000003","RequestPath":"/scalar","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":15,"Application":"SchoolManagement"}
+2026-04-03 13:23:28.724 +07:00 [INF] [Microsoft.AspNetCore.Routing.EndpointMiddleware] Executed endpoint 'HTTP: GET /scalar/{documentName?}'
+{"EventId":{"Id":1,"Name":"ExecutedEndpoint"},"RequestId":"0HNKH961IMSFN:00000003","RequestPath":"/scalar","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":15,"Application":"SchoolManagement"}
+2026-04-03 13:23:28.732 +07:00 [INF] [Serilog.AspNetCore.RequestLoggingMiddleware] HTTP GET /scalar responded 302 in 31.4246ms
+{"RequestHost":"localhost:7248","UserAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36","RemoteIP":"::1","RequestId":"0HNKH961IMSFN:00000003","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":15,"Application":"SchoolManagement"}
+2026-04-03 13:23:28.741 +07:00 [INF] [Microsoft.AspNetCore.Hosting.Diagnostics] Request finished HTTP/2 GET https://localhost:7248/scalar - 302 null null 53.1504ms
+{"EventId":{"Id":2},"RequestId":"0HNKH961IMSFN:00000003","RequestPath":"/scalar","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":15,"Application":"SchoolManagement"}
+2026-04-03 13:23:28.744 +07:00 [INF] [Microsoft.AspNetCore.Hosting.Diagnostics] Request starting HTTP/2 GET https://localhost:7248/scalar/ - null null
+{"EventId":{"Id":1},"RequestId":"0HNKH961IMSFN:00000005","RequestPath":"/scalar/","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":7,"Application":"SchoolManagement"}
+2026-04-03 13:23:28.766 +07:00 [INF] [Microsoft.AspNetCore.Routing.EndpointMiddleware] Executing endpoint 'HTTP: GET /scalar/{documentName?}'
+{"EventId":{"Name":"ExecutingEndpoint"},"RequestId":"0HNKH961IMSFN:00000005","RequestPath":"/scalar/","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":7,"Application":"SchoolManagement"}
+2026-04-03 13:23:28.864 +07:00 [INF] [Microsoft.AspNetCore.Http.Result.ContentResult] Write content with HTTP Response ContentType of text/html
+{"EventId":{"Id":2,"Name":"WritingResultAsContent"},"RequestId":"0HNKH961IMSFN:00000005","RequestPath":"/scalar/","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":7,"Application":"SchoolManagement"}
+2026-04-03 13:23:28.883 +07:00 [INF] [Microsoft.AspNetCore.Routing.EndpointMiddleware] Executed endpoint 'HTTP: GET /scalar/{documentName?}'
+{"EventId":{"Id":1,"Name":"ExecutedEndpoint"},"RequestId":"0HNKH961IMSFN:00000005","RequestPath":"/scalar/","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":7,"Application":"SchoolManagement"}
+2026-04-03 13:23:28.894 +07:00 [INF] [Serilog.AspNetCore.RequestLoggingMiddleware] HTTP GET /scalar/ responded 200 in 130.7017ms
+{"RequestHost":"localhost:7248","UserAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36","RemoteIP":"::1","RequestId":"0HNKH961IMSFN:00000005","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":7,"Application":"SchoolManagement"}
+2026-04-03 13:23:28.900 +07:00 [INF] [Microsoft.AspNetCore.Hosting.Diagnostics] Request starting HTTP/2 GET https://localhost:7248/scalar/scalar.js - null null
+{"EventId":{"Id":1},"RequestId":"0HNKH961IMSFN:00000007","RequestPath":"/scalar/scalar.js","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":12,"Application":"SchoolManagement"}
+2026-04-03 13:23:28.900 +07:00 [INF] [Microsoft.AspNetCore.Hosting.Diagnostics] Request starting HTTP/2 GET https://localhost:7248/scalar/scalar.aspnetcore.js - null null
+{"EventId":{"Id":1},"RequestId":"0HNKH961IMSFN:00000009","RequestPath":"/scalar/scalar.aspnetcore.js","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":15,"Application":"SchoolManagement"}
+2026-04-03 13:23:28.900 +07:00 [INF] [Microsoft.AspNetCore.Hosting.Diagnostics] Request starting HTTP/2 GET https://localhost:7248/_framework/aspnetcore-browser-refresh.js - null null
+{"EventId":{"Id":1},"RequestId":"0HNKH961IMSFN:0000000B","RequestPath":"/_framework/aspnetcore-browser-refresh.js","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":10,"Application":"SchoolManagement"}
+2026-04-03 13:23:28.901 +07:00 [INF] [Microsoft.AspNetCore.Hosting.Diagnostics] Request starting HTTP/2 GET https://localhost:7248/_vs/browserLink - null null
+{"EventId":{"Id":1},"RequestId":"0HNKH961IMSFN:0000000D","RequestPath":"/_vs/browserLink","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":9,"Application":"SchoolManagement"}
+2026-04-03 13:23:28.903 +07:00 [INF] [Microsoft.AspNetCore.Hosting.Diagnostics] Request finished HTTP/2 GET https://localhost:7248/scalar/ - 200 null text/html 158.605ms
+{"EventId":{"Id":2},"RequestId":"0HNKH961IMSFN:00000005","RequestPath":"/scalar/","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":7,"Application":"SchoolManagement"}
+2026-04-03 13:23:28.912 +07:00 [INF] [Microsoft.AspNetCore.Routing.EndpointMiddleware] Executing endpoint 'HTTP: GET /scalar/scalar.js'
+{"EventId":{"Name":"ExecutingEndpoint"},"RequestId":"0HNKH961IMSFN:00000007","RequestPath":"/scalar/scalar.js","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":12,"Application":"SchoolManagement"}
+2026-04-03 13:23:28.921 +07:00 [INF] [Microsoft.AspNetCore.Routing.EndpointMiddleware] Executing endpoint 'HTTP: GET /scalar/scalar.aspnetcore.js'
+{"EventId":{"Name":"ExecutingEndpoint"},"RequestId":"0HNKH961IMSFN:00000009","RequestPath":"/scalar/scalar.aspnetcore.js","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":15,"Application":"SchoolManagement"}
+2026-04-03 13:23:28.939 +07:00 [INF] [Microsoft.AspNetCore.Hosting.Diagnostics] Request finished HTTP/2 GET https://localhost:7248/_framework/aspnetcore-browser-refresh.js - 200 14937 application/javascript; charset=utf-8 38.2909ms
+{"EventId":{"Id":2},"RequestId":"0HNKH961IMSFN:0000000B","RequestPath":"/_framework/aspnetcore-browser-refresh.js","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":10,"Application":"SchoolManagement"}
+2026-04-03 13:23:28.960 +07:00 [INF] [Microsoft.AspNetCore.Http.Result.FileStreamResult] Sending file with download name ''.
+{"EventId":{"Id":5,"Name":"WritingResultAsFileWithNoFileName"},"RequestId":"0HNKH961IMSFN:00000007","RequestPath":"/scalar/scalar.js","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":12,"Application":"SchoolManagement"}
+2026-04-03 13:23:28.963 +07:00 [INF] [Microsoft.AspNetCore.Http.Result.FileStreamResult] Sending file with download name ''.
+{"EventId":{"Id":5,"Name":"WritingResultAsFileWithNoFileName"},"RequestId":"0HNKH961IMSFN:00000009","RequestPath":"/scalar/scalar.aspnetcore.js","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":15,"Application":"SchoolManagement"}
+2026-04-03 13:23:28.978 +07:00 [INF] [Microsoft.AspNetCore.Hosting.Diagnostics] Request finished HTTP/2 GET https://localhost:7248/_vs/browserLink - 200 null text/javascript; charset=UTF-8 77.8266ms
+{"EventId":{"Id":2},"RequestId":"0HNKH961IMSFN:0000000D","RequestPath":"/_vs/browserLink","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":10,"Application":"SchoolManagement"}
+2026-04-03 13:23:28.991 +07:00 [INF] [Microsoft.AspNetCore.Routing.EndpointMiddleware] Executed endpoint 'HTTP: GET /scalar/scalar.aspnetcore.js'
+{"EventId":{"Id":1,"Name":"ExecutedEndpoint"},"RequestId":"0HNKH961IMSFN:00000009","RequestPath":"/scalar/scalar.aspnetcore.js","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":15,"Application":"SchoolManagement"}
+2026-04-03 13:23:29.002 +07:00 [INF] [Microsoft.AspNetCore.Routing.EndpointMiddleware] Executed endpoint 'HTTP: GET /scalar/scalar.js'
+{"EventId":{"Id":1,"Name":"ExecutedEndpoint"},"RequestId":"0HNKH961IMSFN:00000007","RequestPath":"/scalar/scalar.js","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":10,"Application":"SchoolManagement"}
+2026-04-03 13:23:29.007 +07:00 [INF] [Serilog.AspNetCore.RequestLoggingMiddleware] HTTP GET /scalar/scalar.aspnetcore.js responded 200 in 85.9771ms
+{"RequestHost":"localhost:7248","UserAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36","RemoteIP":"::1","RequestId":"0HNKH961IMSFN:00000009","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":15,"Application":"SchoolManagement"}
+2026-04-03 13:23:29.014 +07:00 [INF] [Serilog.AspNetCore.RequestLoggingMiddleware] HTTP GET /scalar/scalar.js responded 200 in 101.7180ms
+{"RequestHost":"localhost:7248","UserAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36","RemoteIP":"::1","RequestId":"0HNKH961IMSFN:00000007","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":10,"Application":"SchoolManagement"}
+2026-04-03 13:23:29.017 +07:00 [INF] [Microsoft.AspNetCore.Hosting.Diagnostics] Request finished HTTP/2 GET https://localhost:7248/scalar/scalar.aspnetcore.js - 200 1111 text/javascript 117.0026ms
+{"EventId":{"Id":2},"RequestId":"0HNKH961IMSFN:00000009","RequestPath":"/scalar/scalar.aspnetcore.js","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":15,"Application":"SchoolManagement"}
+2026-04-03 13:23:29.023 +07:00 [INF] [Microsoft.AspNetCore.Hosting.Diagnostics] Request finished HTTP/2 GET https://localhost:7248/scalar/scalar.js - 200 992869 text/javascript 123.1275ms
+{"EventId":{"Id":2},"RequestId":"0HNKH961IMSFN:00000007","RequestPath":"/scalar/scalar.js","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":10,"Application":"SchoolManagement"}
+2026-04-03 13:23:29.199 +07:00 [INF] [Microsoft.AspNetCore.Hosting.Diagnostics] Request starting HTTP/2 GET https://localhost:7248/openapi/v1.json - null null
+{"EventId":{"Id":1},"RequestId":"0HNKH961IMSFN:0000000F","RequestPath":"/openapi/v1.json","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":10,"Application":"SchoolManagement"}
+2026-04-03 13:23:29.207 +07:00 [INF] [Microsoft.AspNetCore.Routing.EndpointMiddleware] Executing endpoint 'HTTP: GET /openapi/{documentName}.json'
+{"EventId":{"Name":"ExecutingEndpoint"},"RequestId":"0HNKH961IMSFN:0000000F","RequestPath":"/openapi/v1.json","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":10,"Application":"SchoolManagement"}
+2026-04-03 13:23:29.247 +07:00 [INF] [Microsoft.AspNetCore.Routing.EndpointMiddleware] Executed endpoint 'HTTP: GET /openapi/{documentName}.json'
+{"EventId":{"Id":1,"Name":"ExecutedEndpoint"},"RequestId":"0HNKH961IMSFN:0000000F","RequestPath":"/openapi/v1.json","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":15,"Application":"SchoolManagement"}
+2026-04-03 13:23:29.255 +07:00 [INF] [Serilog.AspNetCore.RequestLoggingMiddleware] HTTP GET /openapi/v1.json responded 200 in 48.0834ms
+{"RequestHost":"localhost:7248","UserAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36","RemoteIP":"::1","RequestId":"0HNKH961IMSFN:0000000F","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":15,"Application":"SchoolManagement"}
+2026-04-03 13:23:29.263 +07:00 [INF] [Microsoft.AspNetCore.Hosting.Diagnostics] Request finished HTTP/2 GET https://localhost:7248/openapi/v1.json - 200 null application/json;charset=utf-8 63.5608ms
+{"EventId":{"Id":2},"RequestId":"0HNKH961IMSFN:0000000F","RequestPath":"/openapi/v1.json","ConnectionId":"0HNKH961IMSFN","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":15,"Application":"SchoolManagement"}

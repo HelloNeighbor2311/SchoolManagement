@@ -16,14 +16,14 @@ namespace SchoolManagement.Controllers
     public class CourseSemesterController (ICourseSemesterService service): BaseApiController
     {
         [HttpPost]
-        [Authorize(Policy = PolicyConstants.AllMighty)]
+        [Authorize(Policy = PermissionConstants.AllMighty)]
         public async Task<ActionResult<CourseSemesterResponse>> CreateCourseSemester([FromBody] CreateCourseSemesterRequest request)
         {
             var result = await service.CreateCourseSemester(request);
             return Ok(result);
         }
         [HttpDelete]
-        [Authorize(Policy = PolicyConstants.AllMighty)]
+        [Authorize(Policy = PermissionConstants.AllMighty)]
         public async Task<ActionResult<CourseSemesterResponse>> DeleteCourseSemester([FromQuery] int id)
         {
             await service.DeleteCourseSemester(id);

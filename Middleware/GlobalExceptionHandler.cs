@@ -83,7 +83,7 @@ namespace SchoolManagement.Middleware
             }
 
             // Nối lại thành 1 chuỗi để dễ đọc
-            return string.Join(" → ", messages);
+            return string.Join(" ", messages);
         }
     }
 }

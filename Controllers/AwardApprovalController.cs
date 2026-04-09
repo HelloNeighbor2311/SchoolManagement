@@ -15,28 +15,28 @@ namespace SchoolManagement.Controllers
     public class AwardApprovalController(IAwardApprovalService service) : BaseApiController
     {
         [HttpPost]
-        [Authorize(Policy = PolicyConstants.AllMighty)]
+        [Authorize(Policy = PermissionConstants.AllMighty)]
         public async Task<ActionResult<AwardApprovalResponse>> CreateAwardApproval([FromBody]CreateAwardApprovalRequest request)
         {
             var result = await service.CreateAwardApproval(request);
             return Ok(result);
         }
         [HttpGet]
-        [Authorize(Policy = PolicyConstants.AllMighty)]
+        [Authorize(Policy = PermissionConstants.AllMighty)]
         public async Task<ActionResult<List<AwardApprovalResponse>>> GetAllAwardApprovals()
         {
             var result = await service.GetAllAwardApprovals();
             return Ok(result);
         }
         [HttpGet("ListByTeacherId")]
-        [Authorize(Policy = PolicyConstants.TeacherAndAdmin)]
+        [Authorize(Policy = PermissionConstants.TeacherAndAdmin)]
         public async Task<ActionResult<List<AwardApprovalResponse>>> GetListAwardApprovalsViaTeacherId([FromQuery] int teacherId)
         {
             var result = await service.GetAwardApprovalsViaTeacherId(teacherId);
             return Ok(result);
         }
         [HttpPut]
-        [Authorize(Policy = PolicyConstants.AllMighty)]
+        [Authorize(Policy = PermissionConstants.AllMighty)]
         public async Task<ActionResult> UpdateAwardApproval([FromQuery]int id,[FromBody] UpdateAwardApprovalRequest request)
         {
             await service.UpdateAwardApproval(id, request);
@@ -55,7 +55,7 @@ namespace SchoolManagement.Controllers
             
         }
         [HttpDelete]
-        [Authorize(Policy = PolicyConstants.AllMighty)]
+        [Authorize(Policy = PermissionConstants.AllMighty)]
         public async Task<ActionResult> DeleteAwardApproval([FromQuery]int id)
         {
             await service.DeleteAwardApproval(id);

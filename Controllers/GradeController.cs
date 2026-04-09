@@ -14,7 +14,7 @@ namespace SchoolManagement.Controllers
     public class GradeController(IGradeService service) : BaseApiController
     {
         [HttpGet]
-        [Authorize(Policy = PolicyConstants.ForStudent)]
+        [Authorize(Policy = PermissionConstants.ForStudent)]
         public async Task<ActionResult<GradeResponse>> GetAllGradeWithStudentId()
         {
             if (!TryGetCurrentUserId(out int id)) return Unauthorized("Cannot find userId");

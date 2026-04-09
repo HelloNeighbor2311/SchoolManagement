@@ -15,35 +15,35 @@ namespace SchoolManagement.Controllers
     public class SemesterController(ISemesterService service) : BaseApiController
     {
         [HttpPost]
-        [Authorize(Policy = PolicyConstants.AllMighty)]
+        [Authorize(Policy = PermissionConstants.AllMighty)]
         public async Task<ActionResult<SemesterResponse>> CreateSemester(CreateSemesterRequest request)
         {
             var result = await service.CreateSemester(request);
             return Ok(result);
         }
         [HttpGet]
-        [Authorize(Policy = PolicyConstants.TeacherAndAdmin)]
+        [Authorize(Policy = PermissionConstants.TeacherAndAdmin)]
         public async Task<ActionResult<List<SemesterResponse>>> GetAllSemester()
         {
             var result = await service.GetAllSemester();
             return Ok(result);
         }
         [HttpGet("id")]
-        [Authorize(Policy = PolicyConstants.TeacherAndAdmin)]
+        [Authorize(Policy = PermissionConstants.TeacherAndAdmin)]
         public async Task<ActionResult<SemesterResponse>> GetSemesterById([FromQuery] int id)
         {
             var result = await service.GetSemesterById(id);
             return Ok(result);
         }
         [HttpGet("detail")]
-        [Authorize(Policy = PolicyConstants.TeacherAndAdmin)]
+        [Authorize(Policy = PermissionConstants.TeacherAndAdmin)]
         public async Task<ActionResult<SemesterDetailResponse>> GetSemesterDetail([FromQuery] int id)
         {
             var result = await service.GetSemesterDetail(id);
             return Ok(result);
         }
         [HttpDelete]
-        [Authorize(Policy = PolicyConstants.AllMighty)]
+        [Authorize(Policy = PermissionConstants.AllMighty)]
         public async Task<ActionResult> DeleteSemester([FromQuery] int id)
         {
             await service.DeleteSemester(id);

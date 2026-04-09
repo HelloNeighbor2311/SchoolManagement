@@ -170,6 +170,7 @@ namespace SchoolManagement.Services
                 }catch(Exception e)
                 {
                     logger.LogOperationError("UpdateAwardApproval", e, teacherId, id);
+                    throw;
                 }
             }
         }
