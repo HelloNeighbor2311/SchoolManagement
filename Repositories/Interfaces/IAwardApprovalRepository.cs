@@ -10,6 +10,7 @@ namespace SchoolManagement.Repositories.Interfaces
         Task<AwardApproval> CreateApprovalAsync(AwardApproval approval);
         Task<AwardApprovalResponse?> GetAwardApprovalResponseViaIdAsync(int awardApprovalId);
         Task<int> CountApprovedAwardApprovalsByAwardId(int awardId);
+        Task<bool> CheckConfirmedApprovalsByAwardId(int awardId);
         Task<AwardApproval?> GetAwardApprovalViaIdAsync(int awardApprovalId);
         Task UpdateAwardApprovalAsync(AwardApproval approval);
         Task DeleteAwardApprovalAsync(AwardApproval approval);

@@ -84,12 +84,6 @@ namespace SchoolManagement.Services
                 uow.Award.SetRowVersion(award, rowVersionBytes);
                 if (!string.IsNullOrWhiteSpace(request.Description)) award.Description = request.Description;
                 if (request.RequireApproval != null) award.RequireApproval = request.RequireApproval;
-                award.status = request.status.ToLower() switch
-                {
-                    "approved" => Status.Approved,
-                    "rejected" => Status.Rejected,
-                    _ => Status.Pending
-                };
                 try
                 {
                     await uow.SaveChangeAsync();

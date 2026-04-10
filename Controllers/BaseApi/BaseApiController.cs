@@ -20,7 +20,7 @@ namespace SchoolManagement.Controllers.BaseApi
         protected int GetCurrentUserId()
         {
             if (!TryGetCurrentUserId(out int userId))
-                throw new UnauthorizedException("Không tìm thấy thông tin người dùng.");
+                throw new UnauthorizedException("Cannot find user information");
             return userId;
         }
         protected bool IsAdmin()

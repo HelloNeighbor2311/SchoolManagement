@@ -51,5 +51,11 @@ namespace SchoolManagement.Repositories
         {
             Context.Update(approval);
         }
+
+        public async Task<bool> CheckConfirmedApprovalsByAwardId(int awardId)
+        {
+            if (await Context.AwardApprovals.AnyAsync(u => u.decision == Decision.Pending)) return false;
+            return true;
+        }
     }
 }

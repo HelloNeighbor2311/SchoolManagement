@@ -15,6 +15,13 @@ namespace SchoolManagement.Controllers
     [Authorize]
     public class CourseSemesterController (ICourseSemesterService service): BaseApiController
     {
+        [HttpGet]
+        [Authorize(Policy = PermissionConstants.CanViewCourses)]
+        public async Task<ActionResult<List<CourseSemesterResponse>>> GetAllCourseSemesters()
+        {
+            var result = await service.GetAllCourseSemesters();
+            return Ok(result);
+        }
         [HttpPost]
         [Authorize(Policy = PermissionConstants.AllMighty)]
         public async Task<ActionResult<CourseSemesterResponse>> CreateCourseSemester([FromBody] CreateCourseSemesterRequest request)

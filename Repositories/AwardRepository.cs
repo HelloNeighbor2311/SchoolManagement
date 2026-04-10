@@ -10,18 +10,6 @@ namespace SchoolManagement.Repositories
 {
     public class AwardRepository(AppDbContext context, IMapper mapper) : GenericRepository<Award>(context), IAwardRepository
     {
-        public async Task CheckRequireApprovalsAsync(Award award, int approvedNum)
-        {
-            if (award.ExpiredDate < DateTime.UtcNow)
-            {
-                award.status = Status.Rejected;
-            }
-            if (approvedNum == -1) award.status = Status.Rejected;
-            if (award.RequireApproval == approvedNum) { award.status = Status.Approved; }
-            Context.Awards.Update(award);
-
-        }
-
         public async Task<Award> CreateAwardAsync(Award award)
         {
             await Context.Awards.AddAsync(award);

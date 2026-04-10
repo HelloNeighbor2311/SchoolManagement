@@ -2,7 +2,7 @@
 {
     public enum Decision
     {
-        Approve,Reject
+        Approve,Reject, Pending
     }
     public class AwardApproval
     {

@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using SchoolManagement.DTOs.Award;
 using SchoolManagement.DTOs.AwardApproval;
 using SchoolManagement.Exceptions;
 using SchoolManagement.Infrastructure.Logging;
 using SchoolManagement.Models;
 using SchoolManagement.Repositories.UnitOfWork;
 using SchoolManagement.Services.Interfaces;
-using Microsoft.Extensions.Logging;
 
 namespace SchoolManagement.Services
 {
@@ -124,7 +126,6 @@ namespace SchoolManagement.Services
                 await uow.SaveChangeAsync();
 
                 int approvalsNum = await uow.AwardApproval.CountApprovedAwardApprovalsByAwardId(approval.AwardId);
-                await uow.Award.CheckRequireApprovalsAsync(award, approvalsNum);
                 await uow.SaveChangeAsync();
                 logger.LogEntityUpdated("AwardApproval", awardApprovalId);
             }
@@ -162,9 +163,11 @@ namespace SchoolManagement.Services
                     if (request.Comment != "") approval.Comment = request.Comment;
                     await uow.AwardApproval.UpdateAwardApprovalAsync(approval);
                     await uow.SaveChangeAsync();
-
-                    int approvalsNum = await uow.AwardApproval.CountApprovedAwardApprovalsByAwardId(approval.AwardId);
-                    await uow.Award.CheckRequireApprovalsAsync(award, approvalsNum);
+                    if (await uow.AwardApproval.CheckConfirmedApprovalsByAwardId(award.AwardId))
+                    {
+                        int approvalsNum = await uow.AwardApproval.CountApprovedAwardApprovalsByAwardId(approval.AwardId);
+                        UpdateAwardStatus(award, approvalsNum);
+                    }
                     await uow.SaveChangeAsync();
                     logger.LogEntityUpdated("AwardApproval", awardApprovalId);
                 }catch(Exception e)
@@ -173,6 +176,22 @@ namespace SchoolManagement.Services
                     throw;
                 }
             }
+        }
+
+        private void UpdateAwardStatus(Award award, int approvalsNum)
+        { 
+            uow.Award.SetRowVersion(award, award.RowVersion);
+            if (approvalsNum == award.RequireApproval)
+            {
+                logger.LogInformation("Award {AwardId} met required approvals, setting Approved", award.AwardId);
+                award.status = Status.Approved;
+            }
+            else
+            {
+                logger.LogInformation("Award {AwardId} doesn't meet required approvals, setting Approved", award.AwardId);
+                award.status = Status.Rejected;
+            }
+            logger.LogEntityUpdated("Award", award.AwardId);
         }
     }
 }

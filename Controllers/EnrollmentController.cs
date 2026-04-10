@@ -13,13 +13,13 @@ namespace SchoolManagement.Controllers
     public class EnrollmentController(IEnrollmentService service) : BaseApiController
     {
         [HttpGet]
-        [Authorize(Policy = PermissionConstants.AllMighty)]
+        [Authorize(Policy = PermissionConstants.CanViewCourses)]
         public async Task<ActionResult<List<EnrollmentResponse>>> GetAllEnrollments()
         {
             var result = await service.GetAllEnrollments();
             return Ok(result);
         }
-        [HttpPost]
+        [HttpPost("RegisterEnrollment")]
         [Authorize(Policy = PermissionConstants.ForStudent)]
         public async Task<ActionResult<EnrollmentResponse>> RegisterEnrollment([FromBody]RegisterEnrollmentRequest request)
         {
@@ -30,7 +30,7 @@ namespace SchoolManagement.Controllers
             var result = await service.RegisterEnrollment(studentId, request);
             return Ok(result);
         }
-        [HttpDelete]
+        [HttpDelete("DeleteEnrollment")]
         [Authorize(Policy = PermissionConstants.AllMighty)]
         public async Task<ActionResult> DeleteEnrollment([FromQuery]int id)
         {

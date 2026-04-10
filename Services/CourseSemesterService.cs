@@ -55,5 +55,10 @@ namespace SchoolManagement.Services
                 }
             }
         }
+
+        public async Task<List<CourseSemesterResponse>> GetAllCourseSemesters()
+        {
+            return await uow.CourseSemester.GetAllCourseSemesters();
+        }
     }
 }

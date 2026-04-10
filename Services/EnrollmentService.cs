@@ -56,9 +56,11 @@ namespace SchoolManagement.Services
             {
                 if (!await uow.User.IsStudentAsync(studentId)) throw new NotFoundException($"The student with the Id {studentId} was not found");
                 if (!await uow.CourseSemester.ExistsAsync(u => u.CourseSemesterId == request.CourseSemesterId)) throw new NotFoundException($"The course semester with the Id {request.CourseSemesterId} was not found");
+                if (!await uow.TeacherCourseSemester.ExistsAsync(u => u.CourseSemesterId == request.CourseSemesterId)) throw new BadRequestException("Cannot register enrollment which haven't been allocated by any teacher");
                 if (await uow.Enrollment.ExistsAsync(p => p.StudentId == studentId && p.CourseSemesterId == request.CourseSemesterId)) throw new ConflictException($"The student with Id {studentId} is already enrolled in the Course with Id {request.CourseSemesterId}");
                 var courseSemester = await uow.CourseSemester.GetCourseSemesterByIdAsync(request.CourseSemesterId);
                 var enrollment = mapper.Map<Enrollment>(request);
+                enrollment.StudentId = studentId;
                 enrollment.Grade = new Grade
                 {
                     FirstGrade = null,
