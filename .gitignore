@@ -2,3 +2,9 @@ bin/
 obj/
 .env
 secrets.json
+
+# Logs
+logs/
+**/logs/
+*.log
+*.log.*
