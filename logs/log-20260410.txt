@@ -1905,3 +1905,15 @@ SchoolManagement.Exceptions.BadRequestException: Cannot register enrollment whic
 {"RequestHost":"localhost:7248","UserAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36","RemoteIP":"::1","RequestId":"0HNKMMOLN33FB:0000000D","ConnectionId":"0HNKMMOLN33FB","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":84,"Application":"SchoolManagement"}
 2026-04-10 11:03:50.756 +07:00 [INF] [Microsoft.AspNetCore.Hosting.Diagnostics] Request finished HTTP/2 GET https://localhost:7248/scalar/favicon.svg - 200 533 image/svg+xml 33.5082ms
 {"EventId":{"Id":2},"RequestId":"0HNKMMOLN33FB:0000000D","RequestPath":"/scalar/favicon.svg","ConnectionId":"0HNKMMOLN33FB","MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":84,"Application":"SchoolManagement"}
+2026-04-10 11:34:54.206 +07:00 [INF] [Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager] User profile is available. Using 'C:\Users\Viet Dat\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+{"EventId":{"Id":63,"Name":"UsingProfileAsKeyRepositoryWithDPAPI"},"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-10 11:34:54.316 +07:00 [INF] [Microsoft.Hosting.Lifetime] Now listening on: https://localhost:7248
+{"EventId":{"Id":14,"Name":"ListeningOnAddress"},"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-10 11:34:54.322 +07:00 [INF] [Microsoft.Hosting.Lifetime] Now listening on: http://localhost:5129
+{"EventId":{"Id":14,"Name":"ListeningOnAddress"},"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-10 11:34:54.358 +07:00 [INF] [Microsoft.Hosting.Lifetime] Application started. Press Ctrl+C to shut down.
+{"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-10 11:34:54.361 +07:00 [INF] [Microsoft.Hosting.Lifetime] Hosting environment: Development
+{"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
+2026-04-10 11:34:54.364 +07:00 [INF] [Microsoft.Hosting.Lifetime] Content root path: D:\Viet Dat\Visual Studio\C#\SchoolManagement\SchoolManagement
+{"MachineName":"HELLONEIGHBOR","EnvironmentName":"Development","ThreadId":2,"Application":"SchoolManagement"}
