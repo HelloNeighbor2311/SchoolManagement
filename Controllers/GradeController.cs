@@ -14,7 +14,7 @@ namespace SchoolManagement.Controllers
     public class GradeController(IGradeService service) : BaseApiController
     {
         [HttpGet]
-        [Authorize(Policy = PermissionConstants.ForStudent)]
+        [Authorize(Policy = PolicyConstants.ForStudent)]
         public async Task<ActionResult<GradeResponse>> GetAllGradeWithStudentId()
         {
             if (!TryGetCurrentUserId(out int id)) return Unauthorized("Cannot find userId");
@@ -22,7 +22,7 @@ namespace SchoolManagement.Controllers
             return Ok(result);
         }
         [HttpPut]
-        [Authorize(Policy = PermissionConstants.TeacherAndAdmin)]
+        [Authorize(Policy = PolicyConstants.TeacherAndAdmin)]
         public async Task<ActionResult> UpdateGrade([FromQuery]int id, [FromBody]UpdateGradeRequest request)
         {
             await service.UpdateGrade(id, request);

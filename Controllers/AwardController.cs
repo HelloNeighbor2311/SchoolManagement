@@ -14,28 +14,28 @@ namespace SchoolManagement.Controllers
     public class AwardController(IAwardService service) : BaseApiController
     {
         [HttpGet]
-        [Authorize(Policy = PermissionConstants.TeacherAndAdmin)]
+        [Authorize(Policy = PolicyConstants.TeacherAndAdmin)]
         public async Task<ActionResult<List<AwardResponse>>> GetAllAwards()
         {
             var result = await service.GetAllAwards();
             return Ok(result);
         }
         [HttpPost]
-        [Authorize(Policy = PermissionConstants.AllMighty)]
+        [Authorize(Policy = PolicyConstants.ForAdminOnly)]
         public async Task<ActionResult<AwardResponse>> CreateAward(CreateAwardRequest request)
         {
             var result = await service.CreateAward(request);
             return Ok(result);
         }
         [HttpDelete]
-        [Authorize(Policy = PermissionConstants.AllMighty)]
+        [Authorize(Policy = PolicyConstants.ForAdminOnly)]
         public async Task<ActionResult> DeleteAward([FromQuery] int id)
         {
             await service.DeleteAward(id);
             return NoContent();
         }
         [HttpPut]
-        [Authorize(Policy = PermissionConstants.AllMighty)]
+        [Authorize(Policy = PolicyConstants.ForAdminOnly)]
         public async Task<ActionResult<AwardResponse>> UpdateAward([FromQuery] int id, [FromBody] UpdateAwardRequest request)
         {
             var result = await service.UpdateAward(id, request);

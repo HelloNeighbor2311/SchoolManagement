@@ -22,19 +22,16 @@ namespace SchoolManagement.Mappings
             //Auth
             CreateMap<CreateUserResponse, Admin>().
                 ForMember(destination => destination.PasswordHashed, opt => opt.Ignore()).
-                ForMember(destination => destination.CreatedDate, opt => opt.MapFrom(_ => DateTime.UtcNow));
+                ForMember(destination => destination.CreatedDate, opt => opt.MapFrom(_ => DateTime.UtcNow)).
+                ForMember(dest => dest.RoleId, opt => opt.MapFrom(_ => 1));
             CreateMap<CreateUserResponse, Teacher>().
                 ForMember(destination => destination.PasswordHashed, opt => opt.Ignore()).
-                ForMember(destination => destination.CreatedDate, opt => opt.MapFrom(_ => DateTime.UtcNow));
+                ForMember(destination => destination.CreatedDate, opt => opt.MapFrom(_ => DateTime.UtcNow)).
+                ForMember(dest => dest.RoleId, opt => opt.MapFrom(_ => 3));
             CreateMap<CreateUserResponse, Student>().
                 ForMember(destination => destination.PasswordHashed, opt => opt.Ignore()).
-                ForMember(destination => destination.CreatedDate, opt => opt.MapFrom(_ => DateTime.UtcNow));
-            CreateMap<UpdateUserRequest, Admin>().
-                ForMember(destination => destination.PasswordHashed, opt => opt.Ignore());
-            CreateMap<UpdateUserRequest, Teacher>().
-                ForMember(destination => destination.PasswordHashed, opt => opt.Ignore());
-            CreateMap<UpdateUserRequest, Student>().
-                ForMember(destination => destination.PasswordHashed, opt => opt.Ignore());
+                ForMember(destination => destination.CreatedDate, opt => opt.MapFrom(_ => DateTime.UtcNow)).
+                ForMember(dest => dest.RoleId, opt => opt.MapFrom(_ => 2));
             CreateMap<User, UserResponse>().ForMember(destination => destination.RoleName, opt => opt.MapFrom(src => src.Role.RoleName)).
                  ForMember(dest => dest.RowVersion, opt => opt.MapFrom(src => Convert.ToBase64String(src.RowVersion)));
             CreateMap<Admin, UserResponse>().ForMember(destination => destination.RoleName, opt => opt.MapFrom(src => src.Role.RoleName)).
@@ -75,7 +72,8 @@ namespace SchoolManagement.Mappings
                 ForMember(destination => destination.StudentName, opt => opt.MapFrom(u => u.Student != null ? u.Student.Name : string.Empty)).
                 ForMember(destination => destination.CourseName, opt => opt.MapFrom(u => u.CourseSemester != null ? u.CourseSemester.Course!.CourseName : string.Empty)).
                 ForMember(destination => destination.SemesterDescription, opt => opt.MapFrom(u => u.CourseSemester != null ? u.CourseSemester.Semester!.Description : string.Empty));
-            CreateMap<RegisterEnrollmentRequest, Enrollment>();
+            CreateMap<RegisterEnrollmentRequest, Enrollment>().
+                ForMember(destination => destination.StudentId, opt => opt.Ignore());
             CreateMap<Grade, GradeResponse>().
                 ForMember(destination => destination.CourseName, opt => opt.MapFrom(u => u.Enrollment!.CourseSemester != null ? u.Enrollment.CourseSemester.Course!.CourseName : string.Empty)).
                 ForMember(destination => destination.SemesterDescription, opt => opt.MapFrom(u => u.Enrollment!.CourseSemester != null ? u.Enrollment.CourseSemester.Semester!.Description : string.Empty)).

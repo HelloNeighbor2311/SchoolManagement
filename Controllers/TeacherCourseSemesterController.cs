@@ -13,21 +13,21 @@ namespace SchoolManagement.Controllers
     public class TeacherCourseSemesterController(ITeacherCourseSemesterService service) : BaseApiController
     {
         [HttpGet]
-        [Authorize(Policy = PermissionConstants.TeacherAndAdmin)]
+        [Authorize(Policy = PolicyConstants.TeacherAndAdmin)]
         public async Task<ActionResult<List<TeacherCourseSemesterResponse>>> GetAllTeacherCourseSemester()
         {
             var result = await service.GetAllTeacherCourseSemester();
             return Ok(result);
         }
         [HttpPost]
-        [Authorize(Policy = PermissionConstants.AllMighty)]
+        [Authorize(Policy = PolicyConstants.ForAdminOnly)]
         public async Task<ActionResult<TeacherCourseSemesterResponse>> AllocateTeacherToCourse([FromBody] AllocateTeacherCourseSemesterRequest request)
         {
             var result = await service.AllocateTeacherToCourse(request);
             return Ok(result);
         }
         [HttpDelete]
-        [Authorize(Policy = PermissionConstants.AllMighty)]
+        [Authorize(Policy = PolicyConstants.ForAdminOnly)]
         public async Task<ActionResult> DeleteTeacherFromCourse([FromQuery] int id)
         {
             await service.DeleteTeacherFromCourse(id);

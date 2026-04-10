@@ -12,7 +12,6 @@ namespace SchoolManagement.DTOs.Authentication
         public string Name { get; set; } = string.Empty;
         [Required]
         public string Email { get; set; } = string.Empty;
-        public DateTime? CreatedDate { get; set; }
         [Required]
         public string Speciality { get; set; } = string.Empty;
     }

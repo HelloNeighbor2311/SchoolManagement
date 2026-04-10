@@ -14,7 +14,7 @@ namespace SchoolManagement.Controllers
     public class GpaController(IGpaService service) : BaseApiController
     {
         [HttpGet]
-        [Authorize(Policy = PermissionConstants.TeacherAndAdmin)]
+        [Authorize(Policy = PolicyConstants.TeacherAndAdmin)]
         public async Task<ActionResult<List<GpaResponse>>> GetAllGpas()
         {
             var result = await service.GetAllGpas();

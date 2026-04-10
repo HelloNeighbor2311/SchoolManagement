@@ -15,7 +15,7 @@ namespace SchoolManagement.Controllers
     public class UserController(IUserService service): BaseApiController
     {
         [HttpPost("CreateUser")]
-        [Authorize(Policy = PermissionConstants.AllMighty)]
+        [Authorize(Policy = PolicyConstants.ForAdminOnly)]
         public async Task<ActionResult<User>> CreateUser(CreateUserResponse request)
         {
             var user = await service.CreateUser(request);
@@ -24,7 +24,7 @@ namespace SchoolManagement.Controllers
             return Ok(user);
         }
         [HttpGet]
-        [Authorize(Policy = PermissionConstants.AllMighty)]
+        [Authorize(Policy = PolicyConstants.ForAdminOnly)]
         public async Task<ActionResult<List<UserResponse>>> GetAllUsers()
         {
             var user = await service.GetAllUsers();
@@ -33,7 +33,7 @@ namespace SchoolManagement.Controllers
             return Ok(user);
         }
         [HttpGet("username")]
-        [Authorize(Policy = PermissionConstants.AllMighty)]
+        [Authorize(Policy = PolicyConstants.ForAdminOnly)]
         public async Task<ActionResult<UserResponse>> GetUserByUsername(string username)
         {
             var user = await service.GetUserByUsername(username);
@@ -42,7 +42,7 @@ namespace SchoolManagement.Controllers
             return Ok(user);
         }
         [HttpGet("{id:int}")]
-        [Authorize(Policy = PermissionConstants.CanViewUserDetail)]
+        [Authorize(Policy = PolicyConstants.OnlyUserCanViewUserDetail)]
         public async Task<ActionResult<UserResponse>> GetUserById([FromRoute]int id)
         {
             var user = await service.GetUserById(id);
@@ -51,7 +51,7 @@ namespace SchoolManagement.Controllers
             return Ok(user);
         }
         [HttpGet("pagination")]
-        [Authorize(Policy = PermissionConstants.AllMighty)]
+        [Authorize(Policy = PolicyConstants.ForAdminOnly)]
         public async Task<ActionResult<List<UserResponse>>> GetUserByPage([FromQuery]PaginationParam param)
         {
             var user = await service.GetPageResultUsers(param);
@@ -60,14 +60,14 @@ namespace SchoolManagement.Controllers
             return Ok(user);
         }
         [HttpPut("{id:int}")]
-        [Authorize(Policy = PermissionConstants.CanViewUserDetail)]
+        [Authorize(Policy = PolicyConstants.OnlyUserCanViewUserDetail)]
         public async Task<ActionResult<UserResponse>> UpdateUser([FromRoute]int id, [FromBody] UpdateUserRequest request)
         {
             var result = await service.UpdateUser(id, request);
             return Ok(result);
         }
         [HttpDelete]
-        [Authorize(Policy = PermissionConstants.AllMighty)]
+        [Authorize(Policy = PolicyConstants.ForAdminOnly)]
         public async Task<ActionResult> DeleteUser([FromQuery] int id)
         {
             await service.DeleteUser(id);

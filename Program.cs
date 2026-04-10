@@ -119,12 +119,12 @@ try
     builder.Services.AddAuthorization(opt =>
     {
         //Role-based policies
-        opt.AddPolicy(PermissionConstants.AllMighty, policy => policy.RequireRole(RoleConstants.Admin));
-        opt.AddPolicy(PermissionConstants.ForStudent, policy => policy.RequireRole(RoleConstants.Student));
-        opt.AddPolicy(PermissionConstants.CanViewCourses, policy => policy.RequireRole(RoleConstants.Admin, RoleConstants.Student, RoleConstants.Teacher));
-        opt.AddPolicy(PermissionConstants.TeacherAndAdmin, policy => policy.RequireRole(RoleConstants.Admin, RoleConstants.Teacher));
+        opt.AddPolicy(PolicyConstants.ForAdminOnly, policy => policy.RequireRole(RoleConstants.Admin));
+        opt.AddPolicy(PolicyConstants.ForStudent, policy => policy.RequireRole(RoleConstants.Student));
+        opt.AddPolicy(PolicyConstants.AuthenticatedUsers, policy => policy.RequireRole(RoleConstants.Admin, RoleConstants.Student, RoleConstants.Teacher));
+        opt.AddPolicy(PolicyConstants.TeacherAndAdmin, policy => policy.RequireRole(RoleConstants.Admin, RoleConstants.Teacher));
         //Custom requirement policies
-        opt.AddPolicy(PermissionConstants.CanViewUserDetail, policy =>
+        opt.AddPolicy(PolicyConstants.OnlyUserCanViewUserDetail, policy =>
         {
             policy.RequireAuthenticatedUser();
             policy.AddRequirements(new SameUserOrAdminRequirement());
