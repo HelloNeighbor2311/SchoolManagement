@@ -1,7 +1,10 @@
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
@@ -77,6 +80,12 @@ try
     //Middleware
     builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
     builder.Services.AddProblemDetails();
+    builder.Services.AddHealthChecks().AddSqlServer(
+        connectionString: builder.Configuration.GetConnectionString("DefaultConnection")!,
+        name: "database",
+        failureStatus: HealthStatus.Unhealthy,
+        timeout: TimeSpan.FromSeconds(5)
+    );
 
     //JWT Authentication
     var jwtSetting = builder.Configuration.GetSection("JwtSettings");
@@ -168,6 +177,8 @@ try
     builder.Services.AddScoped<IGpaService, GpaService>();
     builder.Services.AddScoped<IAwardService, AwardService>();
     builder.Services.AddScoped<IAwardApprovalService, AwardApprovalService>();
+
+
     var app = builder.Build();
     app.UseSerilogRequestLogging(options =>
     {
@@ -185,7 +196,10 @@ try
         app.MapOpenApi();
         app.MapScalarApiReference();
     }
-
+    app.MapHealthChecks("healthz", new HealthCheckOptions
+    {
+        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+    });
     app.UseHttpsRedirection();
     app.UseExceptionHandler();
     app.UseAuthentication();
