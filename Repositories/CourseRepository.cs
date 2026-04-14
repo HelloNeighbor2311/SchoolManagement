@@ -44,22 +44,17 @@ namespace SchoolManagement.Repositories
             return course;
         }
 
-        public async Task<CourseResponse?> GetCourseDetailAsync(int courseId )
+        public async Task<CourseDetailResponse?> GetCourseDetailAsync(int courseId )
         {
             var CourseDetail = await context.Courses
                 .Include(u => u.CourseSemester)
-                    .ThenInclude(cs => cs.Semester).ProjectTo<CourseResponse>(mapper.ConfigurationProvider).FirstOrDefaultAsync(u => u.CourseId == courseId);
+                    .ThenInclude(cs => cs.Semester).ProjectTo<CourseDetailResponse>(mapper.ConfigurationProvider).FirstOrDefaultAsync(u => u.CourseId == courseId);
                 return CourseDetail;
         }
 
         public async Task<CourseResponse?> GetCourseResponseByIdAsync(int courseId)
         {
             return await context.Courses.ProjectTo<CourseDetailResponse>(mapper.ConfigurationProvider).FirstOrDefaultAsync(u => u.CourseId == courseId);
-        }
-
-        Task<CourseDetailResponse?> ICourseRepository.GetCourseDetailAsync(int courseId)
-        {
-            throw new NotImplementedException();
         }
 
     }
