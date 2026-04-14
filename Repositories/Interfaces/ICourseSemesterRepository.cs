@@ -7,6 +7,7 @@ namespace SchoolManagement.Repositories.Interfaces
     {
         Task<List<CourseSemesterResponse>> GetAllCourseSemesters();
         Task<CourseSemester?> GetCourseSemesterByIdAsync(int courseSemesterId);
+        Task<CourseSemesterResponse?> GetCourseSemesterResponseByIdAsync(int courseSemesterId);
         Task CreateCourseSemesterAsync(CourseSemester courseSemester);
         Task DeletetCourseSemesterAsync(CourseSemester courseSemester);
     }

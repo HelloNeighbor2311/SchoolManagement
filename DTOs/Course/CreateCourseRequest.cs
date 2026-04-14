@@ -9,6 +9,6 @@ namespace SchoolManagement.DTOs.Course
         [Required]
         public string Description { get; set; } = string.Empty;
         [Required]
-        public int Credit { get; set; } 
+        public int Credits { get; set; } = 0;
     }
 }

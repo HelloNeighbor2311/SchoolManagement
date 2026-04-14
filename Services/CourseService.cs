@@ -10,7 +10,7 @@ using SchoolManagement.Services.Interfaces;
 
 namespace SchoolManagement.Services
 {
-    public class CourseService(IMapper mapper, IUnitOfWork uow, ILogger<CourseService> logger) : ICourseService
+    public class CourseService(IUnitOfWork uow, ILogger<CourseService> logger) : ICourseService
     {
 
         public async Task<CourseResponse> CreateCourse(CreateCourseRequest request)
@@ -20,11 +20,18 @@ namespace SchoolManagement.Services
             {
                 try
                 {
-                    var course = mapper.Map<Course>(request);
+                    var course = new Course
+                    {
+                        CourseName = request.CourseName,
+                        Description = request.Description,
+                    };
+                    if(request.Credits!=0){
+                        course.Credits = request.Credits;
+                    }
                     var newCourse = await uow.Course.CreateCourseAsync(course);
                     if (newCourse is null) throw new BadRequestException("The current course name is already existed !");
                     await uow.SaveChangeAsync();
-                    var response = mapper.Map<CourseResponse>(newCourse);
+                    var response = await uow.Course.GetCourseResponseByIdAsync(newCourse.CourseId) ?? throw new NotFoundException($"The course with the id {newCourse.CourseId} was not found after creation !");
                     logger.LogEntityCreated("Course", response.CourseId);
                     return response;
                 }catch (Exception e)
@@ -60,12 +67,11 @@ namespace SchoolManagement.Services
             using (logger.BeginOperationScope("FilterCourseInformationByName", ("CourseName", name)))
             using (var timer = logger.TimeOperation("FilterCourseInformationByName"))
             {
-                var listCourse = await uow.Course.FilterCourseInformationByNameAsync(name);
-                if (listCourse is null) throw new NotFoundException($"There is no course meets the '{name}'");
                 try
                 {
-                    var listCourseResponse = listCourse.Select(u => mapper.Map<CourseResponse>(u)).ToList();
-                    return listCourseResponse;
+                    var listCourse = await uow.Course.FilterCourseInformationByNameAsync(name);
+                    if (listCourse is null) throw new NotFoundException($"There is no course meets the '{name}'");
+                    return listCourse;
                 }catch(Exception e)
                 {
                     logger.LogOperationError("FilterCourseInformationByName", e, name);
@@ -82,8 +88,7 @@ namespace SchoolManagement.Services
                 try
                 {
                     var course = await uow.Course.GetAllCourseAsync();
-                    var courseResponse = course.Select(u => mapper.Map<CourseResponse>(u)).ToList();
-                    return courseResponse;
+                    return course;
                 }catch(Exception e)
                 {
                     logger.LogOperationError("GetAllCourse", e);
@@ -99,10 +104,9 @@ namespace SchoolManagement.Services
             {
                 try
                 {
-                    var course = await uow.Course.GetCourseByIdAsync(courseId);
+                    var course = await uow.Course.GetCourseResponseByIdAsync(courseId);
                     if (course is null) throw new NotFoundException($"The given id {courseId} is not existed!");
-                    var courseResponse = mapper.Map<CourseResponse>(course);
-                    return courseResponse;
+                    return course;
                 }
                 catch (Exception e)
                 {
@@ -121,8 +125,7 @@ namespace SchoolManagement.Services
                 {
                     var course = await uow.Course.GetCourseDetailAsync(courseId);
                     if (course is null) throw new NotFoundException($"The course with the given id {courseId} was not found");
-                    var CourseDetailResponse = mapper.Map<CourseDetailResponse>(course);
-                    return CourseDetailResponse;
+                    return course;
                 }catch(Exception e)
                 {
                     logger.LogOperationError("GetCourseDetail", e, courseId);

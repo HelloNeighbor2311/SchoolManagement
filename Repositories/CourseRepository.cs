@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 using SchoolManagement.Datas;
 using SchoolManagement.DTOs.Course;
 using SchoolManagement.Models;
@@ -7,9 +9,9 @@ using System.Collections;
 
 namespace SchoolManagement.Repositories
 {
-    public class CourseRepository(AppDbContext context) : ICourseRepository
+    public class CourseRepository(AppDbContext context, IMapper mapper) : ICourseRepository
     {
-        public async Task<Models.Course?> CreateCourseAsync(Course request)
+        public async Task<Course?> CreateCourseAsync(Course request)
         {
             if (await context.Courses.AnyAsync(p => p.CourseName == request.CourseName)) return null;
             await context.Courses.AddAsync(request);
@@ -21,15 +23,16 @@ namespace SchoolManagement.Repositories
             context.Courses.Remove(course);
         }
 
-        public async Task<List<Course>> GetAllCourseAsync()
+        public async Task<List<CourseResponse>> GetAllCourseAsync()
         {
-            var courses = await context.Courses.ToListAsync();
+            var courses = await context.Courses.ProjectTo<CourseResponse>(mapper.ConfigurationProvider).ToListAsync();
             return courses;
         }
 
-        public async Task<List<Course>?> FilterCourseInformationByNameAsync(string name)
+        public async Task<List<CourseResponse>?> FilterCourseInformationByNameAsync(string name)
         {
-            var courseFiltered = await context.Courses.Where(u => u.CourseName.Contains(name)).ToListAsync();
+            var courseFiltered = await context.Courses.Where(u => u.CourseName.Contains(name))
+            .ProjectTo<CourseResponse>(mapper.ConfigurationProvider).ToListAsync();
             if (courseFiltered.Count == 0) return null;
             return courseFiltered;
         }
@@ -41,13 +44,23 @@ namespace SchoolManagement.Repositories
             return course;
         }
 
-        public async Task<Course?> GetCourseDetailAsync(int courseId )
+        public async Task<CourseResponse?> GetCourseDetailAsync(int courseId )
         {
             var CourseDetail = await context.Courses
                 .Include(u => u.CourseSemester)
-                    .ThenInclude(cs => cs.Semester)
-                .FirstOrDefaultAsync(u => u.CourseId == courseId);
-            return CourseDetail;
+                    .ThenInclude(cs => cs.Semester).ProjectTo<CourseResponse>(mapper.ConfigurationProvider).FirstOrDefaultAsync(u => u.CourseId == courseId);
+                return CourseDetail;
         }
+
+        public async Task<CourseResponse?> GetCourseResponseByIdAsync(int courseId)
+        {
+            return await context.Courses.ProjectTo<CourseDetailResponse>(mapper.ConfigurationProvider).FirstOrDefaultAsync(u => u.CourseId == courseId);
+        }
+
+        Task<CourseDetailResponse?> ICourseRepository.GetCourseDetailAsync(int courseId)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

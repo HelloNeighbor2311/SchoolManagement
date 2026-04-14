@@ -16,10 +16,13 @@ namespace SchoolManagement.Services
             using (logger.BeginOperationScope("CreateSemester"))
             using (var timer = logger.TimeOperation("CreateSemester"))
             {
-                var semester = mapper.Map<Semester>(request);
-                var addedSemester = await uow.Semester.CreateSemesterAsync(semester);
                 try
                 {
+                    var semester = new Semester
+                    {
+                        Description = request.Description
+                    };
+                    var addedSemester = await uow.Semester.CreateSemesterAsync(semester);
                     await uow.SaveChangeAsync();
                     var savedSemester = mapper.Map<SemesterResponse>(addedSemester);
                     logger.LogEntityCreated("Semester", savedSemester.SemesterId);
@@ -58,9 +61,7 @@ namespace SchoolManagement.Services
             using (var timer = logger.TimeOperation("GetAllSemester"))
             {
                 var semester = await uow.Semester.GetAllSemesterAsync();
-                await uow.SaveChangeAsync();
-                var semesterResponse = semester.Select(u => mapper.Map<SemesterResponse>(u)).ToList();
-                return semesterResponse;
+                return semester;
             }
         }
 

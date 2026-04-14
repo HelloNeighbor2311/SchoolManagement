@@ -8,6 +8,7 @@ namespace SchoolManagement.Repositories.Interfaces
         Task<List<EnrollmentResponse>> GetAllEnrollmentInformationAsync();
         Task RegisterEnrollmentAsync(Enrollment request);
         Task<Enrollment?> GetEnrollmentByIdAsync(int enrollmentId);
+        Task<EnrollmentResponse?> GetEnrollmentResponseByIdAsync(int enrollmentId);
         Task DeleteEnrollmentAsync(Enrollment enrollment);
     }
 }

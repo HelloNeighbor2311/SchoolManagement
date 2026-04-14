@@ -9,7 +9,7 @@ using SchoolManagement.Services.Interfaces;
 
 namespace SchoolManagement.Services
 {
-    public class CourseSemesterService(IUnitOfWork uow, IMapper mapper, ILogger<CourseSemesterService> logger) : ICourseSemesterService
+    public class CourseSemesterService(IUnitOfWork uow, ILogger<CourseSemesterService> logger) : ICourseSemesterService
     {
         public async Task<CourseSemesterResponse> CreateCourseSemester(CreateCourseSemesterRequest request)
         {
@@ -20,18 +20,22 @@ namespace SchoolManagement.Services
                 if (await uow.Semester.GetSemesterByIdAsync(request.SemesterId) is null) throw new NotFoundException($"The Semester with the Id {request.SemesterId} was not found !");
                 var isDuplicated = await uow.CourseSemester.ExistsAsync(p => p.CourseId == request.CourseId && p.SemesterId == request.SemesterId);
                 if (isDuplicated) throw new ConflictException($"The Course with the Id {request.CourseId} is already existed in Semester with the Id {request.SemesterId}");
-                var courseSemester = mapper.Map<CourseSemester>(request);
                 try
                 {
+                    var courseSemester = new CourseSemester
+                    {
+                        CourseId = request.CourseId,
+                        SemesterId = request.SemesterId
+                    };
                     await uow.CourseSemester.CreateCourseSemesterAsync(courseSemester);
                     await uow.SaveChangeAsync();
                     var newCourseSemester = await uow.CourseSemester.GetCourseSemesterByIdAsync(courseSemester.CourseSemesterId);
-                    var courseSemesterResponse = mapper.Map<CourseSemesterResponse>(newCourseSemester);
+                    var courseSemesterResponse = await uow.CourseSemester.GetCourseSemesterResponseByIdAsync(newCourseSemester!.CourseSemesterId) ?? throw new NotFoundException($"The Course Semester with the Id {newCourseSemester.CourseSemesterId} was not found after creation !");
                     logger.LogEntityCreated("CourseSemester", courseSemesterResponse.CourseSemesterId);
                     return courseSemesterResponse;
                 }catch(Exception ex)
                 {
-                    logger.LogOperationError("CreateCourseSemester", ex, courseSemester.CourseId, courseSemester.SemesterId);
+                    logger.LogOperationError("CreateCourseSemester", ex, request.CourseId, request.SemesterId);
                     throw;
                 }
             }

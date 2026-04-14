@@ -20,13 +20,20 @@ namespace SchoolManagement.Services
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var roleName = user.Role?.RoleName?.Trim();
+            if (string.IsNullOrWhiteSpace(roleName))
+            {
+                throw new SecurityTokenException("User role is missing. Cannot generate access token for authorization.");
+            }
 
             var listClaims = new List<Claim> {
                 new (JwtRegisteredClaimNames.Sub, user.UserId.ToString()),
+                new (ClaimTypes.NameIdentifier, user.UserId.ToString()),
                 new (JwtRegisteredClaimNames.Name, user.Name),
                 new (JwtRegisteredClaimNames.Email, user.Email),
                 new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new (ClaimTypes.Role, user.Role?.RoleName ?? string.Empty)
+                new (ClaimTypes.Role, roleName),
+                new ("role", roleName)
             };
             var token = new JwtSecurityToken(
                 issuer: this._issuer,

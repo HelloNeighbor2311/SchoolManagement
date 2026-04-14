@@ -10,7 +10,7 @@ using SchoolManagement.Services.Interfaces;
 
 namespace SchoolManagement.Services
 {
-    public class AwardService(IUnitOfWork uow, IMapper mapper, ILogger<AwardService> logger) : IAwardService
+    public class AwardService(IUnitOfWork uow, ILogger<AwardService> logger) : IAwardService
     {
         public async Task<AwardResponse> CreateAward(CreateAwardRequest request)
         {
@@ -21,9 +21,15 @@ namespace SchoolManagement.Services
                 try
                 {
                     var Gpa = await uow.Gpa.FindGpaViaIdAsync(request.GpaId);
-                    var award = mapper.Map<Award>(request);
+                    var award = new Award
+                    {
+                        Description = request.Description,
+                        StudentId = Gpa!.StudentId,
+                        RequireApproval = request.RequireApproval,
+                        ExpiredDate = request.ExpiredDate,
+                        GpaId = request.GpaId
+                    };
                     var result = await uow.Award.CreateAwardAsync(award);
-                    result.StudentId = Gpa.StudentId;
                     await uow.SaveChangeAsync();
                     logger.LogEntityCreated("Award", result.AwardId);
                     var response = await uow.Award.GetAwardResponseViaId(result.AwardId);
@@ -87,7 +93,7 @@ namespace SchoolManagement.Services
                 try
                 {
                     await uow.SaveChangeAsync();
-                    return await uow.Award.GetAwardResponseViaId(awardId);
+                    return await uow.Award.GetAwardResponseViaId(awardId) ?? throw new NotFoundException($"The given AwardID {awardId} was not found!");
                 }
                 catch (DbUpdateConcurrencyException)
                 {

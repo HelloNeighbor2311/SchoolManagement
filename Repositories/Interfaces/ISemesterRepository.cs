@@ -1,10 +1,11 @@
-﻿using SchoolManagement.Models;
+﻿using SchoolManagement.DTOs.Semester;
+using SchoolManagement.Models;
 
 namespace SchoolManagement.Repositories.Interfaces
 {
     public interface ISemesterRepository 
     {
-        Task<List<Semester>> GetAllSemesterAsync();
+        Task<List<SemesterResponse>> GetAllSemesterAsync();
         Task<Semester?> GetSemesterByIdAsync(int semesterId);
         Task<Semester> CreateSemesterAsync(Semester semester);
         Task DeleteSemesterAsync(Semester semsester);

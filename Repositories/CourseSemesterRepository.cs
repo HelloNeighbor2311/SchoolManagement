@@ -31,5 +31,10 @@ namespace SchoolManagement.Repositories
         {
             return await Context.CourseSemesters.Include(u => u.Course).Include(u => u.Semester).FirstOrDefaultAsync(u => u.CourseSemesterId == courseSemesterId);
         }
+
+        public async Task<CourseSemesterResponse?> GetCourseSemesterResponseByIdAsync(int courseSemesterId)
+        {
+            return await Context.CourseSemesters.ProjectTo<CourseSemesterResponse>(mapper.ConfigurationProvider).FirstOrDefaultAsync(u => u.CourseSemesterId == courseSemesterId);
+        }
     }
 }

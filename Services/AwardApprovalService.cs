@@ -1,8 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using SchoolManagement.DTOs.Award;
+﻿using Microsoft.Extensions.Logging;
 using SchoolManagement.DTOs.AwardApproval;
 using SchoolManagement.Exceptions;
 using SchoolManagement.Infrastructure.Logging;
@@ -12,21 +8,25 @@ using SchoolManagement.Services.Interfaces;
 
 namespace SchoolManagement.Services
 {
-    public class AwardApprovalService(IUnitOfWork uow, IMapper mapper, ILogger<AwardApprovalService> logger) : IAwardApprovalService
+    public class AwardApprovalService(IUnitOfWork uow, ILogger<AwardApprovalService> logger) : IAwardApprovalService
     {
         public async Task<AwardApprovalResponse> CreateAwardApproval(CreateAwardApprovalRequest request)
         {
             using (logger.BeginOperationScope("CreateAwardApproval", ("AwardId", request.AwardId), ("TeacherId", request.TeacherId)))
             using (var timer = logger.TimeOperation("CreateAwardApproval"))
             {
-                if (await uow.AwardApproval.ExistsAsync(u => u.AwardId == request.AwardId && u.TeacherId == request.TeacherId)) throw new ConflictException("Award Id and Teacher Id is already existed");
-                if (!await uow.Award.ExistsAsync(u => u.AwardId == request.AwardId)) throw new NotFoundException($"The given AwardId {request.AwardId} was not found");
-                if (!await uow.User.ExistsAsync(u => u.UserId == request.TeacherId)) throw new NotFoundException($"The given TeacherId {request.TeacherId} was not found");
-
-                if (!await uow.User.IsTeacherAsync(request.TeacherId)) throw new BadRequestException($"The given Id {request.TeacherId} was not owned by a Teacher");
+                await ValidateCreateRequestAsync(request);
                 try
                 {
-                    var approval = mapper.Map<AwardApproval>(request);
+                    var approval = new AwardApproval
+                    {
+                        AwardId = request.AwardId,
+                        TeacherId = request.TeacherId,
+                        Comment = request.Comment,
+                        decision = null,
+                        DecisionDate = null
+                    };
+
                     var result = await uow.AwardApproval.CreateApprovalAsync(approval);
                     await uow.SaveChangeAsync();
                     var response = await uow.AwardApproval.GetAwardApprovalResponseViaIdAsync(result.ApprovalId);
@@ -104,28 +104,18 @@ namespace SchoolManagement.Services
                 logger.LogInformation("Update method for Admin");
                 var approval = await uow.AwardApproval.GetAwardApprovalViaIdAsync(awardApprovalId);
                 if (approval is null) throw new NotFoundException($"The given AwardApprovalId {awardApprovalId} was not found");
-                var award = await uow.Award.GetAwardViaId(approval.AwardId);
-                if (request.decision != null)
-                {
-                    switch (request.decision.ToLower())
-                    {
-                        case "approve":
-                            approval.decision = Decision.Approve;
-                            break;
-                        case "reject":
-                            approval.decision = Decision.Reject;
-                            break;
-                        default:
-                            throw new BadRequestException("Invalid input");
-                    }
-                }
+
+                var award = await GetAwardOrThrowAsync(approval.AwardId);
+                ApplyDecisionIfProvided(approval, request.decision);
+
                 approval.DecisionDate = DateTime.UtcNow;
-                if (approval.DecisionDate > award!.ExpiredDate) throw new BadRequestException("The period allocated for decision-making has ended");
-                if (request.Comment != "") approval.Comment = request.Comment;
+                if (approval.DecisionDate > award.ExpiredDate) throw new BadRequestException("The period allocated for decision-making has ended");
+                if (!string.IsNullOrWhiteSpace(request.Comment)) approval.Comment = request.Comment;
+
                 await uow.AwardApproval.UpdateAwardApprovalAsync(approval);
                 await uow.SaveChangeAsync();
 
-                int approvalsNum = await uow.AwardApproval.CountApprovedAwardApprovalsByAwardId(approval.AwardId);
+                _ = await uow.AwardApproval.CountApprovedAwardApprovalsByAwardId(approval.AwardId);
                 await uow.SaveChangeAsync();
                 logger.LogEntityUpdated("AwardApproval", awardApprovalId);
             }
@@ -140,29 +130,19 @@ namespace SchoolManagement.Services
                 if (approval is null) throw new NotFoundException($"The given AwardApprovalId {awardApprovalId} was not found");
                 try
                 {
-                    var award = await uow.Award.GetAwardViaId(approval.AwardId);
+                    var award = await GetAwardOrThrowAsync(approval.AwardId);
                     if (approval.decision != null) throw new BadRequestException("You cannot change your decision");
                     if (approval.TeacherId != teacherId) throw new ForbiddenException("You can only update approvals assigned to you");
 
-                    if (request.decision != null)
-                    {
-                        switch (request.decision.ToLower())
-                        {
-                            case "approve":
-                                approval.decision = Decision.Approve;
-                                break;
-                            case "reject":
-                                approval.decision = Decision.Reject;
-                                break;
-                            default:
-                                throw new BadRequestException("Invalid input, it must be 'Approve' or 'Reject' ");
-                        }
-                    }
+                    ApplyDecisionIfProvided(approval, request.decision);
+
                     approval.DecisionDate = DateTime.UtcNow;
-                    if (approval.DecisionDate > award!.ExpiredDate) throw new BadRequestException("The period allocated for decision-making has ended");
-                    if (request.Comment != "") approval.Comment = request.Comment;
+                    if (approval.DecisionDate > award.ExpiredDate) throw new BadRequestException("The period allocated for decision-making has ended");
+                    if (!string.IsNullOrWhiteSpace(request.Comment)) approval.Comment = request.Comment;
+
                     await uow.AwardApproval.UpdateAwardApprovalAsync(approval);
                     await uow.SaveChangeAsync();
+
                     if (await uow.AwardApproval.CheckConfirmedApprovalsByAwardId(award.AwardId))
                     {
                         int approvalsNum = await uow.AwardApproval.CountApprovedAwardApprovalsByAwardId(approval.AwardId);
@@ -193,5 +173,55 @@ namespace SchoolManagement.Services
             }
             logger.LogEntityUpdated("Award", award.AwardId);
         }
+    
+        private async Task ValidateCreateRequestAsync(CreateAwardApprovalRequest request)
+        {
+            if (await uow.AwardApproval.ExistsAsync(u => u.AwardId == request.AwardId && u.TeacherId == request.TeacherId))
+            {
+                throw new ConflictException("Award Id and Teacher Id is already existed");
+            }
+
+            if (!await uow.Award.ExistsAsync(u => u.AwardId == request.AwardId))
+            {
+                throw new NotFoundException($"The given AwardId {request.AwardId} was not found");
+            }
+
+            if (!await uow.User.ExistsAsync(u => u.UserId == request.TeacherId))
+            {
+                throw new NotFoundException($"The given TeacherId {request.TeacherId} was not found");
+            }
+
+            if (!await uow.User.IsTeacherAsync(request.TeacherId))
+            {
+                throw new BadRequestException($"The given Id {request.TeacherId} was not owned by a Teacher");
+            }
+        }
+
+        private async Task<Award> GetAwardOrThrowAsync(int awardId)
+        {
+            return await uow.Award.GetAwardViaId(awardId)
+                ?? throw new NotFoundException($"The given AwardId {awardId} was not found");
+        }
+
+        private static void ApplyDecisionIfProvided(AwardApproval approval, string? decision)
+        {
+            if (string.IsNullOrWhiteSpace(decision))
+            {
+                return;
+            }
+
+            switch (decision.Trim().ToLowerInvariant())
+            {
+                case "approve":
+                    approval.decision = Decision.Approve;
+                    break;
+                case "reject":
+                    approval.decision = Decision.Reject;
+                    break;
+                default:
+                    throw new BadRequestException("Invalid input, it must be 'Approve' or 'Reject'");
+            }
+        }
     }
+
 }

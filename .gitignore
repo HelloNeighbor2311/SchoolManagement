@@ -8,3 +8,5 @@ logs/
 **/logs/
 *.log
 *.log.*
+
+.fake

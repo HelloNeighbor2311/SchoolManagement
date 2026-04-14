@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Scalar.AspNetCore;
+using Microsoft.OpenApi;
 using SchoolManagement.Datas;
 using SchoolManagement.Middleware;
 using SchoolManagement.Middleware.Authorizations;
@@ -20,8 +20,10 @@ using SchoolManagement.Services;
 using SchoolManagement.Services.Interfaces;
 using Serilog;
 using Serilog.Events;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Text;
 using System.Text.Json.Serialization;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -54,18 +56,44 @@ builder.Host.UseSerilog();
 try
 {
     // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-    builder.Services.AddOpenApi();
+    // Configure OpenAPI with JWT Security Scheme
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen(options =>
+    {
+        // JWT Configuration
+        options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+        {
+            Type = SecuritySchemeType.Http,
+            Scheme = "bearer",
+            BearerFormat = "JWT",
+            Description = "Nhập JWT token (ví dụ: eyJhbGc...)",
+            In = ParameterLocation.Header,
+            Name = "Authorization"
+        });
+
+        options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecuritySchemeReference("Bearer", document, null),
+                new List<string>()
+            }
+        });
+
+        // Optional: Add XML comments
+        // var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+        // var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+        // options.IncludeXmlComments(xmlPath);
+    });
     builder.Services.AddHttpContextAccessor();
     builder.Services.AddDbContext<AppDbContext>((serviceProvider, options) =>
-    {
-        //Connection path
-        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-        options.LogTo(
-        Console.WriteLine,                    // custom logger
-        new[] { DbLoggerCategory.Database.Command.Name },  //log SQL commands
-        LogLevel.Information                  // Log level
-    );
-
+        {
+            //Connection path
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            options.LogTo(
+            Console.WriteLine,                    // custom logger
+            new[] { DbLoggerCategory.Database.Command.Name },  //log SQL commands
+            LogLevel.Information                  // Log level
+        );
         if (builder.Environment.IsDevelopment())
         {
             options.EnableSensitiveDataLogging();  // Show parameter values
@@ -105,6 +133,8 @@ try
             ValidIssuer = jwtSetting["Issuer"],
             ValidAudience = jwtSetting["Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
+            NameClaimType = ClaimTypes.NameIdentifier,
+            RoleClaimType = ClaimTypes.Role,
             ClockSkew = TimeSpan.Zero
         };
         opt.Events = new JwtBearerEvents
@@ -193,8 +223,8 @@ try
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
     {
-        app.MapOpenApi();
-        app.MapScalarApiReference();
+        app.UseSwagger();
+        app.UseSwaggerUI(opt => opt.SwaggerEndpoint("/swagger/v1/swagger.json", "SchoolManagement API v1"));
     }
     app.MapHealthChecks("healthz", new HealthCheckOptions
     {

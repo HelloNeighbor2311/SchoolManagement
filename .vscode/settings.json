@@ -1,0 +1,7 @@
+{
+  "editor.fontSize": 12,
+  "workbench.colorTheme": "Tomorrow Night Blue",
+  "workbench.preferredHighContrastColorTheme": "Default High Contrast",
+  "terminal.integrated.tabs.defaultColor": "terminal.ansiBlack",
+  "workbench.preferredDarkColorTheme": "Visual Studio Dark - C++"
+}

@@ -17,10 +17,6 @@ namespace SchoolManagement.Repositories
 
         public async Task<List<EnrollmentResponse>> GetAllEnrollmentInformationAsync()
         {
-            //var enrollments = await Context.Enrollments.Include(u => u.Student).
-            //    Include(u => u.CourseSemester).ThenInclude(u => u!.Course).
-            //    Include(u=>u.CourseSemester).ThenInclude(u=>u.Semester).ToListAsync();
-
             var enrollments = await Context.Enrollments.ProjectTo<EnrollmentResponse>(mapper.ConfigurationProvider).ToListAsync();
             return enrollments;
         }
@@ -30,6 +26,11 @@ namespace SchoolManagement.Repositories
             return await Context.Enrollments.Include(u => u.Student).
                 Include(u => u.CourseSemester).ThenInclude(u => u!.Course).
                 Include(u => u.CourseSemester).ThenInclude(u => u.Semester).FirstOrDefaultAsync(p=>p.EnrollmentId == enrollmentId);
+        }
+
+        public async Task<EnrollmentResponse?> GetEnrollmentResponseByIdAsync(int enrollmentId)
+        {
+            return await Context.Enrollments.Where(p => p.EnrollmentId == enrollmentId).ProjectTo<EnrollmentResponse>(mapper.ConfigurationProvider).FirstOrDefaultAsync();
         }
 
         public async Task RegisterEnrollmentAsync(Enrollment request)

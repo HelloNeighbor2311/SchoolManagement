@@ -1,11 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 using SchoolManagement.Datas;
+using SchoolManagement.DTOs.Semester;
 using SchoolManagement.Models;
 using SchoolManagement.Repositories.Interfaces;
 
 namespace SchoolManagement.Repositories
 {
-    public class SemesterRepository(AppDbContext context) : ISemesterRepository
+    public class SemesterRepository(AppDbContext context, IMapper mapper) : ISemesterRepository
     {
         public async Task<Semester> CreateSemesterAsync(Semester semester)
         {
@@ -18,9 +21,9 @@ namespace SchoolManagement.Repositories
              context.Semesters.Remove(semester);
         }
 
-        public async Task<List<Semester>> GetAllSemesterAsync()
+        public async Task<List<SemesterResponse>> GetAllSemesterAsync()
         {
-            return await context.Semesters.ToListAsync();
+            return await context.Semesters.ProjectTo<SemesterResponse>(mapper.ConfigurationProvider).ToListAsync();
         }
 
         public async Task<Semester?> GetSemesterByIdAsync(int semesterId)
