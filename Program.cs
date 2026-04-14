@@ -27,6 +27,8 @@ using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.AddJsonFile("appsettings.Local.json", optional: true, reloadOnChange: true);
+
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Debug()

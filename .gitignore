@@ -2,6 +2,7 @@ bin/
 obj/
 .env
 secrets.json
+appsettings.Local.json
 
 # Logs
 logs/
